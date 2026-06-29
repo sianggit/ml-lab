@@ -7,7 +7,7 @@ const cormorant = Cormorant_Garamond({
     weight: ["400", "500", "700"],
 });
 
-export const metadata = { title: "Anggit & Rahmania's Engagement Invitation" };
+export const metadata = { title: "Next JS App" };
 
 export default function RootLayout({ children }: { children: React.ReactNode }) {
     return (
