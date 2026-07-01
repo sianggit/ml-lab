@@ -1,0 +1,20 @@
+# General
+.git
+.gitignore
+Dockerfile
+docker-compose.yml
+README.md
+*.log
+
+# Node
+node_modules
+npm-debug.log
+
+# Next.js output
+.next
+out
+
+# Editor files
+.vscode
+.idea
+.DS_Store

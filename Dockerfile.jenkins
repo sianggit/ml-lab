@@ -1,0 +1,68 @@
+# syntax=docker/dockerfile:1.4.0
+
+########################
+# 1. Base image
+########################
+FROM node:22-bullseye-slim AS base
+WORKDIR /app
+
+########################
+# 2. Dependencies
+########################
+FROM base AS deps
+# Install build deps (only in deps stage)
+RUN apt-get update && apt-get install -y \
+    libc6 \
+    libvips \
+    python3 \
+    make \
+    g++ \
+ && rm -rf /var/lib/apt/lists/*
+COPY package.json package-lock.json* ./
+RUN --mount=type=cache,target=/root/.npm \
+    npm ci --include=optional
+
+RUN npm install --os=linux --cpu=x64 sharp@latest --force
+
+########################
+# 3. Build
+########################
+FROM base AS builder
+WORKDIR /app
+COPY --from=deps /app/node_modules ./node_modules
+COPY . .
+
+ARG NODE_ENV=production
+ENV NODE_ENV=${NODE_ENV}
+
+ARG ENV_FILE=.env.production
+COPY ${ENV_FILE} .env
+RUN rm -f .env.production
+
+RUN test -f .env || (echo ".env file missing!" && exit 1)
+
+# Next.js build with standalone output
+RUN --mount=type=cache,target=./.next/cache \
+    npm run build
+
+########################
+# 4. Production runner
+########################
+FROM base AS runner
+WORKDIR /app
+
+# Create non-root user
+RUN addgroup --system --gid 1001 nodejs \
+ && adduser --system --uid 1001 nextjs
+
+# Copy only required files
+COPY --from=builder /app/public ./public
+COPY --from=builder /app/.next/standalone ./
+COPY --from=builder /app/.next/static ./.next/static
+
+USER nextjs
+
+EXPOSE 3000
+ENV PORT=3000
+
+CMD ["node", "server.js"]
