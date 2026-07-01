@@ -1,38 +1,29 @@
 import type { Metadata } from "next";
+import { lazy } from "react";
 import { buildPageMetadata } from "@/lib/metadata";
+import type { MainLayoutProps } from "@/shared/layout/main-layout";
+import MenuCodeEnum from "@/consts/menu-code.const";
+import ActionCodeEnum from "@/consts/action-code.const";
 
-// ─── SEO ─────────────────────────────────────────────────────────────────────
+const MainLayout = lazy(() => import("@/shared/layout/main-layout"));
+const MainComponent = lazy(() => import("@/components/home"));
+
 export const metadata: Metadata = buildPageMetadata({
     title: "Page Title",
-    description: "Page description.",
+    description: "Page Description.",
     canonical: "/",
     ogImage: "/og/home.jpg",
 });
 
-// ─── JSON-LD: WebSite schema for sitelinks searchbox ─────────────────────────
-const websiteJsonLd = {
-    "@context": "https://schema.org",
-    "@type": "WebSite",
-    name: "PT Aero Systems Indonesia",
-    url: "https://asyst.co.id",
-    potentialAction: {
-        "@type": "SearchAction",
-        target: {
-            "@type": "EntryPoint",
-            urlTemplate: "https://asyst.co.id/search?q={search_term_string}",
-        },
-        "query-input": "required name=search_term_string",
-    },
+const props: MainLayoutProps = {
+    menuCode: MenuCodeEnum.home,
+    actionCode: ActionCodeEnum.view,
 };
 
 export default function HomePage() {
     return (
-        <>
-            <script
-                type="application/ld+json"
-                dangerouslySetInnerHTML={{ __html: JSON.stringify(websiteJsonLd) }}
-            />
-            Home Page
-        </>
+        <MainLayout {...props}>
+            <MainComponent />
+        </MainLayout>
     );
 }
