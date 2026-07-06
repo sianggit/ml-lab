@@ -15,6 +15,8 @@ import ActionCodeEnum from "@/consts/action-code.const";
 export type MainLayoutProps = {
     menuCode: MenuCodeEnum;
     actionCode: ActionCodeEnum;
+    /** Transparent-over-hero nav that turns solid on scroll (used by home/contact-us style pages). Defaults to false (always-solid nav). */
+    blurNav?: boolean;
     children?: React.ReactNode;
 };
 
@@ -45,12 +47,12 @@ const pageVariants: Variants = {
 
 // ─── Component ────────────────────────────────────────────────────────────────
 
-export default function MainLayout({ menuCode, actionCode, children }: MainLayoutProps) {
+export default function MainLayout({ menuCode, actionCode, blurNav, children }: MainLayoutProps) {
     const pathname = usePathname();
 
     return (
         <Box sx={{ display: "flex", flexDirection: "column", minHeight: "100vh" }}>
-            <Navbar activeMenu={menuCode} />
+            <Navbar activeMenu={menuCode} blurNav={blurNav} />
 
             <Box component="main" sx={{ flex: 1 }}>
                 <AnimatePresence mode="wait">

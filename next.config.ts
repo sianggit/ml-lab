@@ -12,6 +12,17 @@ const nextConfig: NextConfig = {
         formats: ["image/avif", "image/webp"],
     },
 
+    // Enables `import Icon from "./icon.svg"` to yield a React component,
+    // matching the old Vite app's `vite-plugin-svgr` behavior.
+    webpack(config) {
+        config.module.rules.push({
+            test: /\.svg$/i,
+            issuer: /\.[jt]sx?$/,
+            use: ["@svgr/webpack"],
+        });
+        return config;
+    },
+
     async headers() {
         return [
             {

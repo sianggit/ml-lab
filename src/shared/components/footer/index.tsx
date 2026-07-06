@@ -1,9 +1,6 @@
-"use client";
-
 /**
- * Footer stub — replace body with your real Footer component.
+ * Footer stub — replace with your real Footer UI.
  */
 export default function Footer() {
-    // TODO: implement full Footer UI
     return <footer />;
 }

@@ -1,36 +1,71 @@
-This is a [Next.js](https://nextjs.org) project bootstrapped with [`create-next-app`](https://nextjs.org/docs/app/api-reference/cli/create-next-app).
+# Next.js + MUI Starter Base
 
-## Getting Started
+This is the reusable framework layer extracted from a full site migration — the
+project-agnostic scaffolding, with all business-specific content stripped out.
+Everything here is meant to be a starting point for a *new* project.
 
-First, run the development server:
+## What's included
 
-```bash
-npm run dev
-# or
-yarn dev
-# or
-pnpm dev
-# or
-bun dev
-```
+**Page pattern** (`app/page.tsx` + `src/shared/layout/main-layout.tsx`)
+Every page follows: lazy-load `MainLayout` + a page component, export
+`metadata` via `buildPageMetadata`, pass `menuCode`/`actionCode`/`blurNav`
+props. Copy `app/page.tsx` as the template for new routes.
 
-Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
+**Styling** (`src/utils/define-styles/`)
+Thin typed wrapper around MUI's `sx` objects — supports both static styles and
+style-factory functions that take arguments (e.g. `styles.button(isActive)`).
+See the README inside that folder for usage patterns.
 
-You can start editing the page by modifying `app/page.tsx`. The page auto-updates as you edit the file.
+**Forms** (`src/utils/forms/`, `src/shared/utilities/form/`)
+Zod schema + `react-hook-form` integration. `create-form.ts`/`schema.ts`
+build typed schemas, `form.tsx` is the `<Form>` wrapper component,
+`fields/` are pre-wired `FormTextField`/`FormTextArea`/`FormSelect` that
+plug into any schema. `validation/schemas/contact.schema.ts` is a worked
+example — copy the pattern for new forms.
 
-This project uses [`next/font`](https://nextjs.org/docs/app/building-your-application/optimizing/fonts) to automatically optimize and load [Geist](https://vercel.com/font), a new font family for Vercel.
+**API layer** (`src/helper/base-helper.ts`, `src/config/api.ts`)
+`BaseHelper` is a callback-style axios wrapper (`getBase`/`postBase`) that
+every concrete helper extends with just a `static url` and a couple of
+methods. `auth-helper.ts` is a worked example (token caching + login,
+de-duplicates concurrent calls). `config/api.ts` is a one-line template —
+fill in your real base URL and endpoints.
 
-## Learn More
+**SSR/theming plumbing** (`src/lib/emotion-registry.tsx`, `src/config/theme.tsx`)
+Required boilerplate for MUI + Next App Router SSR (avoids style flash/
+hydration mismatch). Theme is generic MUI defaults — reskin to your brand.
 
-To learn more about Next.js, take a look at the following resources:
+**Small utilities** (`src/lib/`)
+`credential.ts` (SSR-safe token storage, guards `typeof window`),
+`metadata.ts` (`buildPageMetadata` helper for consistent SEO tags),
+`rich-text.ts` (CMS rich-text decode/strip via `he`), `scroll-to.ts`
+(ref-based smooth scroll).
 
-- [Next.js Documentation](https://nextjs.org/docs) - learn about Next.js features and API.
-- [Learn Next.js](https://nextjs.org/learn) - an interactive Next.js tutorial.
+**Modal** (`src/shared/components/modal/index.tsx`)
+`AppModal` — a Dialog on desktop, bottom-sheet Drawer on mobile, same API.
 
-You can check out [the Next.js GitHub repository](https://github.com/vercel/next.js) - your feedback and contributions are welcome!
+**SVG-as-component** (`next.config.ts`, `src/types/svg.d.ts`)
+`@svgr/webpack` wired up so `import Icon from "./icon.svg"` gives you a
+React component (default export = component). If you need the raw file URL
+instead (e.g. for `<img src=... >` or CSS `background-image`), put the file
+in `/public` and reference it by path string — don't import it.
 
-## Deploy on Vercel
+## What you need to fill in
 
-The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
+- **`src/config/api.ts`** — currently a one-endpoint template. Add your real
+  base URL and endpoints.
+- **`src/consts/menu-code.const.ts`** — trimmed to 3 generic values. Replace
+  with your site's actual top-level pages.
+- **`src/shared/components/navbar/index.tsx`** and **`footer/index.tsx`** —
+  both are bare stubs (`<nav />` / `<footer />`). Build your real nav/footer;
+  `MainLayout` already wires them up with `activeMenu`/`blurNav` props.
+- **`src/components/home/index.tsx`** — placeholder "Welcome to Next.js"
+  content, replace with your real homepage.
+- **`src/config/theme.tsx`** — generic MUI palette, reskin to your brand
+  colors/typography.
 
-Check out our [Next.js deployment documentation](https://nextjs.org/docs/app/building-your-application/deploying) for more details.
+## Not included (was project-specific)
+
+Models, concrete API helpers beyond `auth-helper.ts`, navbar/footer content,
+and all page components beyond the `home` stub were specific to the site this
+was extracted from and aren't reusable as-is — the *patterns* they followed
+are preserved above instead.
