@@ -6,21 +6,18 @@ const nextConfig: NextConfig = {
 
     images: {
         remotePatterns: [
-            // Add your CDN/CMS/S3 domains here
             // { protocol: "https", hostname: "your-cdn.com" },
         ],
         formats: ["image/avif", "image/webp"],
     },
 
-    // Enables `import Icon from "./icon.svg"` to yield a React component,
-    // matching the old Vite app's `vite-plugin-svgr` behavior.
-    webpack(config) {
-        config.module.rules.push({
-            test: /\.svg$/i,
-            issuer: /\.[jt]sx?$/,
-            use: ["@svgr/webpack"],
-        });
-        return config;
+    turbopack: {
+        rules: {
+            "*.svg": {
+                loaders: ["@svgr/webpack"],
+                as: "*.js",
+            },
+        },
     },
 
     async headers() {
