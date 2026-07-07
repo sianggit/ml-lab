@@ -63,6 +63,24 @@ module.exports = function transformer(file, api) {
             j(path).replaceWith(individualImports);
         });
 
+    root.find(j.ImportDeclaration)
+        .filter((path) => path.node.source.value === "reicon-react")
+        .forEach((path) => {
+            const specifiers = path.node.specifiers ?? [];
+
+            const individualImports = specifiers
+                .filter((spec) => spec.type === "ImportSpecifier")
+                .map((spec) => {
+                    const name = spec.imported.name;
+                    return j.importDeclaration(
+                        [j.importDefaultSpecifier(j.identifier(name))],
+                        j.literal(`reicon-react/icons/${name}`)
+                    );
+                });
+
+            j(path).replaceWith(individualImports);
+        });
+
 
     return root.toSource({ quote: "single" });
 };

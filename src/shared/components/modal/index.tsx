@@ -3,11 +3,11 @@
 import Dialog from "@mui/material/Dialog";
 import Drawer from "@mui/material/Drawer";
 import IconButton from "@mui/material/IconButton";
-import CloseIcon from "@mui/icons-material/Close";
 import useMediaQuery from "@mui/material/useMediaQuery";
 import { useTheme } from "@mui/material/styles";
 import { ReactNode } from "react";
 import Box from "@mui/material/Box";
+import CloseCircle2 from "reicon-react/icons/CloseCircle2";
 
 interface AppModalProps {
     open: boolean;
@@ -35,7 +35,7 @@ export default function AppModal({ open, onClose, children, maxWidth = "sm", sho
                 <Box sx={{ width: 40, height: 4, borderRadius: "4px", background: "#D9D9D9", mx: "auto", mt: "12px", mb: "4px" }} />
                 {showCloseButton && (
                     <IconButton onClick={onClose} sx={{ position: "absolute", top: 16, right: 12, zIndex: 1, color: "text.secondary" }} aria-label="close">
-                        <CloseIcon />
+                        <CloseCircle2 />
                     </IconButton>
                 )}
                 {children}
@@ -56,7 +56,7 @@ export default function AppModal({ open, onClose, children, maxWidth = "sm", sho
         >
             {showCloseButton && (
                 <IconButton onClick={onClose} sx={{ position: "absolute", top: 16, right: 12, zIndex: 1, color: "white" }} aria-label="close">
-                    <CloseIcon />
+                    <CloseCircle2 />
                 </IconButton>
             )}
             {children}

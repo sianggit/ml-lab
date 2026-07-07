@@ -19,9 +19,7 @@
     "@emotion/react": "^11.14.0",
     "@emotion/styled": "^11.14.1",
     "@hookform/resolvers": "^5.4.0",
-    "@mui/icons-material": "^7.3.1",
     "@mui/material": "^7.3.1",
-    "@phosphor-icons/react": "^2.1.10",
     "axios": "^1.18.1",
     "dayjs": "^1.11.13",
     "framer-motion": "^12.23.12",
@@ -32,6 +30,7 @@
     "react-dom": "19.2.7",
     "react-hook-form": "^7.81.0",
     "react-scroll": "^1.9.0",
+    "reicon-react": "^1.1.2",
     "swiper": "^11.2.10"
   },
   "devDependencies": {

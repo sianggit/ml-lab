@@ -11,9 +11,7 @@ import List from "@mui/material/List";
 import ListItemButton from "@mui/material/ListItemButton";
 import ListItemText from "@mui/material/ListItemText";
 import ClickAwayListener from "@mui/material/ClickAwayListener";
-import CloseIcon from "@mui/icons-material/Close";
-import SearchIcon from "@mui/icons-material/Search";
-import ArrowDropDownIcon from "@mui/icons-material/ArrowDropDown";
+import { CloseCircle2, Search, ArrowCircleDown2 } from "reicon-react";
 
 export interface SelectOption {
     label: string;
@@ -142,11 +140,11 @@ export default function SelectBase({
                                         size="small"
                                         onClick={handleClearValue}
                                     >
-                                        <CloseIcon fontSize="small" />
+                                        <CloseCircle2 fontSize="small" />
                                     </IconButton>
                                 ) : null}
-                                <ArrowDropDownIcon
-                                    sx={{
+                                <ArrowCircleDown2
+                                    style={{
                                         color: "action.active",
                                         transform: open
                                             ? "rotate(180deg)"
@@ -200,7 +198,7 @@ export default function SelectBase({
                                     InputProps={{
                                         startAdornment: (
                                             <InputAdornment position="start">
-                                                <SearchIcon fontSize="small" />
+                                                <Search fontSize="small" />
                                             </InputAdornment>
                                         ),
                                         endAdornment: searchValue ? (
@@ -212,7 +210,7 @@ export default function SelectBase({
                                                         searchRef.current?.focus();
                                                     }}
                                                 >
-                                                    <CloseIcon fontSize="small" />
+                                                    <CloseCircle2 fontSize="small" />
                                                 </IconButton>
                                             </InputAdornment>
                                         ) : null,
