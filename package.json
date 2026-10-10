@@ -1,29 +1,38 @@
 {
-  "name": "nextjs-base",
-  "version": "0.1.0",
+  "name": "ml-lab",
+  "version": "1.0.0",
+  "description": "Interactive Browser-Based Machine Learning Laboratory powered by WebAssembly Pyodide, NumPy, and Scikit-Learn",
   "private": true,
   "scripts": {
     "dev": "next dev --turbopack",
     "build": "next build",
     "start": "next start",
     "lint": "eslint .",
+    "test": "node --test tests/custom-dataset.test.mjs tests/pdf-export.test.mjs",
+    "typecheck": "node --max-old-space-size=4096 ./node_modules/typescript/bin/tsc --noEmit",
     "mui:split:all": "npx jscodeshift -t mui-split-imports.js app src --extensions=tsx,ts,js,jsx --parser=tsx",
     "mui:split": "node mui-split-changed.js",
     "clean-imports": "eslint . --ext .js,.jsx,.ts,.tsx --fix",
     "clean-imports:staged": "eslint --fix",
     "format": "prettier --write .",
     "format:changed": "git diff --name-only --diff-filter=ACMR | xargs prettier --write",
-    "prepare": "husky"
+    "prepare": "husky",
+    "ref": "node scripts/ref.js"
   },
   "dependencies": {
     "@emotion/react": "^11.14.0",
     "@emotion/styled": "^11.14.1",
     "@hookform/resolvers": "^5.4.0",
+    "@monaco-editor/react": "^4.7.0",
     "@mui/material": "^7.3.1",
+    "@types/canvas-confetti": "^1.9.0",
+    "@types/katex": "^0.16.8",
     "axios": "^1.18.1",
+    "canvas-confetti": "^1.9.4",
     "dayjs": "^1.11.13",
     "framer-motion": "^12.23.12",
     "he": "^1.2.0",
+    "katex": "^0.19.0",
     "next": "16.2.9",
     "react": "19.2.7",
     "react-countup": "^6.5.3",
@@ -31,7 +40,9 @@
     "react-hook-form": "^7.81.0",
     "react-scroll": "^1.9.0",
     "reicon-react": "^1.1.2",
-    "swiper": "^11.2.10"
+    "swiper": "^11.2.10",
+    "zod": "^4.6.5",
+    "zustand": "^5.0.15"
   },
   "devDependencies": {
     "@eslint/eslintrc": "^3",

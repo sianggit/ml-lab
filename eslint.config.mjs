@@ -10,6 +10,20 @@ import prettierPlugin from "eslint-plugin-prettier";
 import prettierConfig from "eslint-config-prettier";
 
 export default [
+    // Global ignores must be the first config object without a files key in flat config
+    {
+        ignores: [
+            ".next/**",
+            "node_modules/**",
+            "dist/**",
+            "build/**",
+            ".reference/**",
+            "tests/**",
+            "scripts/**",
+            "*.js",
+        ],
+    },
+
     // Base rules: JS + TS + Next.js + Prettier
     js.configs.recommended,
     ...tseslint.configs.recommended,
@@ -23,6 +37,9 @@ export default [
             "@next/next": nextPlugin,
             "unused-imports": unusedImports,
             prettier: prettierPlugin,
+        },
+        linterOptions: {
+            reportUnusedDisableDirectives: "off",
         },
         languageOptions: {
             ecmaVersion: "latest",
@@ -64,10 +81,5 @@ export default [
                 version: "detect",
             },
         },
-    },
-
-    // Ignore build artifacts
-    {
-        ignores: [".next/**", "node_modules/**", "dist/**", "build/**"],
     },
 ];

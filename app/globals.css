@@ -1,5 +1,3 @@
-@import url("https://cdn.jsdelivr.net/gh/orioncactus/pretendard@v1.3.9/dist/web/static/pretendard.min.css");
-
 /* ===== Import Swiper Styles ===== */
 @import "swiper/css";
 @import "swiper/css/effect-fade";
@@ -11,11 +9,15 @@ html,
 body {
     padding: 0;
     margin: 0;
-    height: 100%;
-    font-family: "Pretendard", "Cormorant Garamond", serif, system-ui;
-    background-color: #0f0f10;
-    color: #fff;
+    min-height: 100%;
+    font-family: var(--font-inter), 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+    background-color: #090B0E;
+    background-image: radial-gradient(rgba(255, 255, 255, 0.08) 1px, transparent 1px);
+    background-size: 24px 24px;
+    color: #EDEDED;
     scroll-behavior: smooth;
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
 }
 
 * {
@@ -24,154 +26,39 @@ body {
 
 #__next,
 body > div:first-child {
-    height: 100%;
+    min-height: 100%;
 }
 
-/* ===== Font Rules ===== */
-h1,
-h2,
-h3,
-h4,
-h5,
-h6,
-.heading,
-.title,
-.section-title {
-    font-family: "Cormorant Garamond", serif !important;
-    font-weight: 400;
-}
-
-body,
-p,
-span,
-a,
-li,
-input,
-button,
-textarea,
-label,
-small {
-    font-family: "Pretendard", system-ui, sans-serif !important;
-}
-
-/* ===== Swiper Full Page ===== */
-.swiper {
-    width: 100%;
-    height: 100%;
-}
-
-.swiper-slide {
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    height: 100vh;
-}
-
-/* ===== Luxury Korean Minimalist Feel ===== */
-.section-bg {
-    position: relative;
-    width: 100%;
-    height: 100%;
-    background-size: cover;
-    background-position: center;
-}
-
-.section-bg::after {
-    content: "";
-    position: absolute;
-    inset: 0;
-    background: linear-gradient(180deg, rgba(0, 0, 0, 0.35), rgba(0, 0, 0, 0.55));
-}
-
-/* ===== Glassmorphism Effect ===== */
-.glass {
-    backdrop-filter: blur(10px);
-    background: linear-gradient(180deg, rgba(255, 255, 255, 0.12), rgba(255, 255, 255, 0.06));
-    border-radius: 16px;
-    border: 1px solid rgba(255, 255, 255, 0.22);
-    box-shadow: 0 8px 30px rgba(0, 0, 0, 0.25);
-}
-
-/* ===== Animations ===== */
-.fade-in {
-    animation: fadeIn 0.6s ease-out forwards;
-}
-
-.fade-out {
-    animation: fadeOut 0.6s ease-in forwards;
-}
-
-@keyframes fadeIn {
-    from {
-        opacity: 0;
-        transform: translateY(20px) scale(0.98);
-        filter: blur(2px);
-    }
-
-    to {
-        opacity: 1;
-        transform: translateY(0) scale(1);
-        filter: blur(0);
-    }
-}
-
-@keyframes fadeOut {
-    from {
-        opacity: 1;
-        transform: translateY(0) scale(1);
-        filter: blur(0);
-    }
-
-    to {
-        opacity: 0;
-        transform: translateY(-20px) scale(0.98);
-        filter: blur(2px);
-    }
-}
-
-/* ===== Responsive Typography ===== */
-h1,
-h2,
-h3 {
+/* ===== Typography ===== */
+h1, h2, h3, h4, h5, h6 {
     margin: 0;
-    font-weight: 600;
+    font-weight: 700;
+    letter-spacing: -0.02em;
+    color: #EDEDED;
 }
 
-h1 {
-    font-size: clamp(2rem, 5vw, 3rem);
+code, pre, kbd, samp {
+    font-family: var(--font-mono), 'JetBrains Mono', Consolas, monospace !important;
 }
 
-h2 {
-    font-size: clamp(1.5rem, 4vw, 2.5rem);
+/* ===== Custom Scrollbars ===== */
+::-webkit-scrollbar {
+    width: 6px;
+    height: 6px;
+}
+::-webkit-scrollbar-track {
+    background: #090B0E;
+}
+::-webkit-scrollbar-thumb {
+    background: rgba(255, 255, 255, 0.12);
+    border-radius: 3px;
+}
+::-webkit-scrollbar-thumb:hover {
+    background: rgba(255, 255, 255, 0.22);
 }
 
-h3 {
-    font-size: clamp(1.2rem, 3vw, 2rem);
+/* ===== Tactical Micro-Interactions ===== */
+.press-tactile:active {
+    transform: translateY(1px);
 }
 
-p {
-    margin: 0;
-    line-height: 1.6;
-    font-size: clamp(0.9rem, 2.5vw, 1.1rem);
-}
-
-/* ===== Mobile Optimizations ===== */
-@media (max-width: 768px) {
-    .glass {
-        padding: 1rem !important;
-        border-radius: 12px;
-    }
-}
-
-.rotate {
-    animation: rotate 4s linear infinite;
-}
-
-@keyframes rotate {
-    from {
-        transform: rotate(0deg);
-    }
-    to {
-        transform: rotate(360deg);
-    }
-}

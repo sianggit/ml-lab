@@ -1,0 +1,173 @@
+import defineStyles from "@/utils/define-styles";
+
+export const reportPageStyles = defineStyles({
+    wrap: {
+        width: "min(1200px, calc(100% - clamp(16px, 4vw, 40px) * 2))",
+        marginInline: "auto",
+        pt: "clamp(32px, 5vw, 48px)",
+        pb: "80px",
+    },
+    head: {
+        display: "flex",
+        justifyContent: "space-between",
+        gap: "24px",
+        alignItems: "flex-start",
+        flexWrap: "wrap",
+        mb: "28px",
+    },
+    chip: {
+        display: "inline-flex",
+        alignItems: "center",
+        gap: "8px",
+        padding: "5px 10px",
+        border: "1px solid rgba(255, 255, 255, 0.10)",
+        borderRadius: "4px",
+        fontFamily: "var(--font-mono), monospace",
+        fontSize: "0.72rem",
+        lineHeight: 1,
+        color: "#A3ADB9",
+        mb: "14px",
+    },
+    dot: {
+        width: 7,
+        height: 7,
+        borderRadius: "50%",
+        backgroundColor: "#43D9A3",
+    },
+    title: {
+        fontSize: "clamp(2rem, 4.6vw, 3.4rem)",
+        fontWeight: 740,
+        lineHeight: 1.05,
+        letterSpacing: "-0.035em",
+        color: "#F5F7FA",
+        maxWidth: "20ch",
+        mb: "12px",
+    },
+    lead: {
+        color: "#A3ADB9",
+        maxWidth: "60ch",
+        fontSize: "1rem",
+        lineHeight: 1.6,
+        "& b": {
+            color: "#F5F7FA",
+            fontWeight: 600,
+        },
+    },
+    exportBtn: {
+        display: "inline-flex",
+        alignItems: "center",
+        justifyContent: "center",
+        gap: "8px",
+        minHeight: "44px",
+        padding: "0 20px",
+        borderRadius: "6px",
+        border: "1px solid #43D9A3",
+        backgroundColor: "#43D9A3",
+        color: "#04120C",
+        fontWeight: 600,
+        fontSize: "0.92rem",
+        cursor: "pointer",
+        textTransform: "none",
+        transition: "background 0.18s, border-color 0.18s, transform 0.18s",
+        "&:hover": {
+            backgroundColor: "#6CE6B9",
+            borderColor: "#6CE6B9",
+        },
+        "&:active": {
+            transform: "translateY(1px)",
+        },
+    },
+    tele: {
+        display: "grid",
+        gridTemplateColumns: { xs: "1fr", sm: "repeat(3, 1fr)" },
+        margin: "0 0 48px",
+        padding: 0,
+        listStyle: "none",
+        border: "1px solid rgba(255, 255, 255, 0.10)",
+        borderRadius: "8px",
+        background: "linear-gradient(180deg, #11151A, #0e1217)",
+    },
+    teleItem: (borderLeft: boolean) => ({
+        padding: "20px 24px",
+        position: "relative",
+        borderLeft: {
+            xs: "none",
+            sm: borderLeft ? "1px solid rgba(255, 255, 255, 0.10)" : "none",
+        },
+        borderTop: {
+            xs: borderLeft ? "1px solid rgba(255, 255, 255, 0.10)" : "none",
+            sm: "none",
+        },
+    }),
+    teleValue: {
+        display: "block",
+        fontWeight: 650,
+        fontSize: "clamp(1.7rem, 3vw, 2.4rem)",
+        lineHeight: 1,
+        letterSpacing: "-0.03em",
+        fontVariantNumeric: "tabular-nums",
+        color: "#F5F7FA",
+    },
+    teleKey: {
+        display: "block",
+        marginTop: "8px",
+        fontFamily: "var(--font-mono), monospace",
+        fontSize: "0.72rem",
+        fontWeight: 500,
+        color: "#A3ADB9",
+    },
+    rowsPanel: {
+        overflow: "hidden",
+        border: "1px solid rgba(255, 255, 255, 0.10)",
+        borderRadius: "8px",
+        background: "linear-gradient(180deg, #11151A, #0e1217)",
+    },
+    row: (isFirst: boolean) => ({
+        display: "grid",
+        gridTemplateColumns: { xs: "56px 1fr auto", sm: "72px 1fr auto" },
+        gap: { xs: "12px", sm: "16px" },
+        alignItems: "center",
+        padding: "16px 20px",
+        borderTop: isFirst ? "none" : "1px solid rgba(255, 255, 255, 0.10)",
+        textDecoration: "none",
+        color: "inherit",
+        transition: "background-color 0.18s ease",
+        "&:hover": {
+            backgroundColor: "#171D24",
+        },
+    }),
+    rowNumber: {
+        fontFamily: "var(--font-mono), monospace",
+        fontWeight: 600,
+        fontSize: "0.82rem",
+        color: "#67D9FF",
+    },
+    rowContent: {
+        minWidth: 0,
+        "& h3": {
+            margin: 0,
+            fontSize: "1.02rem",
+            fontWeight: 600,
+            color: "#F5F7FA",
+            lineHeight: 1.3,
+        },
+        "& small": {
+            display: "block",
+            color: "#8592A1",
+            fontSize: "0.82rem",
+            marginTop: "3px",
+        },
+    },
+    status: (type: "ok" | "on" | "muted") => ({
+        fontFamily: "var(--font-mono), monospace",
+        fontSize: "0.72rem",
+        fontWeight: 500,
+        whiteSpace: "nowrap",
+        color:
+            type === "ok"
+                ? "#43D9A3"
+                : type === "on"
+                ? "#F5B84B"
+                : "#8592A1",
+    }),
+});

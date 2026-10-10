@@ -1,7 +1,7 @@
 import { FormProvider, SubmitHandler } from "react-hook-form";
 import { z } from "zod";
 
-import { createForm, FormSchema } from "./create-form";
+import { useCreateForm, FormSchema } from "./create-form";
 import { FormProps } from "./types";
 
 export function Form<TSchema extends FormSchema>({
@@ -11,7 +11,7 @@ export function Form<TSchema extends FormSchema>({
     onSubmit,
     children,
 }: FormProps<TSchema>) {
-    const methods = createForm(schema, {
+    const methods = useCreateForm(schema, {
         defaultValues,
         mode,
     });

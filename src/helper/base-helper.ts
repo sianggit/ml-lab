@@ -1,3 +1,4 @@
+/* eslint-disable @typescript-eslint/no-explicit-any, @typescript-eslint/no-unsafe-function-type */
 import axios from "axios";
 import ResponseModel from "@/models/response.model";
 import RequestModel from "@/models/request.model";
@@ -94,7 +95,8 @@ class BaseHelper {
         }
         // eslint-disable-next-line @typescript-eslint/no-explicit-any
     ): Promise<any> {
-        let { headers = {}, onUploadProgress = (): any => {} } = config;
+        const { onUploadProgress = (): any => {} } = config;
+        let { headers = {} } = config;
 
         headers = {
             "Content-Type": "application/json",

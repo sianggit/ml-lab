@@ -8,7 +8,7 @@ import { z } from "zod";
 
 export type FormSchema = z.ZodObject;
 
-export function createForm<TSchema extends FormSchema>(
+export function useCreateForm<TSchema extends FormSchema>(
     schema: TSchema,
     options?: {
         defaultValues?: DefaultValues<z.input<TSchema>>;
@@ -25,3 +25,5 @@ export function createForm<TSchema extends FormSchema>(
         mode: options?.mode ?? "onBlur",
     });
 }
+
+export const createForm = useCreateForm;

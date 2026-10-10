@@ -10,6 +10,8 @@ import PageFallback from "@/shared/layout/page-fallback";
 import MenuCodeEnum from "@/consts/menu-code.const";
 import ActionCodeEnum from "@/consts/action-code.const";
 
+import CommandPalette from "@/components/features/ml-lab/command-palette";
+
 // ─── Types ────────────────────────────────────────────────────────────────────
 
 export type MainLayoutProps = {
@@ -47,7 +49,7 @@ const pageVariants: Variants = {
 
 // ─── Component ────────────────────────────────────────────────────────────────
 
-export default function MainLayout({ menuCode, actionCode, blurNav, children }: MainLayoutProps) {
+export default function MainLayout({ menuCode, blurNav, children }: MainLayoutProps) {
     const pathname = usePathname();
 
     return (
@@ -70,6 +72,7 @@ export default function MainLayout({ menuCode, actionCode, blurNav, children }: 
                 </AnimatePresence>
             </Box>
 
+            <CommandPalette />
             <Footer />
         </Box>
     );

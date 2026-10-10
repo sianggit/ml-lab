@@ -9,8 +9,9 @@ const MainLayout = lazy(() => import("@/shared/layout/main-layout"));
 const MainComponent = lazy(() => import("@/components/home"));
 
 export const metadata: Metadata = buildPageMetadata({
-    title: "Page Title",
-    description: "Page Description.",
+    title: "Interactive Machine Learning Laboratory",
+    description:
+        "Browser-based machine learning experiments powered by Python, WebAssembly, NumPy, scikit-learn and Pyodide.",
     canonical: "/",
     ogImage: "/og/home.jpg",
 });
@@ -18,6 +19,7 @@ export const metadata: Metadata = buildPageMetadata({
 const props: MainLayoutProps = {
     menuCode: MenuCodeEnum.home,
     actionCode: ActionCodeEnum.view,
+    blurNav: true,
 };
 
 export default function HomePage() {

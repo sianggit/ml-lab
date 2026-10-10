@@ -1,24 +1,32 @@
 import type { Metadata, Viewport } from "next";
-import { Cormorant_Garamond } from "next/font/google";
+import { Inter, JetBrains_Mono } from "next/font/google";
+import "katex/dist/katex.min.css";
 import "./globals.css";
 import ClientLayout from "./client-layout";
 
-const cormorant = Cormorant_Garamond({
+const inter = Inter({
     subsets: ["latin"],
-    weight: ["400", "500", "700"],
-    display: "swap", // prevent FOIT — text shows in fallback font while loading
+    display: "swap",
+    variable: "--font-inter",
+});
+
+const jetbrainsMono = JetBrains_Mono({
+    subsets: ["latin"],
+    display: "swap",
+    variable: "--font-mono",
 });
 
 // ─── Site constants (override via env) ───────────────────────────────────────
-const SITE_URL = process.env.NEXT_PUBLIC_SITE_URL ?? "https://yourdomain.com";
-const SITE_NAME = process.env.NEXT_PUBLIC_SITE_NAME ?? "Your Company Name";
-const DEFAULT_DESCRIPTION = "Short, accurate description of your site under 160 chars.";
+const SITE_URL = process.env.NEXT_PUBLIC_SITE_URL ?? "https://ml-lab.edu";
+const SITE_NAME = process.env.NEXT_PUBLIC_SITE_NAME ?? "ML Lab Simulator (Bab 01 - 14)";
+const DEFAULT_DESCRIPTION =
+    "Portal Simulasi dan Eksperimen Pembelajaran Mesin Interaktif Berbasis Client-Side WebAssembly Pyodide untuk Praktikum Machine Learning.";
 
 // ─── Viewport — must be separate export in Next.js 14+ ───────────────────────
 export const viewport: Viewport = {
     width: "device-width",
     initialScale: 1,
-    themeColor: "#0f0f10",
+    themeColor: "#0B0F19",
 };
 
 // ─── Default metadata (child pages can override via their own export) ─────────
@@ -32,7 +40,16 @@ export const metadata: Metadata = {
         template: `%s | ${SITE_NAME}`,
     },
     description: DEFAULT_DESCRIPTION,
-    keywords: ["keyword1", "keyword2", "keyword3"],
+    keywords: [
+        "machine learning",
+        "pyodide",
+        "scikit-learn",
+        "numpy",
+        "pandas",
+        "data science",
+        "interactive ml lab",
+        "simulasi machine learning",
+    ],
     authors: [{ name: SITE_NAME, url: SITE_URL }],
     creator: SITE_NAME,
 
@@ -119,7 +136,7 @@ const organizationJsonLd = {
 
 export default function RootLayout({ children }: { children: React.ReactNode }) {
     return (
-        <html lang="id" className={cormorant.className}>
+        <html lang="id" className={`${inter.variable} ${jetbrainsMono.variable} ${inter.className}`}>
             <head>
                 <script
                     type="application/ld+json"

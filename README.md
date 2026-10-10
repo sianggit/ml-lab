@@ -1,71 +1,123 @@
-# Next.js + MUI Starter Base
+# ML Lab — Interactive Machine Learning Laboratory
 
-This is the reusable framework layer extracted from a full site migration — the
-project-agnostic scaffolding, with all business-specific content stripped out.
-Everything here is meant to be a starting point for a *new* project.
+[![Next.js 16](https://img.shields.io/badge/Next.js-16.2.9-black?logo=next.js)](https://nextjs.org/)
+[![React 19](https://img.shields.io/badge/React-19.2.7-61dafb?logo=react)](https://react.dev/)
+[![Pyodide](https://img.shields.io/badge/WebAssembly-Pyodide%20v0.26.4-ffd43b?logo=python)](https://pyodide.org/)
+[![License: MIT](https://img.shields.io/badge/License-MIT-blue.svg)](LICENSE)
 
-## What's included
+An interactive, browser-based Machine Learning experimentation platform and academic laboratory powered by **WebAssembly (Pyodide)**, **NumPy**, **Pandas**, **Scikit-Learn**, and **Monaco Editor**. 
 
-**Page pattern** (`app/page.tsx` + `src/shared/layout/main-layout.tsx`)
-Every page follows: lazy-load `MainLayout` + a page component, export
-`metadata` via `buildPageMetadata`, pass `menuCode`/`actionCode`/`blurNav`
-props. Copy `app/page.tsx` as the template for new routes.
+Execute real Python machine learning algorithms directly inside your browser without installing local compilers, backend servers, or external cloud kernels.
 
-**Styling** (`src/utils/define-styles/`)
-Thin typed wrapper around MUI's `sx` objects — supports both static styles and
-style-factory functions that take arguments (e.g. `styles.button(isActive)`).
-See the README inside that folder for usage patterns.
+---
 
-**Forms** (`src/utils/forms/`, `src/shared/utilities/form/`)
-Zod schema + `react-hook-form` integration. `create-form.ts`/`schema.ts`
-build typed schemas, `form.tsx` is the `<Form>` wrapper component,
-`fields/` are pre-wired `FormTextField`/`FormTextArea`/`FormSelect` that
-plug into any schema. `validation/schemas/contact.schema.ts` is a worked
-example — copy the pattern for new forms.
+## ✨ Features
 
-**API layer** (`src/helper/base-helper.ts`, `src/config/api.ts`)
-`BaseHelper` is a callback-style axios wrapper (`getBase`/`postBase`) that
-every concrete helper extends with just a `static url` and a couple of
-methods. `auth-helper.ts` is a worked example (token caching + login,
-de-duplicates concurrent calls). `config/api.ts` is a one-line template —
-fill in your real base URL and endpoints.
+- 🔬 **Client-Side Scientific Python Runtime**: Runs NumPy, pandas, scipy, scikit-learn, and matplotlib in a dedicated background Web Worker thread using WebAssembly, ensuring a smooth, non-blocking 60fps UI.
+- 📚 **14 Comprehensive Laboratory Chapters**:
+  - **Bab 01**: Pengantar Machine Learning & Python Environment
+  - **Bab 02**: Workflow ML, Bias-Variance Tradeoff & Model Selection
+  - **Bab 03**: Penanganan Missing Values & Imbalanced Dataset
+  - **Bab 04**: Regresi Linear & Regresi Polinomial
+  - **Bab 05**: Decision Tree (CART & C4.5) & Overfitting Pruning
+  - **Bab 06**: Random Forest & Ensemble Learning (Bagging)
+  - **Bab 07**: Support Vector Machine (Linear & RBF Kernel)
+  - **Bab 08**: Naive Bayes (Gaussian, Multinomial & Bernoulli)
+  - **Bab 09**: K-Nearest Neighbors (Euclidean & Manhattan Distance)
+  - **Bab 10**: Clustering (K-Means Centroid Updates, Hierarkis & DBSCAN)
+  - **Bab 11**: Reduksi Dimensi (PCA & Rekonstruksi Eigenvalue)
+  - **Bab 12**: Neural Network & Multi-Layer Perceptron (MLP)
+  - **Bab 13**: Evaluasi Model Mendalam (ROC-AUC, PR-Curve, Precision & Recall)
+  - **Bab 14**: MLOps, Model Persistence & Hyperparameter Tuning (GridSearchCV)
+- 📊 **Custom Dataset Studio (Kaggle Import)**:
+  - Drag-and-drop CSV importer with strict RFC 4180 compliance.
+  - Automated exploratory data analysis (EDA): data types, null distribution, summary statistics.
+  - Leak-free preprocessing code generation (`StandardScaler`, `SimpleImputer`, `OneHotEncoder`).
+  - Interactive table pagination and instant training execution.
+- 📄 **Academic Report & PDF Export**:
+  - Generate print-ready official academic reports with student profile metadata.
+  - Single-chapter visual vector simulation outputs embedded in high-resolution vector SVG.
+  - Formula injection sanitization for secure exports.
+- 🛡️ **Production-Hardened Reliability**:
+  - Global error boundaries with graceful retry capabilities.
+  - Execution timeout safeguards (120s) and instant worker termination to prevent infinite loops.
+  - Memory leak protection ensuring open Matplotlib figures are always cleaned up.
+  - Modern security headers (HSTS preload, nosniff, frame denial, strict referrer).
 
-**SSR/theming plumbing** (`src/lib/emotion-registry.tsx`, `src/config/theme.tsx`)
-Required boilerplate for MUI + Next App Router SSR (avoids style flash/
-hydration mismatch). Theme is generic MUI defaults — reskin to your brand.
+---
 
-**Small utilities** (`src/lib/`)
-`credential.ts` (SSR-safe token storage, guards `typeof window`),
-`metadata.ts` (`buildPageMetadata` helper for consistent SEO tags),
-`rich-text.ts` (CMS rich-text decode/strip via `he`), `scroll-to.ts`
-(ref-based smooth scroll).
+## 🚀 Getting Started
 
-**Modal** (`src/shared/components/modal/index.tsx`)
-`AppModal` — a Dialog on desktop, bottom-sheet Drawer on mobile, same API.
+### Prerequisites
 
-**SVG-as-component** (`next.config.ts`, `src/types/svg.d.ts`)
-`@svgr/webpack` wired up so `import Icon from "./icon.svg"` gives you a
-React component (default export = component). If you need the raw file URL
-instead (e.g. for `<img src=... >` or CSS `background-image`), put the file
-in `/public` and reference it by path string — don't import it.
+- **Node.js**: v18.17.0+ or v20+
+- **Package Manager**: `npm` (v9+) or `pnpm`
 
-## What you need to fill in
+### Installation
 
-- **`src/config/api.ts`** — currently a one-endpoint template. Add your real
-  base URL and endpoints.
-- **`src/consts/menu-code.const.ts`** — trimmed to 3 generic values. Replace
-  with your site's actual top-level pages.
-- **`src/shared/components/navbar/index.tsx`** and **`footer/index.tsx`** —
-  both are bare stubs (`<nav />` / `<footer />`). Build your real nav/footer;
-  `MainLayout` already wires them up with `activeMenu`/`blurNav` props.
-- **`src/components/home/index.tsx`** — placeholder "Welcome to Next.js"
-  content, replace with your real homepage.
-- **`src/config/theme.tsx`** — generic MUI palette, reskin to your brand
-  colors/typography.
+```bash
+# Clone the repository
+git clone git@github.com:sianggit/ml-lab.git
 
-## Not included (was project-specific)
+# Enter project directory
+cd ml-lab
 
-Models, concrete API helpers beyond `auth-helper.ts`, navbar/footer content,
-and all page components beyond the `home` stub were specific to the site this
-was extracted from and aren't reusable as-is — the *patterns* they followed
-are preserved above instead.
+# Install dependencies
+npm install
+```
+
+### Development Server
+
+Run the local development server with Turbopack:
+
+```bash
+npm run dev
+```
+
+Open [http://localhost:3000](http://localhost:3000) (or the assigned port) in your browser.
+
+---
+
+## 🧪 Testing & Code Quality
+
+```bash
+# Run unit and integration tests (RFC 4180 CSV parser & PDF export)
+npm test
+
+# Run TypeScript type check
+npm run typecheck
+
+# Run ESLint validation
+npm run lint
+
+# Production build verification
+npm run build
+```
+
+---
+
+## 🏗️ Architecture & Technology Stack
+
+| Layer | Technologies |
+|---|---|
+| **Framework & Router** | [Next.js 16](https://nextjs.org/) (App Router, Turbopack, React 19) |
+| **Component System** | [Material-UI (MUI v7)](https://mui.com/), Emotion, Custom Design System |
+| **Scientific Runtime** | [Pyodide v0.26.4](https://pyodide.org/) (WebAssembly Web Worker thread) |
+| **Code Editor** | [Monaco Editor](https://microsoft.github.io/monaco-editor/) (`@monaco-editor/react`) |
+| **State Management** | [Zustand](https://github.com/pmndrs/zustand) with `localStorage` persistence |
+| **Form & Validation** | [React Hook Form](https://react-hook-form.com/) + [Zod](https://zod.dev/) |
+| **Mathematical Typesetting** | [KaTeX](https://katex.org/) |
+
+---
+
+## 🔒 Security & Privacy
+
+- **100% Client-Side Processing**: Uploaded datasets and Python experiment codes are executed exclusively in your browser's WebAssembly sandbox. No raw datasets or experiment codes are sent to third-party servers.
+- **CSV Formula Injection Safeguards**: Cell values starting with dangerous characters (`=`, `+`, `-`, `@`) are automatically escaped during report exports.
+- **Strict Headers**: Configured with Content Security Policies, HSTS, X-Content-Type-Options, and Frame restrictions.
+
+---
+
+## 📄 License
+
+Distributed under the MIT License. See `LICENSE` for more information.
