@@ -55,16 +55,16 @@ export default function StudentProfileModal({ open, onClose }: StudentProfileMod
                         <IconComponent name="academic-cap" size={24} color="#67D9FF" />
                     </Box>
                     <Box>
-                        <Typography sx={studentProfileModalStyles.title}>Identitas Mahasiswa Praktikan</Typography>
-                        <Typography sx={studentProfileModalStyles.subtitle}>
-                            Data ini akan dicantumkan pada header laporan resmi praktikum dan bukti eksekusi
-                        </Typography>
+                        <Box sx={{ display: "flex", alignItems: "center", gap: "8px", mb: "3px" }}>
+                            <Typography sx={studentProfileModalStyles.title}>Kartu Identitas Akademik</Typography>
+                        </Box>
                     </Box>
                 </Box>
 
                 <Box sx={studentProfileModalStyles.formField}>
                     <Typography sx={studentProfileModalStyles.fieldLabel}>Nama Lengkap Mahasiswa</Typography>
                     <TextField
+                        disabled
                         fullWidth
                         size="small"
                         value={name}
@@ -77,6 +77,7 @@ export default function StudentProfileModal({ open, onClose }: StudentProfileMod
                 <Box sx={studentProfileModalStyles.formField}>
                     <Typography sx={studentProfileModalStyles.fieldLabel}>Nomor Induk Mahasiswa (NIM)</Typography>
                     <TextField
+                        disabled
                         fullWidth
                         size="small"
                         value={studentId}
@@ -89,6 +90,7 @@ export default function StudentProfileModal({ open, onClose }: StudentProfileMod
                 <Box sx={studentProfileModalStyles.formField}>
                     <Typography sx={studentProfileModalStyles.fieldLabel}>Kelas / Kelompok Praktikum</Typography>
                     <TextField
+                        disabled
                         fullWidth
                         size="small"
                         value={classGroup}
@@ -101,6 +103,7 @@ export default function StudentProfileModal({ open, onClose }: StudentProfileMod
                 <Box sx={studentProfileModalStyles.formField}>
                     <Typography sx={studentProfileModalStyles.fieldLabel}>Fakultas</Typography>
                     <TextField
+                        disabled
                         fullWidth
                         size="small"
                         value={faculty}
@@ -113,6 +116,7 @@ export default function StudentProfileModal({ open, onClose }: StudentProfileMod
                 <Box sx={studentProfileModalStyles.formField}>
                     <Typography sx={studentProfileModalStyles.fieldLabel}>Program Studi / Jurusan</Typography>
                     <TextField
+                        disabled
                         fullWidth
                         size="small"
                         value={major}
@@ -125,6 +129,7 @@ export default function StudentProfileModal({ open, onClose }: StudentProfileMod
                 <Box sx={studentProfileModalStyles.formField}>
                     <Typography sx={studentProfileModalStyles.fieldLabel}>Perguruan Tinggi / Universitas</Typography>
                     <TextField
+                        disabled
                         fullWidth
                         size="small"
                         value={university}
@@ -134,14 +139,14 @@ export default function StudentProfileModal({ open, onClose }: StudentProfileMod
                     />
                 </Box>
 
-                <Box sx={studentProfileModalStyles.actionRow}>
+                {/* <Box sx={studentProfileModalStyles.actionRow}>
                     <Button onClick={onClose} sx={studentProfileModalStyles.cancelButton}>
                         Batal
                     </Button>
                     <Button onClick={handleSave} variant="contained" sx={studentProfileModalStyles.saveButton}>
                         Simpan Identitas
                     </Button>
-                </Box>
+                </Box> */}
             </Box>
         </AppModal>
     );

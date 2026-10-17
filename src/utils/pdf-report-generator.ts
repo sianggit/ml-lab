@@ -436,7 +436,7 @@ export function generatePrintableReportHTML(options: PDFReportOptions): string {
     <!-- Module Matrix Table -->
     <div class="section-title">
         <span>I. Rekapitulasi Portofolio Praktikum (Bab 01 - 14)</span>
-        <span style="font-size: 8.5pt; font-weight: normal; color: #64748b;">${selectedChapters.length} Modul Terverifikasi</span>
+        <span style="font-size: 8.5pt; font-weight: normal; color: #64748b;">${selectedChapters.length} Modul</span>
     </div>
 
     <table class="portfolio-table">
@@ -452,22 +452,22 @@ export function generatePrintableReportHTML(options: PDFReportOptions): string {
         </thead>
         <tbody>
             ${selectedChapters.map((ch, idx) => {
-                const prog = chapterProgress[ch.slug];
-                const isComp = !!prog?.isCompleted;
-                const mastery = prog?.masteryPercent || (isComp ? 100 : 0);
-                const statusClass = isComp
-                    ? "badge-completed"
-                    : mastery > 0
-                    ? "badge-inprogress"
-                    : "badge-pending";
-                const statusText = isComp
-                    ? "Lulus / Selesai"
-                    : mastery > 0
-                    ? `Aktif (${mastery}%)`
-                    : "Belum Diambil";
-                const xp = prog?.xpEarned || (isComp ? 200 : 0);
+        const prog = chapterProgress[ch.slug];
+        const isComp = !!prog?.isCompleted;
+        const mastery = prog?.masteryPercent || (isComp ? 100 : 0);
+        const statusClass = isComp
+            ? "badge-completed"
+            : mastery > 0
+                ? "badge-inprogress"
+                : "badge-pending";
+        const statusText = isComp
+            ? "Lulus / Selesai"
+            : mastery > 0
+                ? `Aktif (${mastery}%)`
+                : "Belum Diambil";
+        const xp = prog?.xpEarned || (isComp ? 200 : 0);
 
-                return `
+        return `
                 <tr>
                     <td style="text-align: center;">${idx + 1}</td>
                     <td style="font-family: monospace; font-weight: bold;">Bab ${padNumber(ch.number)}</td>
@@ -476,7 +476,7 @@ export function generatePrintableReportHTML(options: PDFReportOptions): string {
                     <td style="text-align: center;"><span class="badge-status ${statusClass}">${statusText}</span></td>
                     <td style="text-align: right; font-weight: 600;">+${xp}</td>
                 </tr>`;
-            }).join("")}
+    }).join("")}
         </tbody>
     </table>
 
@@ -530,12 +530,11 @@ export function generatePrintableReportHTML(options: PDFReportOptions): string {
         <div class="visual-desc">
             ${chosenVisualChapter.summary}
         </div>
-        ${
-            chapterProgress[chosenVisualChapter.slug]?.lastOutput?.plots &&
-            chapterProgress[chosenVisualChapter.slug]?.lastOutput?.plots?.length
+        ${chapterProgress[chosenVisualChapter.slug]?.lastOutput?.plots &&
+                chapterProgress[chosenVisualChapter.slug]?.lastOutput?.plots?.length
                 ? `<img class="visual-plot-img" src="data:image/png;base64,${chapterProgress[chosenVisualChapter.slug].lastOutput?.plots?.[0]}" alt="Visual Plot" />`
                 : getVisualSimulationSVG(chosenVisualChapter.visualType || "scatter")
-        }
+            }
     </div>
     ` : ""}
 

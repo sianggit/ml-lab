@@ -502,39 +502,36 @@ export default function Home() {
                     <Box ref={fgRef} sx={homeStyles.heroFg} id="fg">
                         <Box component="p" sx={homeStyles.chip}>
                             <Box component="span" sx={homeStyles.dot} aria-hidden="true" />
-                            MACHINE LEARNING LAB 2026
+                            ACADEMIC PORTFOLIO · ANGGIT PRATAMA (202343570045)
                         </Box>
 
                         <Box component="h1" sx={homeStyles.headline}>
-                            <span>Interactive</span>
                             <span>Machine Learning</span>
                             <span className="dim">Laboratory</span>
                         </Box>
 
                         <Box component="p" sx={homeStyles.lead}>
-                            Explore machine learning through interactive, browser-based experiments. Learn numerical
-                            computing, data preprocessing, supervised learning, clustering, dimensionality reduction,
-                            and production ML workflows in an environment powered by{" "}
-                            <b>Python, WebAssembly, NumPy, scikit-learn, and Pyodide</b>.
+                            Eksplorasi penugasan praktikum mata kuliah
+                            Machine Learning (Kelas XC Ekstensi, Dosen Nurfidah Dwitiyanti, M.Kom.) didukung lingkungan simulasi interaktif{" "}
+                            <b>Python, WebAssembly, NumPy, scikit-learn, dan Pyodide</b>.
                         </Box>
 
                         <Box sx={homeStyles.cta}>
                             <Box
                                 component={Link}
-                                href="/ml-lab/bab-01-numpy"
+                                href="/assignment"
                                 sx={homeStyles.btnPrimary}
                             >
-                                <IconComponent name="play" size={14} />
-                                <span>Launch Interactive Sandbox</span>
+                                <IconComponent name="academic-cap" size={16} />
+                                <span>Lihat Showcase Tugas &amp; Praktikum</span>
                             </Box>
                             <Box
-                                component="a"
-                                href="#curriculum"
-                                onClick={handleScrollToCurriculum}
+                                component={Link}
+                                href="/kurikulum"
                                 sx={homeStyles.btnSecondary}
                             >
-                                <span>Curriculum Roadmap</span>
-                                <IconComponent name="arrow-down" size={15} />
+                                <span>Arsip Kurikulum Lab</span>
+                                <IconComponent name="arrow-right" size={15} />
                             </Box>
                         </Box>
                     </Box>

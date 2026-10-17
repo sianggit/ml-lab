@@ -46,12 +46,12 @@ export interface MlLabStoreState {
 }
 
 const DEFAULT_STUDENT_INFO: StudentInfo = {
-    name: "Mahasiswa",
-    studentId: "20240001",
-    classGroup: "Reguler - Ilmu Komputer",
-    faculty: "Fakultas Sains & Teknologi",
-    major: "Informatika / Sains Data",
-    university: "Universitas / Perguruan Tinggi",
+    name: "Anggit Arisa Siwi Pratama",
+    studentId: "202343570045",
+    classGroup: "XC Ekstensi",
+    faculty: "Fakultas Teknik dan Ilmu Komputer",
+    major: "Teknik Informatika (S1)",
+    university: "Universitas Indraprasta PGRI (UNINDRA)",
 };
 
 export const useMlLabStore = create<MlLabStoreState>()(

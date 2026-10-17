@@ -18,6 +18,8 @@ interface NavItem {
     label: string;
     href: string;
     code: MenuCodeEnum;
+    badge?: string;
+    badgeType?: "accent" | "muted";
     match: (pathname: string, activeMenu: MenuCodeEnum) => boolean;
 }
 
@@ -30,9 +32,21 @@ const NAV_ITEMS: NavItem[] = [
             activeMenu === MenuCodeEnum.home || pathname === "/",
     },
     {
+        label: "Assignment",
+        href: "/assignment",
+        code: MenuCodeEnum.assignment,
+        badge: "Showcase",
+        badgeType: "accent",
+        match: (pathname, activeMenu) =>
+            activeMenu === MenuCodeEnum.assignment ||
+            pathname.startsWith("/assignment"),
+    },
+    {
         label: "Kurikulum",
         href: "/kurikulum",
         code: MenuCodeEnum.kurikulum,
+        badge: "Arsip",
+        badgeType: "muted",
         match: (pathname, activeMenu) =>
             activeMenu === MenuCodeEnum.kurikulum ||
             activeMenu === MenuCodeEnum.ml_lab ||
@@ -44,21 +58,13 @@ const NAV_ITEMS: NavItem[] = [
         label: "Sandbox",
         href: "/sandbox",
         code: MenuCodeEnum.sandbox,
+        badge: "Simulator",
+        badgeType: "muted",
         match: (pathname, activeMenu) =>
             activeMenu === MenuCodeEnum.sandbox ||
             activeMenu === MenuCodeEnum.playground ||
             pathname.startsWith("/sandbox") ||
             pathname.startsWith("/playground"),
-    },
-    {
-        label: "Laporan",
-        href: "/laporan",
-        code: MenuCodeEnum.laporan,
-        match: (pathname, activeMenu) =>
-            activeMenu === MenuCodeEnum.laporan ||
-            activeMenu === MenuCodeEnum.report ||
-            pathname.startsWith("/laporan") ||
-            pathname.startsWith("/report"),
     },
 ];
 
@@ -151,7 +157,38 @@ export default function Navbar({ activeMenu, blurNav = false }: NavbarProps) {
                                     sx={navbarStyles.navLink(isActive)}
                                     aria-current={isActive ? "page" : undefined}
                                 >
-                                    {item.label}
+                                    <span>{item.label}</span>
+                                    {item.badge && (
+                                        <Box
+                                            component="span"
+                                            sx={{
+                                                ml: "6px",
+                                                px: "5px",
+                                                py: "1px",
+                                                borderRadius: "4px",
+                                                fontSize: "0.65rem",
+                                                fontWeight: 650,
+                                                letterSpacing: "0.03em",
+                                                textTransform: "uppercase",
+                                                fontFamily: "var(--font-mono), monospace",
+                                                display: "inline-block",
+                                                verticalAlign: "middle",
+                                                ...(item.badgeType === "accent"
+                                                    ? {
+                                                          bgcolor: "rgba(103, 217, 255, 0.15)",
+                                                          color: "#67D9FF",
+                                                          border: "1px solid rgba(103, 217, 255, 0.35)",
+                                                      }
+                                                    : {
+                                                          bgcolor: "rgba(255, 255, 255, 0.05)",
+                                                          color: "#8E99A8",
+                                                          border: "1px solid rgba(255, 255, 255, 0.08)",
+                                                      }),
+                                            }}
+                                        >
+                                            {item.badge}
+                                        </Box>
+                                    )}
                                 </Box>
                             );
                         })}
