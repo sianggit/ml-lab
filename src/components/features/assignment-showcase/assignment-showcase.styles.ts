@@ -458,4 +458,209 @@ export const assignmentStyles = {
         borderBottom: "1px solid rgba(255, 255, 255, 0.05)",
         bgcolor: highlighted ? "rgba(103, 217, 255, 0.04)" : "transparent",
     }),
+
+    /* ─── Simulation Runner Styles ───────────────────── */
+    simRunnerContainer: {
+        mt: "20px",
+        mb: "24px",
+        p: { xs: "16px", sm: "22px" },
+        borderRadius: "12px",
+        bgcolor: "rgba(13, 17, 23, 0.95)",
+        border: "1px solid rgba(103, 217, 255, 0.35)",
+        boxShadow: "0 12px 36px rgba(0, 0, 0, 0.5), 0 0 20px rgba(103, 217, 255, 0.08)",
+        backdropFilter: "blur(12px)",
+        position: "relative",
+    } as SxProps<Theme>,
+
+    simHeader: {
+        display: "flex",
+        alignItems: "flex-start",
+        justifyContent: "space-between",
+        flexWrap: "wrap",
+        gap: "12px",
+        mb: "16px",
+        pb: "14px",
+        borderBottom: "1px solid rgba(255, 255, 255, 0.08)",
+    } as SxProps<Theme>,
+
+    simBadge: {
+        display: "inline-flex",
+        alignItems: "center",
+        gap: "6px",
+        px: "8px",
+        py: "3px",
+        borderRadius: "4px",
+        bgcolor: "rgba(103, 217, 255, 0.15)",
+        color: "#67D9FF",
+        fontSize: "0.74rem",
+        fontWeight: 700,
+        fontFamily: "var(--font-mono), monospace",
+        textTransform: "uppercase",
+    } as SxProps<Theme>,
+
+    simTitle: {
+        fontSize: { xs: "1.05rem", sm: "1.2rem" },
+        fontWeight: 750,
+        color: "#F5F7FA",
+        letterSpacing: "-0.01em",
+        mt: "4px",
+        mb: "4px",
+    } as SxProps<Theme>,
+
+    simDesc: {
+        fontSize: "0.82rem",
+        color: "#94A3B8",
+        lineHeight: 1.45,
+    } as SxProps<Theme>,
+
+    simPresetRow: {
+        display: "flex",
+        alignItems: "center",
+        flexWrap: "wrap",
+        gap: "8px",
+        mb: "16px",
+    } as SxProps<Theme>,
+
+    simPresetBtn: (active: boolean) => ({
+        px: "10px",
+        py: "5px",
+        borderRadius: "6px",
+        fontSize: "0.75rem",
+        fontWeight: 600,
+        fontFamily: "var(--font-mono), monospace",
+        cursor: "pointer",
+        transition: "all 0.18s ease",
+        bgcolor: active ? "rgba(103, 217, 255, 0.20)" : "rgba(255, 255, 255, 0.04)",
+        color: active ? "#67D9FF" : "#94A3B8",
+        border: active ? "1px solid rgba(103, 217, 255, 0.50)" : "1px solid rgba(255, 255, 255, 0.08)",
+        "&:hover": {
+            bgcolor: "rgba(103, 217, 255, 0.15)",
+            color: "#F5F7FA",
+        },
+    }),
+
+    simControlsBar: {
+        display: "flex",
+        alignItems: "center",
+        justifyContent: "space-between",
+        flexWrap: "wrap",
+        gap: "10px",
+        p: "10px 14px",
+        borderRadius: "8px",
+        bgcolor: "rgba(0, 0, 0, 0.35)",
+        border: "1px solid rgba(255, 255, 255, 0.06)",
+        mb: "14px",
+    } as SxProps<Theme>,
+
+    simRunBtn: (running: boolean) => ({
+        display: "inline-flex",
+        alignItems: "center",
+        gap: "8px",
+        px: "16px",
+        py: "7px",
+        borderRadius: "6px",
+        fontSize: "0.82rem",
+        fontWeight: 700,
+        fontFamily: "var(--font-mono), monospace",
+        cursor: running ? "not-allowed" : "pointer",
+        bgcolor: running ? "#334155" : "#0284c7",
+        color: "#FFFFFF",
+        border: "none",
+        boxShadow: running ? "none" : "0 2px 10px rgba(2, 132, 199, 0.35)",
+        transition: "all 0.2s ease",
+        "&:hover": {
+            bgcolor: running ? "#334155" : "#0369a1",
+            transform: running ? "none" : "translateY(-1px)",
+        },
+    }),
+
+    simSecondaryBtn: {
+        display: "inline-flex",
+        alignItems: "center",
+        gap: "6px",
+        px: "10px",
+        py: "6px",
+        borderRadius: "6px",
+        fontSize: "0.75rem",
+        fontWeight: 600,
+        fontFamily: "var(--font-mono), monospace",
+        cursor: "pointer",
+        bgcolor: "rgba(255, 255, 255, 0.04)",
+        color: "#94A3B8",
+        border: "1px solid rgba(255, 255, 255, 0.10)",
+        transition: "all 0.18s ease",
+        "&:hover": {
+            bgcolor: "rgba(255, 255, 255, 0.08)",
+            color: "#F5F7FA",
+        },
+    } as SxProps<Theme>,
+
+    simStatusIndicator: (status: string) => {
+        let color = "#94A3B8";
+        if (status === "ready") color = "#43D9A3";
+        if (status === "executing" || status === "running" || status === "loading_kernel") color = "#67D9FF";
+        if (status === "error") color = "#FF5C5C";
+        return {
+            display: "inline-flex",
+            alignItems: "center",
+            gap: "6px",
+            fontSize: "0.76rem",
+            color,
+            fontFamily: "var(--font-mono), monospace",
+        };
+    },
+
+    simTabBar: {
+        display: "flex",
+        alignItems: "center",
+        gap: "6px",
+        mb: "10px",
+        borderBottom: "1px solid rgba(255, 255, 255, 0.08)",
+        pb: "6px",
+    } as SxProps<Theme>,
+
+    simTabItem: (active: boolean) => ({
+        display: "inline-flex",
+        alignItems: "center",
+        gap: "6px",
+        px: "12px",
+        py: "5px",
+        borderRadius: "6px",
+        fontSize: "0.76rem",
+        fontWeight: 650,
+        fontFamily: "var(--font-mono), monospace",
+        cursor: "pointer",
+        transition: "all 0.15s ease",
+        bgcolor: active ? "rgba(103, 217, 255, 0.14)" : "transparent",
+        color: active ? "#67D9FF" : "#64748B",
+        border: active ? "1px solid rgba(103, 217, 255, 0.30)" : "1px solid transparent",
+        "&:hover": {
+            color: "#F5F7FA",
+        },
+    }),
+
+    simTerminal: {
+        p: "14px 16px",
+        borderRadius: "8px",
+        bgcolor: "#070A0E",
+        border: "1px solid rgba(255, 255, 255, 0.08)",
+        fontFamily: "var(--font-mono), monospace",
+        fontSize: "0.80rem",
+        color: "#E2E8F0",
+        lineHeight: 1.55,
+        maxHeight: "360px",
+        overflowY: "auto",
+        whiteSpace: "pre-wrap",
+        wordBreak: "break-word",
+        boxShadow: "inset 0 2px 8px rgba(0, 0, 0, 0.6)",
+    } as SxProps<Theme>,
+
+    simPlotCard: {
+        p: "14px",
+        borderRadius: "8px",
+        bgcolor: "#0A0E14",
+        border: "1px solid rgba(255, 255, 255, 0.08)",
+        textAlign: "center",
+    } as SxProps<Theme>,
 };
+

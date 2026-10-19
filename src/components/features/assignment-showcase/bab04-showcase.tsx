@@ -6,10 +6,12 @@ import Typography from "@mui/material/Typography";
 import Button from "@mui/material/Button";
 import { ML_ASSIGNMENTS } from "@/consts/ml-assignments.const";
 import { assignmentStyles } from "./assignment-showcase.styles";
+import AssignmentSimulationRunner from "./assignment-simulation-runner";
 
 export default function Bab04Showcase() {
     const item = ML_ASSIGNMENTS.find((a) => a.id === "tugas-bab-04-titanic");
     const [copied, setCopied] = useState(false);
+    const [showSimulation, setShowSimulation] = useState(false);
 
     if (!item) return null;
 
@@ -148,23 +150,54 @@ export default function Bab04Showcase() {
             <Box sx={assignmentStyles.codeContainer}>
                 <Box sx={assignmentStyles.codeHeader}>
                     <Typography sx={assignmentStyles.codeTitle}>titanic_preprocessing_pipeline.py</Typography>
-                    <Button
-                        size="small"
-                        onClick={handleCopyCode}
-                        sx={{
-                            color: copied ? "#43D9A3" : "#8E99A8",
-                            fontSize: "0.72rem",
-                            textTransform: "none",
-                            fontFamily: "var(--font-mono), monospace",
-                        }}
-                    >
-                        {copied ? "✓ Tersalin" : "Salin Kode"}
-                    </Button>
+                    <Box sx={{ display: "flex", alignItems: "center", gap: "8px" }}>
+                        <Button
+                            size="small"
+                            onClick={() => setShowSimulation((prev) => !prev)}
+                            sx={{
+                                color: showSimulation ? "#67D9FF" : "#43D9A3",
+                                bgcolor: showSimulation ? "rgba(103, 217, 255, 0.12)" : "rgba(67, 217, 163, 0.12)",
+                                border: showSimulation ? "1px solid rgba(103, 217, 255, 0.35)" : "1px solid rgba(67, 217, 163, 0.35)",
+                                fontSize: "0.74rem",
+                                fontWeight: 700,
+                                textTransform: "none",
+                                fontFamily: "var(--font-mono), monospace",
+                                px: "10px",
+                                py: "3px",
+                                "&:hover": {
+                                    bgcolor: showSimulation ? "rgba(103, 217, 255, 0.20)" : "rgba(67, 217, 163, 0.20)",
+                                },
+                            }}
+                        >
+                            {showSimulation ? "▼ Tutup Simulasi" : "▶ Run Simulasi (WASM)"}
+                        </Button>
+                        <Button
+                            size="small"
+                            onClick={handleCopyCode}
+                            sx={{
+                                color: copied ? "#43D9A3" : "#8E99A8",
+                                fontSize: "0.72rem",
+                                textTransform: "none",
+                                fontFamily: "var(--font-mono), monospace",
+                            }}
+                        >
+                            {copied ? "✓ Tersalin" : "Salin Kode"}
+                        </Button>
+                    </Box>
                 </Box>
                 <Box component="pre" sx={assignmentStyles.codePre}>
                     <code>{item.sourceCodeSnippet}</code>
                 </Box>
             </Box>
+
+            {/* ─── Interactive WASM Simulation Runner ────────────────── */}
+            {showSimulation && (
+                <AssignmentSimulationRunner
+                    assignmentId="tugas-bab-04-titanic"
+                    initialPresetId="sim-bab04-full-pipeline"
+                    onClose={() => setShowSimulation(false)}
+                />
+            )}
 
             {/* ─── Key Highlights List ───────────────────────────────── */}
             <Box

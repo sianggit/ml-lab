@@ -124,6 +124,15 @@ class WebWorkerOutputBuffer:
         sys.stderr = sys.__stderr__
 
 _worker_buffer = WebWorkerOutputBuffer()
+
+# Configure Matplotlib for headless WebWorker execution
+try:
+    import matplotlib
+    matplotlib.use('Agg')
+    import matplotlib.pyplot as plt
+    plt.show = lambda *args, **kwargs: None
+except Exception:
+    pass
 `);
 
         isInitializing = false;
@@ -274,24 +283,38 @@ _plots
         });
     } catch (err: any) {
         const executionTime = Math.round(performance.now() - startTime);
-        const errorMsg = err?.message || String(err);
 
+        // Salvage any stdout or stderr already produced before the error
+        let capturedStdout = "";
+        let capturedStderr = "";
         try {
+            capturedStdout = await pyodideInstance?.runPythonAsync("_worker_buffer.get_stdout()");
+            capturedStderr = await pyodideInstance?.runPythonAsync("_worker_buffer.get_stderr()");
             await pyodideInstance?.runPythonAsync("_worker_buffer.reset_capture()");
         } catch {
             // Ignore reset error
         }
 
+        const rawError = err?.message || String(err);
+        const fullTraceback = err?.stack || "";
+        const errorDetails = fullTraceback && fullTraceback.includes("Traceback")
+            ? fullTraceback
+            : rawError;
+
+        const combinedStderr = capturedStderr
+            ? `${capturedStderr}\n${errorDetails}`
+            : errorDetails;
+
         self.postMessage({
             id,
             type: "RUN_ERROR",
             output: {
-                stdout: "",
-                stderr: errorMsg,
+                stdout: capturedStdout || "",
+                stderr: combinedStderr,
                 executionTime,
                 plots: [],
                 status: "error",
-                errorDetails: errorMsg,
+                errorDetails,
             },
         });
     }
