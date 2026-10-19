@@ -87,7 +87,7 @@ export default function ReportExportModal({ open, onClose }: ReportExportModalPr
     const markdownContent = useMemo(() => {
         let report = `# Laporan Praktikum Machine Learning\n\n`;
         report += `- Nama: ${name}\n`;
-        report += `- NIM: ${studentId}\n`;
+        report += `- NPM: ${studentId}\n`;
         report += `- Kelas: ${classGroup}\n`;
         report += `- XP: ${totalXp} (Level ${userLevel})\n\n`;
         report += `## Portofolio Modul Praktikum\n\n`;
@@ -216,7 +216,7 @@ export default function ReportExportModal({ open, onClose }: ReportExportModalPr
                         />
                     </Box>
                     <Box component="label" sx={reportExportModalStyles.label}>
-                        NIM
+                        NPM
                         <input
                             type="text"
                             value={studentId}

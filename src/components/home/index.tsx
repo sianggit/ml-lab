@@ -4,6 +4,7 @@ import { useEffect, useRef } from "react";
 import Link from "next/link";
 import Box from "@mui/material/Box";
 import IconComponent from "@/shared/components/icon";
+import { useMlLabStore } from "@/stores/use-ml-lab-store";
 import { homeStyles } from "./home.styles";
 
 /* ─── Seeded PRNG for Deterministic Motifs & Initial Particles ─── */
@@ -190,6 +191,7 @@ function SvgMotif4() {
 }
 
 export default function Home() {
+    const { setProfileModalOpen } = useMlLabStore();
     const heroRef = useRef<HTMLElement | null>(null);
     const canvasRef = useRef<HTMLCanvasElement | null>(null);
     const bgLayerRef = useRef<HTMLDivElement | null>(null);
@@ -523,10 +525,24 @@ export default function Home() {
 
                         {/* 4. Credential Plate */}
                         <Box component="section" sx={homeStyles.plate} className="plate" aria-label="Informasi penyusun">
-                            <Box sx={homeStyles.plateCol(true)}>
+                            <Box
+                                sx={homeStyles.plateCol(true, true)}
+                                className="edit"
+                                onClick={() => setProfileModalOpen(true)}
+                                onKeyDown={(e) => {
+                                    if (e.key === "Enter" || e.key === " ") {
+                                        e.preventDefault();
+                                        setProfileModalOpen(true);
+                                    }
+                                }}
+                                role="button"
+                                tabIndex={0}
+                                aria-haspopup="dialog"
+                                aria-label="Lihat detail identitas akademik"
+                            >
                                 <Box component="label" sx={homeStyles.plateLabel}>Disusun oleh</Box>
                                 <Box component="span" sx={homeStyles.plateName} className="name">Anggit Pratama</Box>
-                                <Box component="span" sx={homeStyles.plateNim} className="nim">NIM 202343570045</Box>
+                                <Box component="span" sx={homeStyles.plateNim} className="nim">NPM 202343570045</Box>
                             </Box>
                             <Box sx={homeStyles.plateCol(false)}>
                                 <Box component="label" sx={homeStyles.plateLabel}>Dosen pengampu</Box>

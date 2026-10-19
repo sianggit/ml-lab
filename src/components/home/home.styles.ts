@@ -15,13 +15,14 @@ export const homeStyles = defineStyles({
     // ─── Hero Section ──────────────────────────────────────────────────────────
     hero: {
         position: "relative",
-        minHeight: "auto",
+        minHeight: { xs: "auto", md: "calc(100svh - 64px)" },
         display: "flex",
         alignItems: "center",
+        justifyContent: "center",
         overflow: "hidden",
         isolation: "isolate",
-        pt: { xs: "20px", sm: "28px", md: "36px" },
-        pb: { xs: "48px", sm: "58px", md: "68px" },
+        pt: { xs: "24px", sm: "32px", md: "36px" },
+        pb: { xs: "48px", sm: "56px", md: "60px" },
     },
     layer: {
         position: "absolute",
@@ -164,12 +165,43 @@ export const homeStyles = defineStyles({
         borderTop: "1px solid rgba(255, 255, 255, 0.08)",
         borderBottom: "1px solid rgba(255, 255, 255, 0.08)",
     },
-    plateCol: (isFirst: boolean) => ({
+    plateCol: (isFirst: boolean, isEditable?: boolean) => ({
         py: { xs: "8px", md: "10px" },
         pr: "18px",
         pl: isFirst ? 0 : { xs: 0, md: "18px" },
         borderLeft: isFirst ? "none" : { xs: "none", md: "1px solid rgba(255, 255, 255, 0.08)" },
         borderTop: isFirst ? "none" : { xs: "1px solid rgba(255, 255, 255, 0.08)", md: "none" },
+        ...(isEditable && {
+            cursor: "pointer",
+            position: "relative",
+            transition: "background 0.3s ease",
+            "&:hover": {
+                background: "linear-gradient(90deg, rgba(52, 211, 153, 0.05), transparent)",
+            },
+            "&::after": {
+                content: '"Detail ↗"',
+                position: "absolute",
+                right: "14px",
+                top: { xs: "10px", md: "12px" },
+                fontFamily: "var(--font-mono), monospace",
+                fontWeight: 500,
+                fontSize: "10px",
+                letterSpacing: "0.16em",
+                textTransform: "uppercase",
+                color: "#34D399",
+                opacity: 0.9,
+                transition: "opacity 0.3s ease, transform 0.3s ease",
+            },
+            "&:hover::after, &:focus-visible::after": {
+                opacity: 1,
+                transform: "translateX(3px)",
+            },
+            "&:focus-visible": {
+                outline: "1px solid #34D399",
+                outlineOffset: "2px",
+                borderRadius: "4px",
+            },
+        }),
     }),
     plateLabel: {
         display: "block",
@@ -302,7 +334,7 @@ export const homeStyles = defineStyles({
     telemetryWrapper: {
         position: "relative",
         zIndex: 3,
-        mt: "calc(-1 * clamp(30px, 1.5vw, 36px))",
+        mt: { xs: "-18px", sm: "-22px", md: "-24px" },
     },
     telemetryGrid: {
         display: "grid",

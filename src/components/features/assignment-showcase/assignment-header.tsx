@@ -37,7 +37,7 @@ export default function AssignmentHeader() {
                 </Box>
 
                 <Box sx={assignmentStyles.metaItem}>
-                    <Typography sx={assignmentStyles.metaLabel}>NPM / NIM</Typography>
+                    <Typography sx={assignmentStyles.metaLabel}>NPM</Typography>
                     <Typography sx={assignmentStyles.metaValue}>
                         {studentInfo.studentId || "202343570045"}
                     </Typography>

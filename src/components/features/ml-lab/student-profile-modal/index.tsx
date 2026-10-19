@@ -1,12 +1,8 @@
 "use client";
 
-import { useState, useEffect } from "react";
+import { useEffect, useRef } from "react";
+import Modal from "@mui/material/Modal";
 import Box from "@mui/material/Box";
-import Typography from "@mui/material/Typography";
-import TextField from "@mui/material/TextField";
-import Button from "@mui/material/Button";
-import AppModal from "@/shared/components/modal";
-import IconComponent from "@/shared/components/icon";
 import { useMlLabStore } from "@/stores/use-ml-lab-store";
 import { studentProfileModalStyles } from "./student-profile-modal.styles";
 
@@ -16,138 +12,142 @@ export interface StudentProfileModalProps {
 }
 
 export default function StudentProfileModal({ open, onClose }: StudentProfileModalProps) {
-    const { studentInfo, setStudentInfo } = useMlLabStore();
-    const [name, setName] = useState(studentInfo.name);
-    const [studentId, setStudentId] = useState(studentInfo.studentId);
-    const [classGroup, setClassGroup] = useState(studentInfo.classGroup);
-    const [faculty, setFaculty] = useState(studentInfo.faculty || "Fakultas Sains & Teknologi");
-    const [major, setMajor] = useState(studentInfo.major || "Informatika");
-    const [university, setUniversity] = useState(studentInfo.university || "Universitas / Perguruan Tinggi");
+    const { studentInfo } = useMlLabStore();
+    const escButtonRef = useRef<HTMLButtonElement>(null);
 
     useEffect(() => {
         if (open) {
-            setName(studentInfo.name);
-            setStudentId(studentInfo.studentId);
-            setClassGroup(studentInfo.classGroup);
-            setFaculty(studentInfo.faculty || "Fakultas Sains & Teknologi");
-            setMajor(studentInfo.major || "Informatika");
-            setUniversity(studentInfo.university || "Universitas / Perguruan Tinggi");
+            const timer = setTimeout(() => {
+                escButtonRef.current?.focus();
+            }, 60);
+            return () => clearTimeout(timer);
         }
-    }, [open, studentInfo]);
+    }, [open]);
 
-    const handleSave = () => {
-        setStudentInfo({
-            name: name.trim() || "Mahasiswa",
-            studentId: studentId.trim() || "20240001",
-            classGroup: classGroup.trim() || "Reguler",
-            faculty: faculty.trim() || "Fakultas Sains & Teknologi",
-            major: major.trim() || "Informatika",
-            university: university.trim() || "Universitas / Perguruan Tinggi",
-        });
-        onClose();
-    };
+    const name = studentInfo.name || "Anggit Arisa Siwi Pratama";
+    const studentId = studentInfo.studentId || "202343570045";
+    const classGroup = studentInfo.classGroup || "XC Ekstensi";
+    const faculty = studentInfo.faculty || "Teknik dan Ilmu Komputer";
+    const major = studentInfo.major || "Teknik Informatika (S1)";
+    const university = studentInfo.university || "Universitas Indraprasta PGRI (UNINDRA)";
 
     return (
-        <AppModal open={open} onClose={onClose} maxWidth="sm">
-            <Box sx={studentProfileModalStyles.container}>
-                <Box sx={studentProfileModalStyles.header}>
-                    <Box sx={{ display: "flex", alignItems: "center" }}>
-                        <IconComponent name="academic-cap" size={24} color="#67D9FF" />
-                    </Box>
+        <Modal
+            open={open}
+            onClose={onClose}
+            aria-labelledby="student-identity-title"
+            aria-describedby="student-identity-desc"
+            closeAfterTransition
+            sx={{
+                display: "flex",
+                alignItems: "center",
+                justifyContent: "center",
+                backgroundColor: "rgba(5, 7, 9, 0.76)",
+                WebkitBackdropFilter: "blur(14px)",
+                backdropFilter: "blur(14px)",
+                p: { xs: "16px", sm: "24px" },
+            }}
+        >
+            <Box sx={studentProfileModalStyles.card} role="dialog" aria-modal="true">
+                {/* Header */}
+                <Box sx={studentProfileModalStyles.hd}>
                     <Box>
-                        <Box sx={{ display: "flex", alignItems: "center", gap: "8px", mb: "3px" }}>
-                            <Typography sx={studentProfileModalStyles.title}>Kartu Identitas Akademik</Typography>
+                        <Box sx={studentProfileModalStyles.eyebrow}>
+                            <b>Kartu Identitas</b>
+                            <s />
+                            <span>Akademik</span>
+                        </Box>
+                        <Box component="h2" id="student-identity-title" sx={studentProfileModalStyles.title}>
+                            Identitas penyusun
+                        </Box>
+                        <Box component="p" id="student-identity-desc" sx={studentProfileModalStyles.subtitle}>
+                            Informasi akademik penyusun portfolio ini.
+                        </Box>
+                    </Box>
+                    <Box
+                        component="button"
+                        ref={escButtonRef}
+                        type="button"
+                        onClick={onClose}
+                        sx={studentProfileModalStyles.escBtn}
+                        aria-label="Tutup dialog identitas"
+                    >
+                        ESC
+                    </Box>
+                </Box>
+
+                {/* Preview strip */}
+                <Box sx={studentProfileModalStyles.pv}>
+                    <Box>
+                        <Box component="small" sx={studentProfileModalStyles.pvLabel}>
+                            Penyusun
+                        </Box>
+                        <Box component="span" sx={studentProfileModalStyles.pvName}>
+                            Anggit Pratama
+                        </Box>
+                    </Box>
+                    <Box component="span" sx={studentProfileModalStyles.pvNim}>
+                        NPM {studentId}
+                    </Box>
+                </Box>
+
+                {/* Fields grid */}
+                <Box sx={studentProfileModalStyles.fg}>
+                    <Box sx={{ ...studentProfileModalStyles.field, ...studentProfileModalStyles.fgFull }}>
+                        <Box component="label" sx={studentProfileModalStyles.fieldLabel}>
+                            <em>01</em>Nama lengkap
+                        </Box>
+                        <Box component="p" sx={studentProfileModalStyles.fieldValue}>
+                            {name}
+                        </Box>
+                    </Box>
+
+                    <Box sx={studentProfileModalStyles.field}>
+                        <Box component="label" sx={studentProfileModalStyles.fieldLabel}>
+                            <em>02</em>NPM
+                        </Box>
+                        <Box component="p" sx={studentProfileModalStyles.fieldValueMono}>
+                            {studentId}
+                        </Box>
+                    </Box>
+
+                    <Box sx={studentProfileModalStyles.field}>
+                        <Box component="label" sx={studentProfileModalStyles.fieldLabel}>
+                            <em>03</em>Kelas / Kelompok
+                        </Box>
+                        <Box component="p" sx={studentProfileModalStyles.fieldValue}>
+                            {classGroup}
+                        </Box>
+                    </Box>
+
+                    <Box sx={studentProfileModalStyles.field}>
+                        <Box component="label" sx={studentProfileModalStyles.fieldLabel}>
+                            <em>04</em>Fakultas
+                        </Box>
+                        <Box component="p" sx={studentProfileModalStyles.fieldValue}>
+                            {faculty}
+                        </Box>
+                    </Box>
+
+                    <Box sx={studentProfileModalStyles.field}>
+                        <Box component="label" sx={studentProfileModalStyles.fieldLabel}>
+                            <em>05</em>Program studi
+                        </Box>
+                        <Box component="p" sx={studentProfileModalStyles.fieldValue}>
+                            {major}
+                        </Box>
+                    </Box>
+
+                    <Box sx={{ ...studentProfileModalStyles.field, ...studentProfileModalStyles.fgFull }}>
+                        <Box component="label" sx={studentProfileModalStyles.fieldLabel}>
+                            <em>06</em>Perguruan tinggi
+                        </Box>
+                        <Box component="p" sx={studentProfileModalStyles.fieldValue}>
+                            {university}
                         </Box>
                     </Box>
                 </Box>
-
-                <Box sx={studentProfileModalStyles.formField}>
-                    <Typography sx={studentProfileModalStyles.fieldLabel}>Nama Lengkap Mahasiswa</Typography>
-                    <TextField
-                        disabled
-                        fullWidth
-                        size="small"
-                        value={name}
-                        onChange={(e) => setName(e.target.value)}
-                        placeholder="Contoh: Anggit Arisa Siwi Pratama"
-                        sx={studentProfileModalStyles.input}
-                    />
-                </Box>
-
-                <Box sx={studentProfileModalStyles.formField}>
-                    <Typography sx={studentProfileModalStyles.fieldLabel}>Nomor Induk Mahasiswa (NIM)</Typography>
-                    <TextField
-                        disabled
-                        fullWidth
-                        size="small"
-                        value={studentId}
-                        onChange={(e) => setStudentId(e.target.value)}
-                        placeholder="Contoh: 202343500001"
-                        sx={studentProfileModalStyles.input}
-                    />
-                </Box>
-
-                <Box sx={studentProfileModalStyles.formField}>
-                    <Typography sx={studentProfileModalStyles.fieldLabel}>Kelas / Kelompok Praktikum</Typography>
-                    <TextField
-                        disabled
-                        fullWidth
-                        size="small"
-                        value={classGroup}
-                        onChange={(e) => setClassGroup(e.target.value)}
-                        placeholder="Contoh: X7C - Informatika"
-                        sx={studentProfileModalStyles.input}
-                    />
-                </Box>
-
-                <Box sx={studentProfileModalStyles.formField}>
-                    <Typography sx={studentProfileModalStyles.fieldLabel}>Fakultas</Typography>
-                    <TextField
-                        disabled
-                        fullWidth
-                        size="small"
-                        value={faculty}
-                        onChange={(e) => setFaculty(e.target.value)}
-                        placeholder="Contoh: Fakultas Teknik & Ilmu Komputer"
-                        sx={studentProfileModalStyles.input}
-                    />
-                </Box>
-
-                <Box sx={studentProfileModalStyles.formField}>
-                    <Typography sx={studentProfileModalStyles.fieldLabel}>Program Studi / Jurusan</Typography>
-                    <TextField
-                        disabled
-                        fullWidth
-                        size="small"
-                        value={major}
-                        onChange={(e) => setMajor(e.target.value)}
-                        placeholder="Contoh: Informatika"
-                        sx={studentProfileModalStyles.input}
-                    />
-                </Box>
-
-                <Box sx={studentProfileModalStyles.formField}>
-                    <Typography sx={studentProfileModalStyles.fieldLabel}>Perguruan Tinggi / Universitas</Typography>
-                    <TextField
-                        disabled
-                        fullWidth
-                        size="small"
-                        value={university}
-                        onChange={(e) => setUniversity(e.target.value)}
-                        placeholder="Contoh: Nama Universitas / Institut"
-                        sx={studentProfileModalStyles.input}
-                    />
-                </Box>
-
-                {/* <Box sx={studentProfileModalStyles.actionRow}>
-                    <Button onClick={onClose} sx={studentProfileModalStyles.cancelButton}>
-                        Batal
-                    </Button>
-                    <Button onClick={handleSave} variant="contained" sx={studentProfileModalStyles.saveButton}>
-                        Simpan Identitas
-                    </Button>
-                </Box> */}
             </Box>
-        </AppModal>
+        </Modal>
     );
 }

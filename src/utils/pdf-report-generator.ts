@@ -416,7 +416,7 @@ export function generatePrintableReportHTML(options: PDFReportOptions): string {
             <span class="meta-val">${totalXp} XP (Tingkat ${userLevel})</span>
         </div>
         <div class="meta-row">
-            <span class="meta-label">NIM (Nomor Induk):</span>
+            <span class="meta-label">NPM (Nomor Pokok Mahasiswa):</span>
             <span class="meta-val">${studentInfo.studentId || "-"}</span>
         </div>
         <div class="meta-row">
@@ -552,7 +552,7 @@ export function generatePrintableReportHTML(options: PDFReportOptions): string {
             <div>Mahasiswa Praktikan,</div>
             <div class="sig-space"></div>
             <div class="sig-name">${studentInfo.name || "Mahasiswa"}</div>
-            <div class="sig-sub">NIM: ${studentInfo.studentId || "-"}</div>
+            <div class="sig-sub">NPM: ${studentInfo.studentId || "-"}</div>
         </div>
     </div>
 </body>

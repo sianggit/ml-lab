@@ -72,10 +72,8 @@ const NAV_ITEMS: NavItem[] = [
 export default function Navbar({ activeMenu, blurNav = false }: NavbarProps) {
     const pathname = usePathname() || "/";
     const [scrolled, setScrolled] = useState(false);
-    const [profileModalOpen, setProfileModalOpen] = useState(false);
     const [isMounted, setIsMounted] = useState(false);
-
-    const { totalXp } = useMlLabStore();
+    const { totalXp, isProfileModalOpen, setProfileModalOpen } = useMlLabStore();
 
     useEffect(() => {
         setIsMounted(true);
@@ -88,7 +86,7 @@ export default function Navbar({ activeMenu, blurNav = false }: NavbarProps) {
     }, []);
 
     // XP & Gamification level calculations: Target = 1400 XP
-    const currentXp = isMounted ? totalXp : 425;
+    const currentXp = isMounted ? totalXp : 350;
     const maxTargetXp = 1400;
     const userLevel = Math.max(1, Math.floor(currentXp / 350) + 1);
     const xpPercent = Math.min(100, Math.round((currentXp / maxTargetXp) * 100));
@@ -161,27 +159,38 @@ export default function Navbar({ activeMenu, blurNav = false }: NavbarProps) {
 
                     {/* ─── Right Wing: Gamification & Actions ────────────────── */}
                     <Box sx={navbarStyles.act} className="act">
-                        {/* XP Pill */}
+                        {/* Redesigned XP Widget */}
                         <Box
                             sx={navbarStyles.xp}
                             className="xp"
                             id="xp"
                             onClick={() => setProfileModalOpen(true)}
-                            title={`Level ${userLevel} · ${currentXp} XP (Klik untuk profil mahasiswa)`}
+                            onKeyDown={(e) => {
+                                if (e.key === "Enter" || e.key === " ") {
+                                    e.preventDefault();
+                                    setProfileModalOpen(true);
+                                }
+                            }}
+                            title={`${currentXp} dari ${maxTargetXp} XP menuju level ${userLevel + 1}`}
                             role="button"
                             tabIndex={0}
+                            aria-haspopup="dialog"
+                            aria-label="Lihat detail identitas akademik dan progres XP"
                         >
-                            <Box component="b" sx={navbarStyles.lv} className="lv" title="Level">
-                                {userLevel}
-                            </Box>
-                            <Box component="span" sx={navbarStyles.xt} className="xt">
-                                {currentXp}
-                                <Box component="small" sx={navbarStyles.xtMuted}>
-                                    {" "}/ 1400 XP
+                            <Box sx={navbarStyles.xpColLevel}>
+                                <Box component="label" sx={navbarStyles.xpLabel}>Level</Box>
+                                <Box component="i" sx={navbarStyles.xpLevelNum}>
+                                    {String(userLevel).padStart(2, "0")}
                                 </Box>
                             </Box>
-                            <Box component="i" sx={navbarStyles.xpBarTrack}>
-                                <Box component="b" sx={navbarStyles.xpBarFill(xpPercent)} />
+                            <Box sx={navbarStyles.xpColDetails}>
+                                <Box sx={navbarStyles.xpRow} className="row">
+                                    <b>{currentXp}</b>
+                                    <span>/ {maxTargetXp} XP</span>
+                                </Box>
+                                <Box component="div" sx={navbarStyles.xpTrack} className="track">
+                                    <Box component="u" sx={navbarStyles.xpFill(xpPercent)} />
+                                </Box>
                             </Box>
                         </Box>
                     </Box>
@@ -190,7 +199,7 @@ export default function Navbar({ activeMenu, blurNav = false }: NavbarProps) {
 
             {/* Profile Dialog */}
             <StudentProfileModal
-                open={profileModalOpen}
+                open={isProfileModalOpen}
                 onClose={() => setProfileModalOpen(false)}
             />
         </>

@@ -4,7 +4,7 @@ import { ExecutionOutput } from "@/models/ml-lab/chapter.model";
 
 export interface StudentInfo {
     name: string;
-    studentId: string; // NIM
+    studentId: string; // NPM
     classGroup: string; // e.g., R6X / S6X
     faculty?: string;
     major?: string;
@@ -30,6 +30,8 @@ export interface MlLabStoreState {
     compileStreak: number;
     avgExecTimeMs: number;
     totalRuns: number;
+    isProfileModalOpen: boolean;
+    setProfileModalOpen: (open: boolean) => void;
     setStudentInfo: (info: Partial<StudentInfo>) => void;
     recordChapterStage: (
         chapterSlug: string,
@@ -63,6 +65,9 @@ export const useMlLabStore = create<MlLabStoreState>()(
             compileStreak: 3,
             avgExecTimeMs: 450,
             totalRuns: 3,
+            isProfileModalOpen: false,
+
+            setProfileModalOpen: (open) => set({ isProfileModalOpen: open }),
 
             setStudentInfo: (newInfo) => {
                 set((state) => ({

@@ -31,7 +31,7 @@ export class LabReportAdapter {
         md += `---\n\n`;
         md += `### IDENTITAS PRAKTIKAN\n`;
         md += `- **Nama Mahasiswa**: ${studentInfo.name}\n`;
-        md += `- **NIM**: ${studentInfo.studentId}\n`;
+        md += `- **NPM**: ${studentInfo.studentId}\n`;
         md += `- **Kelas / Kelompok**: ${studentInfo.classGroup}\n`;
         md += `- **Program Studi**: ${majorStr}\n`;
         md += `- **Fakultas**: ${facultyStr}\n`;
@@ -156,7 +156,7 @@ export class LabReportAdapter {
         <h2> ${facultyStr} - ${majorStr} - ${univStr} </h2>
         <div class="meta-grid">
             <div><strong>Nama:</strong> ${studentInfo.name}</div>
-            <div><strong>NIM:</strong> ${studentInfo.studentId}</div>
+            <div><strong>NPM:</strong> ${studentInfo.studentId}</div>
             <div><strong>Kelas:</strong> ${studentInfo.classGroup}</div>
             <div><strong>Tanggal:</strong> ${dateStr}</div>
             <div><strong>Akumulasi Skor:</strong> ${totalXp} XP</div>
