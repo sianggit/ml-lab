@@ -15,16 +15,17 @@ type NavbarProps = {
 };
 
 interface NavItem {
+    num: string;
     label: string;
     href: string;
     code: MenuCodeEnum;
-    badge?: string;
-    badgeType?: "accent" | "muted";
+    tag?: string;
     match: (pathname: string, activeMenu: MenuCodeEnum) => boolean;
 }
 
 const NAV_ITEMS: NavItem[] = [
     {
+        num: "01",
         label: "Beranda",
         href: "/",
         code: MenuCodeEnum.home,
@@ -32,21 +33,21 @@ const NAV_ITEMS: NavItem[] = [
             activeMenu === MenuCodeEnum.home || pathname === "/",
     },
     {
+        num: "02",
         label: "Assignment",
+        tag: "Showcase",
         href: "/assignment",
         code: MenuCodeEnum.assignment,
-        badge: "Showcase",
-        badgeType: "accent",
         match: (pathname, activeMenu) =>
             activeMenu === MenuCodeEnum.assignment ||
             pathname.startsWith("/assignment"),
     },
     {
+        num: "03",
         label: "Kurikulum",
+        tag: "Arsip",
         href: "/kurikulum",
         code: MenuCodeEnum.kurikulum,
-        badge: "Arsip",
-        badgeType: "muted",
         match: (pathname, activeMenu) =>
             activeMenu === MenuCodeEnum.kurikulum ||
             activeMenu === MenuCodeEnum.ml_lab ||
@@ -55,11 +56,11 @@ const NAV_ITEMS: NavItem[] = [
             pathname.startsWith("/bab"),
     },
     {
+        num: "04",
         label: "Sandbox",
+        tag: "Simulator",
         href: "/sandbox",
         code: MenuCodeEnum.sandbox,
-        badge: "Simulator",
-        badgeType: "muted",
         match: (pathname, activeMenu) =>
             activeMenu === MenuCodeEnum.sandbox ||
             activeMenu === MenuCodeEnum.playground ||
@@ -132,7 +133,7 @@ export default function Navbar({ activeMenu, blurNav = false }: NavbarProps) {
                     </Box>
 
                     {/* ─── Center Navigation ──────────────────────────────────── */}
-                    <Box component="nav" sx={navbarStyles.nav} aria-label="Navigasi utama">
+                    <Box component="nav" sx={navbarStyles.nav} className="tabs" aria-label="Navigasi utama">
                         {NAV_ITEMS.map((item) => {
                             const isActive = item.match(pathname, activeMenu);
                             return (
@@ -141,38 +142,16 @@ export default function Navbar({ activeMenu, blurNav = false }: NavbarProps) {
                                     component={Link}
                                     href={item.href}
                                     sx={navbarStyles.navLink(isActive)}
+                                    className={isActive ? "on" : ""}
                                     aria-current={isActive ? "page" : undefined}
                                 >
+                                    <Box component="sup" sx={navbarStyles.navSup(isActive)}>
+                                        {item.num}
+                                    </Box>
                                     <span>{item.label}</span>
-                                    {item.badge && (
-                                        <Box
-                                            component="span"
-                                            sx={{
-                                                ml: "6px",
-                                                px: "5px",
-                                                py: "1px",
-                                                borderRadius: "4px",
-                                                fontSize: "0.65rem",
-                                                fontWeight: 650,
-                                                letterSpacing: "0.03em",
-                                                textTransform: "uppercase",
-                                                fontFamily: "var(--font-mono), monospace",
-                                                display: "inline-block",
-                                                verticalAlign: "middle",
-                                                ...(item.badgeType === "accent"
-                                                    ? {
-                                                          bgcolor: "rgba(103, 217, 255, 0.15)",
-                                                          color: "#67D9FF",
-                                                          border: "1px solid rgba(103, 217, 255, 0.35)",
-                                                      }
-                                                    : {
-                                                          bgcolor: "rgba(255, 255, 255, 0.05)",
-                                                          color: "#8E99A8",
-                                                          border: "1px solid rgba(255, 255, 255, 0.08)",
-                                                      }),
-                                            }}
-                                        >
-                                            {item.badge}
+                                    {item.tag && (
+                                        <Box component="small" sx={navbarStyles.navSmall}>
+                                            {item.tag}
                                         </Box>
                                     )}
                                 </Box>

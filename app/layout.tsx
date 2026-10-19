@@ -1,5 +1,5 @@
 import type { Metadata, Viewport } from "next";
-import { Inter, JetBrains_Mono } from "next/font/google";
+import { Inter, JetBrains_Mono, Instrument_Serif } from "next/font/google";
 import "katex/dist/katex.min.css";
 import "./globals.css";
 import ClientLayout from "./client-layout";
@@ -14,6 +14,14 @@ const jetbrainsMono = JetBrains_Mono({
     subsets: ["latin"],
     display: "swap",
     variable: "--font-mono",
+});
+
+const instrumentSerif = Instrument_Serif({
+    weight: "400",
+    style: "italic",
+    subsets: ["latin"],
+    display: "swap",
+    variable: "--font-serif",
 });
 
 // ─── Site constants (override via env) ───────────────────────────────────────
@@ -136,7 +144,7 @@ const organizationJsonLd = {
 
 export default function RootLayout({ children }: { children: React.ReactNode }) {
     return (
-        <html lang="id" className={`${inter.variable} ${jetbrainsMono.variable} ${inter.className}`}>
+        <html lang="id" className={`${inter.variable} ${jetbrainsMono.variable} ${instrumentSerif.variable} ${inter.className}`}>
             <head>
                 <script
                     type="application/ld+json"

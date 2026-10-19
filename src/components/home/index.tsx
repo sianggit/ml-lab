@@ -501,24 +501,51 @@ export default function Home() {
                 <Box sx={homeStyles.vignette} aria-hidden="true" />
 
                 <Box sx={homeStyles.wrap}>
-                    <Box ref={fgRef} sx={homeStyles.heroFg} id="fg">
-                        <Box component="p" sx={homeStyles.chip}>
-                            <Box component="span" sx={homeStyles.dot} aria-hidden="true" />
-                            ACADEMIC PORTFOLIO · ANGGIT PRATAMA (202343570045)
+                    <Box ref={fgRef} sx={homeStyles.heroFg} id="fg" className="heroFg">
+                        {/* 1. Eyebrow */}
+                        <Box sx={homeStyles.eyebrow} className="eyebrow">
+                            <b>PORTFOLIO AKADEMIK</b>
+                            <s />
+                            <span>MACHINE LEARNING</span>
                         </Box>
 
+                        {/* 2. Headline */}
                         <Box component="h1" sx={homeStyles.headline}>
-                            <span>Machine Learning</span>
-                            <span className="dim">Laboratory</span>
+                            <span>Machine</span>
+                            <span>Learning</span>
+                            <span className="l3">Laboratory</span>
                         </Box>
 
-                        <Box component="p" sx={homeStyles.lead}>
-                            Eksplorasi penugasan praktikum mata kuliah
-                            Machine Learning (Kelas XC Ekstensi, Dosen Nurfidah Dwitiyanti, M.Kom.) didukung lingkungan simulasi interaktif{" "}
-                            <b>Python, WebAssembly, NumPy, scikit-learn, dan Pyodide</b>.
+                        {/* 3. Bio */}
+                        <Box component="p" sx={homeStyles.bio} className="bio">
+                            Kumpulan penugasan dan praktikum, dijalankan langsung di browser lewat lingkungan simulasi interaktif. <strong>Python</strong> berjalan sepenuhnya di sisi klien, tanpa instalasi.
                         </Box>
 
-                        <Box sx={homeStyles.cta}>
+                        {/* 4. Credential Plate */}
+                        <Box component="section" sx={homeStyles.plate} className="plate" aria-label="Informasi penyusun">
+                            <Box sx={homeStyles.plateCol(true)}>
+                                <Box component="label" sx={homeStyles.plateLabel}>Disusun oleh</Box>
+                                <Box component="span" sx={homeStyles.plateName} className="name">Anggit Pratama</Box>
+                                <Box component="span" sx={homeStyles.plateNim} className="nim">NIM 202343570045</Box>
+                            </Box>
+                            <Box sx={homeStyles.plateCol(false)}>
+                                <Box component="label" sx={homeStyles.plateLabel}>Dosen pengampu</Box>
+                                <Box component="p" sx={homeStyles.plateText}>Nurfidah Dwitiyanti, M.Kom.</Box>
+                            </Box>
+                            <Box sx={homeStyles.plateCol(false)}>
+                                <Box component="label" sx={homeStyles.plateLabel}>Kelas</Box>
+                                <Box component="span" sx={homeStyles.plateClass} className="sm">XC Ekstensi</Box>
+                                <Box component="span" sx={homeStyles.plateTa} className="ta">TA 2026/2027</Box>
+                            </Box>
+                        </Box>
+
+                        {/* 5. Stack line */}
+                        <Box sx={homeStyles.stack} className="stack">
+                            Python<i>/</i>WebAssembly<i>/</i>NumPy<i>/</i>scikit-learn<i>/</i>Pyodide
+                        </Box>
+
+                        {/* 6. CTA buttons */}
+                        <Box sx={homeStyles.cta} className="cta">
                             <Box
                                 component={Link}
                                 href="/assignment"
