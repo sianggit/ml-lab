@@ -30,6 +30,9 @@ export interface MlLabStoreState {
     compileStreak: number;
     avgExecTimeMs: number;
     totalRuns: number;
+    themeMode: "dark" | "light";
+    setThemeMode: (mode: "dark" | "light") => void;
+    toggleThemeMode: () => void;
     isProfileModalOpen: boolean;
     setProfileModalOpen: (open: boolean) => void;
     setStudentInfo: (info: Partial<StudentInfo>) => void;
@@ -65,7 +68,14 @@ export const useMlLabStore = create<MlLabStoreState>()(
             compileStreak: 3,
             avgExecTimeMs: 450,
             totalRuns: 3,
+            themeMode: "dark",
             isProfileModalOpen: false,
+
+            setThemeMode: (mode) => set({ themeMode: mode }),
+            toggleThemeMode: () =>
+                set((state) => ({
+                    themeMode: state.themeMode === "dark" ? "light" : "dark",
+                })),
 
             setProfileModalOpen: (open) => set({ isProfileModalOpen: open }),
 

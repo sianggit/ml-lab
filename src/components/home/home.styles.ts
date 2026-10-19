@@ -2,10 +2,11 @@ import defineStyles from "@/utils/define-styles";
 
 export const homeStyles = defineStyles({
     root: {
-        backgroundColor: "#090B0E",
-        color: "#F5F7FA",
+        backgroundColor: "var(--ml-bg, #090B0E)",
+        color: "var(--ml-text, #F5F7FA)",
         minHeight: "100vh",
         position: "relative",
+        transition: "background-color 0.25s ease, color 0.25s ease",
     },
     wrap: {
         width: "min(1200px, calc(100% - clamp(20px, 5vw, 48px) * 2))",
@@ -38,15 +39,15 @@ export const homeStyles = defineStyles({
         background: `
             radial-gradient(60% 50% at 72% 42%, rgba(103, 217, 255, 0.10), transparent 70%),
             radial-gradient(40% 40% at 20% 85%, rgba(67, 217, 163, 0.06), transparent 70%),
-            linear-gradient(#090B0E, #0b0e12)
+            linear-gradient(var(--ml-bg, #090B0E), var(--ml-panel, #0b0e12))
         `,
         "&::after": {
             content: '""',
             position: "absolute",
             inset: 0,
             backgroundImage: `
-                linear-gradient(rgba(255, 255, 255, 0.10) 1px, transparent 1px),
-                linear-gradient(90deg, rgba(255, 255, 255, 0.10) 1px, transparent 1px)
+                linear-gradient(var(--ml-line, rgba(255, 255, 255, 0.10)) 1px, transparent 1px),
+                linear-gradient(90deg, var(--ml-line, rgba(255, 255, 255, 0.10)) 1px, transparent 1px)
             `,
             backgroundSize: "72px 72px",
             opacity: 0.35,
@@ -67,7 +68,7 @@ export const homeStyles = defineStyles({
         inset: 0,
         zIndex: -1,
         pointerEvents: "none",
-        background: "radial-gradient(ellipse at center, rgba(9, 11, 14, 0.4) 0%, #090B0E 85%)",
+        background: "radial-gradient(ellipse at center, transparent 0%, var(--ml-bg, #090B0E) 85%)",
     },
     heroFg: {
         position: "relative",
@@ -162,21 +163,21 @@ export const homeStyles = defineStyles({
         display: "grid",
         gridTemplateColumns: { xs: "1fr", md: "1.25fr 1fr 0.6fr" },
         maxWidth: "660px",
-        borderTop: "1px solid rgba(255, 255, 255, 0.08)",
-        borderBottom: "1px solid rgba(255, 255, 255, 0.08)",
+        borderTop: "1px solid var(--ml-line, rgba(255, 255, 255, 0.08))",
+        borderBottom: "1px solid var(--ml-line, rgba(255, 255, 255, 0.08))",
     },
     plateCol: (isFirst: boolean, isEditable?: boolean) => ({
         py: { xs: "8px", md: "10px" },
         pr: "18px",
         pl: isFirst ? 0 : { xs: 0, md: "18px" },
-        borderLeft: isFirst ? "none" : { xs: "none", md: "1px solid rgba(255, 255, 255, 0.08)" },
-        borderTop: isFirst ? "none" : { xs: "1px solid rgba(255, 255, 255, 0.08)", md: "none" },
+        borderLeft: isFirst ? "none" : { xs: "none", md: "1px solid var(--ml-line, rgba(255, 255, 255, 0.08))" },
+        borderTop: isFirst ? "none" : { xs: "1px solid var(--ml-line, rgba(255, 255, 255, 0.08))", md: "none" },
         ...(isEditable && {
             cursor: "pointer",
             position: "relative",
             transition: "background 0.3s ease",
             "&:hover": {
-                background: "linear-gradient(90deg, rgba(52, 211, 153, 0.05), transparent)",
+                background: "var(--ml-acc-wash, linear-gradient(90deg, rgba(52, 211, 153, 0.05), transparent))",
             },
             "&::after": {
                 content: '"Detail ↗"',
@@ -188,7 +189,7 @@ export const homeStyles = defineStyles({
                 fontSize: "10px",
                 letterSpacing: "0.16em",
                 textTransform: "uppercase",
-                color: "#34D399",
+                color: "var(--ml-acc, #34D399)",
                 opacity: 0.9,
                 transition: "opacity 0.3s ease, transform 0.3s ease",
             },
@@ -197,7 +198,7 @@ export const homeStyles = defineStyles({
                 transform: "translateX(3px)",
             },
             "&:focus-visible": {
-                outline: "1px solid #34D399",
+                outline: "1px solid var(--ml-acc, #34D399)",
                 outlineOffset: "2px",
                 borderRadius: "4px",
             },
@@ -210,7 +211,7 @@ export const homeStyles = defineStyles({
         fontSize: "9px",
         letterSpacing: "0.2em",
         textTransform: "uppercase",
-        color: "#5E6674",
+        color: "var(--ml-dim, #5E6674)",
         mb: "4px",
     },
     plateName: {
@@ -220,7 +221,7 @@ export const homeStyles = defineStyles({
         fontSize: { xs: "22px", sm: "24px", md: "25px" },
         lineHeight: 1,
         letterSpacing: "0.005em",
-        color: "#F3F5F7",
+        color: "var(--ml-text, #F3F5F7)",
         display: "block",
     },
     plateNim: {
@@ -229,19 +230,19 @@ export const homeStyles = defineStyles({
         fontFamily: "var(--font-mono), monospace",
         fontSize: "11px",
         letterSpacing: "0.12em",
-        color: "#34D399",
+        color: "var(--ml-acc, #34D399)",
     },
     plateText: {
         m: 0,
         fontSize: "13.5px",
         lineHeight: 1.4,
-        color: "#C4CAD4",
+        color: "var(--ml-mute, #C4CAD4)",
     },
     plateClass: {
         fontFamily: "var(--font-mono), monospace",
         fontWeight: 500,
         fontSize: "13.5px",
-        color: "#C4CAD4",
+        color: "var(--ml-mute, #C4CAD4)",
         display: "block",
     },
     plateTa: {
@@ -312,15 +313,15 @@ export const homeStyles = defineStyles({
         fontWeight: 600,
         fontSize: "0.9rem",
         lineHeight: 1,
-        border: "1px solid rgba(255, 255, 255, 0.10)",
-        backgroundColor: "rgba(17, 21, 26, 0.6)",
-        color: "#F5F7FA",
+        border: "1px solid var(--ml-line, rgba(255, 255, 255, 0.10))",
+        backgroundColor: "var(--ml-panel, rgba(17, 21, 26, 0.6))",
+        color: "var(--ml-text, #F5F7FA)",
         textDecoration: "none",
         cursor: "pointer",
         transition: "transform 0.18s, background 0.18s, border-color 0.18s",
         "&:hover": {
-            borderColor: "rgba(255, 255, 255, 0.28)",
-            backgroundColor: "#171D24",
+            borderColor: "var(--ml-acc, rgba(255, 255, 255, 0.28))",
+            backgroundColor: "var(--ml-panel-alt, #171D24)",
         },
         "&:active": {
             transform: "translateY(1px)",
@@ -342,12 +343,12 @@ export const homeStyles = defineStyles({
         m: 0,
         p: 0,
         listStyle: "none",
-        border: "1px solid rgba(255, 255, 255, 0.10)",
+        border: "1px solid var(--ml-line, rgba(255, 255, 255, 0.10))",
         borderRadius: "8px",
-        backgroundColor: "rgba(23, 29, 36, 0.62)",
+        backgroundColor: "var(--ml-nav-bg, rgba(23, 29, 36, 0.62))",
         WebkitBackdropFilter: "blur(14px) saturate(1.2)",
         backdropFilter: "blur(14px) saturate(1.2)",
-        boxShadow: "0 1px 0 rgba(255, 255, 255, 0.06) inset, 0 24px 48px -28px #000",
+        boxShadow: "0 1px 0 var(--ml-line-subtle, rgba(255, 255, 255, 0.06)) inset, 0 20px 40px -20px rgba(0, 0, 0, 0.3)",
         willChange: "transform",
     },
     telemetryItem: (hasDivider: boolean, isFirst: boolean, isThird: boolean) => ({
@@ -361,13 +362,13 @@ export const homeStyles = defineStyles({
                 top: "22px",
                 bottom: "22px",
                 width: "1px",
-                backgroundColor: "rgba(255, 255, 255, 0.10)",
+                backgroundColor: "var(--ml-line, rgba(255, 255, 255, 0.10))",
                 display: { xs: isThird ? "none" : "block", md: "block" },
             },
         }),
-        borderTop: { xs: isThird ? "1px solid rgba(255, 255, 255, 0.10)" : "none", md: "none" },
+        borderTop: { xs: isThird ? "1px solid var(--ml-line, rgba(255, 255, 255, 0.10))" : "none", md: "none" },
         "&:nth-of-type(4)": {
-            borderTop: { xs: "1px solid rgba(255, 255, 255, 0.10)", md: "none" },
+            borderTop: { xs: "1px solid var(--ml-line, rgba(255, 255, 255, 0.10))", md: "none" },
         },
         ...(isFirst && {
             "&::after": {
@@ -377,7 +378,7 @@ export const homeStyles = defineStyles({
                 top: 0,
                 width: "18px",
                 height: "2px",
-                backgroundColor: "#43D9A3",
+                backgroundColor: "var(--ml-acc, #43D9A3)",
             },
         }),
         "& .tele-val": {
@@ -388,7 +389,7 @@ export const homeStyles = defineStyles({
             lineHeight: 1,
             letterSpacing: "-0.03em",
             fontVariantNumeric: "tabular-nums",
-            color: "#F5F7FA",
+            color: "var(--ml-text, #F5F7FA)",
         },
         "& .tele-key": {
             display: "block",
@@ -398,14 +399,14 @@ export const homeStyles = defineStyles({
             fontSize: "0.72rem",
             lineHeight: 1.2,
             letterSpacing: "0.05em",
-            color: "#F5F7FA",
+            color: "var(--ml-text, #F5F7FA)",
         },
         "& .tele-desc": {
             display: "block",
             mt: "4px",
             fontSize: "0.82rem",
             lineHeight: 1.4,
-            color: "#727F8E",
+            color: "var(--ml-mute, #727F8E)",
         },
     }),
 
@@ -421,7 +422,7 @@ export const homeStyles = defineStyles({
         fontSize: "0.75rem",
         lineHeight: 1,
         letterSpacing: "0.08em",
-        color: "#43D9A3",
+        color: "var(--ml-acc, #43D9A3)",
         m: "0 0 20px",
     },
     curriculumHeading: {
@@ -432,12 +433,12 @@ export const homeStyles = defineStyles({
         lineHeight: 1.04,
         letterSpacing: "-0.035em",
         textWrap: "balance",
-        color: "#F5F7FA",
+        color: "var(--ml-text, #F5F7FA)",
     },
     curriculumSub: {
         maxWidth: "52ch",
         m: "0 0 clamp(40px, 6vw, 72px)",
-        color: "#A3ADB9",
+        color: "var(--ml-mute, #A3ADB9)",
         fontSize: "1.08rem",
         lineHeight: 1.6,
     },
@@ -455,9 +456,9 @@ export const homeStyles = defineStyles({
         flexDirection: "column",
         minHeight: { xs: "auto", md: "440px" },
         p: 0,
-        border: "1px solid rgba(255, 255, 255, 0.10)",
+        border: "1px solid var(--ml-line, rgba(255, 255, 255, 0.10))",
         borderRadius: "8px",
-        background: "linear-gradient(180deg, #11151A, #0e1217)",
+        background: "var(--ml-panel-grad, linear-gradient(180deg, #11151A, #0e1217))",
         overflow: "hidden",
         textDecoration: "none",
         color: "inherit",
@@ -466,7 +467,7 @@ export const homeStyles = defineStyles({
         willChange: "transform",
         "&.hot": {
             transition: "transform 0.08s linear, border-color 0.25s",
-            borderColor: "rgba(255, 255, 255, 0.22)",
+            borderColor: "var(--ml-acc, rgba(255, 255, 255, 0.22))",
         },
         "&::before": {
             content: '""',
@@ -484,8 +485,8 @@ export const homeStyles = defineStyles({
     cardViz: {
         position: "relative",
         height: { xs: "150px", sm: "190px" },
-        borderBottom: "1px solid rgba(255, 255, 255, 0.10)",
-        backgroundColor: "rgba(255, 255, 255, 0.015)",
+        borderBottom: "1px solid var(--ml-line, rgba(255, 255, 255, 0.10))",
+        backgroundColor: "var(--ml-line-subtle, rgba(255, 255, 255, 0.015))",
         "& svg": {
             position: "absolute",
             inset: 0,
@@ -514,7 +515,7 @@ export const homeStyles = defineStyles({
         fontSize: "clamp(2.4rem, 4vw, 3.2rem)",
         lineHeight: 1,
         letterSpacing: "-0.04em",
-        color: "#F5F7FA",
+        color: "var(--ml-text, #F5F7FA)",
     },
     cardRange: {
         fontFamily: "var(--font-mono), monospace",
@@ -534,11 +535,11 @@ export const homeStyles = defineStyles({
         fontSize: "1.3rem",
         lineHeight: 1.2,
         letterSpacing: "-0.02em",
-        color: "#F5F7FA",
+        color: "var(--ml-text, #F5F7FA)",
     },
     cardDesc: {
         m: 0,
-        color: "#A3ADB9",
+        color: "var(--ml-mute, #A3ADB9)",
         fontSize: "0.95rem",
         lineHeight: 1.6,
         maxWidth: "44ch",

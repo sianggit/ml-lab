@@ -180,7 +180,7 @@ function SvgMotif4() {
                         cx={p[0]}
                         cy={p[1]}
                         r={4}
-                        fill={k === 3 ? "#43D9A3" : "#090B0E"}
+                        fill={k === 3 ? "#43D9A3" : "var(--ml-bg, #090B0E)"}
                         stroke={k === 3 ? "#43D9A3" : "#67D9FF"}
                         strokeWidth={1.3}
                     />

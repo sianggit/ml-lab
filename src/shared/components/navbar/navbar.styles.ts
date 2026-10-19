@@ -7,15 +7,15 @@ export const navbarStyles = defineStyles({
         zIndex: 1100,
         width: "100%",
         backgroundColor:
-            !blurNav || scrolled ? "rgba(9, 11, 14, 0.82)" : "transparent",
+            !blurNav || scrolled ? "var(--ml-nav-bg, rgba(9, 11, 14, 0.85))" : "transparent",
         WebkitBackdropFilter:
             !blurNav || scrolled ? "blur(14px)" : "none",
         backdropFilter:
             !blurNav || scrolled ? "blur(14px)" : "none",
-        // borderBottom:
-        //     !blurNav || scrolled
-        //         ? "1px solid rgba(255, 255, 255, 0.10)"
-        //         : "1px solid transparent",
+        borderBottom:
+            !blurNav || scrolled
+                ? "1px solid var(--ml-line, rgba(255, 255, 255, 0.08))"
+                : "1px solid transparent",
         transition: "background 0.25s ease, border-color 0.25s ease",
     }),
     wrap: {
@@ -56,13 +56,13 @@ export const navbarStyles = defineStyles({
         fontSize: "1.02rem",
         fontWeight: 720,
         letterSpacing: "-0.02em",
-        color: "#F5F7FA",
+        color: "var(--ml-text, #F5F7FA)",
     },
     logoSubtitle: {
         fontFamily: "var(--font-mono), monospace",
         fontSize: "0.68rem",
         fontWeight: 500,
-        color: "#8592A1",
+        color: "var(--ml-mute, #8592A1)",
         letterSpacing: "0.04em",
         marginTop: "3px",
     },
@@ -94,13 +94,13 @@ export const navbarStyles = defineStyles({
         fontSize: "15px",
         fontWeight: 500,
         letterSpacing: "-0.005em",
-        color: isActive ? "#F3F5F7" : "#8B93A1",
+        color: isActive ? "var(--ml-text, #F3F5F7)" : "var(--ml-mute, #8B93A1)",
         textDecoration: "none",
         whiteSpace: "nowrap",
         backgroundColor: "transparent",
         transition: "color 0.3s ease",
         "&:hover": {
-            color: "#F3F5F7",
+            color: "var(--ml-text, #F3F5F7)",
             "&::after": {
                 transform: "scaleX(0.5)",
             },
@@ -112,13 +112,13 @@ export const navbarStyles = defineStyles({
             right: 0,
             bottom: 0,
             height: "1px",
-            background: "linear-gradient(90deg, transparent, #34D399, transparent)",
-            boxShadow: "0 0 14px rgba(52, 211, 153, 0.55)",
+            background: "linear-gradient(90deg, transparent, var(--ml-acc, #34D399), transparent)",
+            boxShadow: "0 0 14px var(--ml-acc-glow, rgba(52, 211, 153, 0.55))",
             transform: isActive ? "scaleX(1)" : "scaleX(0)",
             transition: "transform 0.5s cubic-bezier(0.2, 0.7, 0.2, 1)",
         },
         "&:focus-visible": {
-            outline: "1px solid #34D399",
+            outline: "1px solid var(--ml-acc, #34D399)",
             outlineOffset: "4px",
             borderRadius: "4px",
         },
@@ -130,7 +130,7 @@ export const navbarStyles = defineStyles({
         fontSize: "9.5px",
         fontWeight: 500,
         letterSpacing: "0.12em",
-        color: isActive ? "#34D399" : "#5E6674",
+        color: isActive ? "var(--ml-acc, #34D399)" : "var(--ml-dim, #5E6674)",
         transition: "color 0.3s ease",
     }),
     navSmall: {
@@ -139,22 +139,49 @@ export const navbarStyles = defineStyles({
         fontWeight: 400,
         letterSpacing: "0.2em",
         textTransform: "uppercase",
-        color: "#5E6674",
+        color: "var(--ml-dim, #5E6674)",
         opacity: 0.8,
     },
     act: {
         display: "flex",
         alignItems: "center",
-        gap: "10px",
+        gap: "12px",
         justifySelf: "end",
         flexShrink: 0,
+    },
+    themeToggle: {
+        display: "inline-flex",
+        alignItems: "center",
+        justifyContent: "center",
+        width: 36,
+        height: 36,
+        borderRadius: "8px",
+        backgroundColor: "var(--ml-panel, #0F1319)",
+        border: "1px solid var(--ml-line, rgba(255, 255, 255, 0.08))",
+        color: "var(--ml-text, #EDEDED)",
+        cursor: "pointer",
+        padding: 0,
+        transition: "all 0.18s ease-in-out",
+        "&:hover": {
+            backgroundColor: "var(--ml-panel-alt, #161C24)",
+            borderColor: "var(--ml-acc, #34D399)",
+            color: "var(--ml-acc, #34D399)",
+            transform: "translateY(-1px)",
+        },
+        "&:active": {
+            transform: "translateY(1px)",
+        },
+        "&:focus-visible": {
+            outline: "2px solid var(--ml-acc, #34D399)",
+            outlineOffset: "2px",
+        },
     },
     xp: {
         display: "flex",
         alignItems: "center",
         gap: "16px",
-        padding: "2px 0 2px 24px",
-        borderLeft: "1px solid rgba(255, 255, 255, 0.08)",
+        padding: "2px 0 2px 18px",
+        borderLeft: "1px solid var(--ml-line, rgba(255, 255, 255, 0.08))",
         cursor: "pointer",
         transition: "opacity 0.2s ease",
         "&:hover": {
@@ -173,7 +200,7 @@ export const navbarStyles = defineStyles({
         fontSize: "8.5px",
         letterSpacing: "0.22em",
         textTransform: "uppercase",
-        color: "#5E6674",
+        color: "var(--ml-dim, #5E6674)",
         mb: "2px",
         lineHeight: 1,
     },
@@ -183,7 +210,7 @@ export const navbarStyles = defineStyles({
         fontWeight: 400,
         fontSize: "32px",
         lineHeight: 1,
-        color: "#F3F5F7",
+        color: "var(--ml-text, #F3F5F7)",
         display: "block",
     },
     xpColDetails: {
@@ -197,15 +224,15 @@ export const navbarStyles = defineStyles({
         fontFamily: "var(--font-mono), monospace",
         fontSize: "11px",
         letterSpacing: "0.06em",
-        color: "#5E6674",
+        color: "var(--ml-dim, #5E6674)",
         lineHeight: 1,
         "& b": {
             fontWeight: 500,
             fontSize: "13px",
-            color: "#F3F5F7",
+            color: "var(--ml-text, #F3F5F7)",
         },
         "& span": {
-            color: "#5E6674",
+            color: "var(--ml-dim, #5E6674)",
         },
     },
     xpTrack: {
@@ -214,7 +241,7 @@ export const navbarStyles = defineStyles({
         width: { xs: 80, sm: 132 },
         height: "2px",
         borderRadius: "2px",
-        backgroundColor: "rgba(255, 255, 255, 0.08)",
+        backgroundColor: "var(--ml-line, rgba(255, 255, 255, 0.08))",
     },
     xpFill: (percent: number) => ({
         position: "absolute",

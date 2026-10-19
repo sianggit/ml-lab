@@ -4,6 +4,54 @@
 @import "swiper/css/pagination";
 @import "swiper/css/navigation";
 
+/* ===== Theme CSS Variables ===== */
+:root,
+[data-theme="dark"] {
+    --ml-bg: #090B0E;
+    --ml-bg-gradient: radial-gradient(rgba(255, 255, 255, 0.08) 1px, transparent 1px);
+    --ml-panel: #0F1319;
+    --ml-panel-alt: #161C24;
+    --ml-panel-grad: linear-gradient(180deg, #121821, #0C1015);
+    --ml-line: rgba(255, 255, 255, 0.08);
+    --ml-line-subtle: rgba(255, 255, 255, 0.04);
+    --ml-text: #EDEDED;
+    --ml-mute: #8A94A6;
+    --ml-dim: #5E6674;
+    --ml-faint: #2B323D;
+    --ml-acc: #34D399;
+    --ml-acc-glow: rgba(52, 211, 153, 0.55);
+    --ml-acc-wash: linear-gradient(90deg, rgba(52, 211, 153, 0.06), transparent 70%);
+    --ml-gray-grad: linear-gradient(180deg, #C9D1DC, #7C8696);
+    --ml-nav-bg: rgba(9, 11, 14, 0.85);
+    --ml-card-bg: #0F1319;
+    --ml-code-bg: #0B0E14;
+    --ml-track-bg: #151A22;
+    --ml-scrollbar-thumb: rgba(255, 255, 255, 0.14);
+}
+
+[data-theme="light"] {
+    --ml-bg: #F8FAFC;
+    --ml-bg-gradient: radial-gradient(rgba(15, 23, 42, 0.06) 1px, transparent 1px);
+    --ml-panel: #FFFFFF;
+    --ml-panel-alt: #F1F5F9;
+    --ml-panel-grad: linear-gradient(180deg, #FFFFFF, #F8FAFC);
+    --ml-line: rgba(15, 23, 42, 0.10);
+    --ml-line-subtle: rgba(15, 23, 42, 0.05);
+    --ml-text: #0F172A;
+    --ml-mute: #475569;
+    --ml-dim: #64748B;
+    --ml-faint: #E2E8F0;
+    --ml-acc: #059669;
+    --ml-acc-glow: rgba(5, 150, 105, 0.35);
+    --ml-acc-wash: linear-gradient(90deg, rgba(5, 150, 105, 0.08), transparent 70%);
+    --ml-gray-grad: linear-gradient(180deg, #0F172A, #475569);
+    --ml-nav-bg: rgba(255, 255, 255, 0.90);
+    --ml-card-bg: #FFFFFF;
+    --ml-code-bg: #0F172A;
+    --ml-track-bg: #E2E8F0;
+    --ml-scrollbar-thumb: rgba(15, 23, 42, 0.20);
+}
+
 /* ===== Reset & Base ===== */
 html,
 body {
@@ -11,13 +59,14 @@ body {
     margin: 0;
     min-height: 100%;
     font-family: var(--font-inter), 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
-    background-color: #090B0E;
-    background-image: radial-gradient(rgba(255, 255, 255, 0.08) 1px, transparent 1px);
+    background-color: var(--ml-bg);
+    background-image: var(--ml-bg-gradient);
     background-size: 24px 24px;
-    color: #EDEDED;
+    color: var(--ml-text);
     scroll-behavior: smooth;
     -webkit-font-smoothing: antialiased;
     -moz-osx-font-smoothing: grayscale;
+    transition: background-color 0.25s ease, color 0.25s ease;
 }
 
 * {
@@ -34,7 +83,7 @@ h1, h2, h3, h4, h5, h6 {
     margin: 0;
     font-weight: 700;
     letter-spacing: -0.02em;
-    color: #EDEDED;
+    color: var(--ml-text);
 }
 
 code, pre, kbd, samp {
@@ -47,18 +96,17 @@ code, pre, kbd, samp {
     height: 6px;
 }
 ::-webkit-scrollbar-track {
-    background: #090B0E;
+    background: var(--ml-bg);
 }
 ::-webkit-scrollbar-thumb {
-    background: rgba(255, 255, 255, 0.12);
+    background: var(--ml-scrollbar-thumb);
     border-radius: 3px;
 }
 ::-webkit-scrollbar-thumb:hover {
-    background: rgba(255, 255, 255, 0.22);
+    background: var(--ml-acc);
 }
 
 /* ===== Tactical Micro-Interactions ===== */
 .press-tactile:active {
     transform: translateY(1px);
 }
-

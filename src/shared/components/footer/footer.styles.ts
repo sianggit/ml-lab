@@ -3,10 +3,11 @@ import defineStyles from "@/utils/define-styles";
 export const footerStyles = defineStyles({
     footer: {
         mt: "auto",
-        borderTop: "1px solid rgba(255, 255, 255, 0.10)",
-        backgroundColor: "#090B0E",
-        color: "#727F8E",
+        borderTop: "1px solid var(--ml-line, rgba(255, 255, 255, 0.10))",
+        backgroundColor: "var(--ml-panel, #090B0E)",
+        color: "var(--ml-mute, #727F8E)",
         py: { xs: 4, md: 5 },
+        transition: "background-color 0.25s ease, border-color 0.25s ease",
     },
     container: {
         maxWidth: "1240px",
@@ -27,7 +28,7 @@ export const footerStyles = defineStyles({
     brandTitle: {
         fontWeight: 700,
         fontSize: "1.1rem",
-        color: "#F9FAFB",
+        color: "var(--ml-text, #F9FAFB)",
         display: "flex",
         alignItems: "center",
         gap: 1,
@@ -35,13 +36,13 @@ export const footerStyles = defineStyles({
     brandSubtitle: {
         fontSize: "0.875rem",
         lineHeight: 1.6,
-        color: "#9CA3AF",
+        color: "var(--ml-mute, #9CA3AF)",
         maxWidth: 420,
     },
     columnTitle: {
         fontWeight: 600,
         fontSize: "0.875rem",
-        color: "#F9FAFB",
+        color: "var(--ml-text, #F9FAFB)",
         textTransform: "uppercase",
         letterSpacing: "0.05em",
         mb: 1.5,
@@ -55,17 +56,17 @@ export const footerStyles = defineStyles({
         gap: 1,
     },
     footerLink: {
-        color: "#9CA3AF",
+        color: "var(--ml-mute, #9CA3AF)",
         textDecoration: "none",
         fontSize: "0.85rem",
         transition: "color 0.2s ease",
         "&:hover": {
-            color: "#A5B4FC",
+            color: "var(--ml-acc, #34D399)",
         },
     },
     bottomBar: {
         pt: 3,
-        borderTop: "1px solid rgba(255, 255, 255, 0.05)",
+        borderTop: "1px solid var(--ml-line-subtle, rgba(255, 255, 255, 0.05))",
         display: "flex",
         flexDirection: { xs: "column", sm: "row" },
         alignItems: { xs: "flex-start", sm: "center" },
@@ -74,7 +75,7 @@ export const footerStyles = defineStyles({
     },
     copyrightText: {
         fontSize: "0.8rem",
-        color: "#6B7280",
+        color: "var(--ml-dim, #6B7280)",
     },
     badgeRow: {
         display: "flex",
