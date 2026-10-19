@@ -261,7 +261,7 @@ pred_rf = pipe_rf.predict(X_test)`,
                         subtitle: "3a. Uji Chi-Square Layanan Ekonomi vs Keterlambatan",
                         details: [
                             "Derajat bebas: df = (2 - 1) × (2 - 1) = 1. Nilai kritis tabel (α = 0.05) = 3.841.",
-                            "Keputusan: χ² hitung > 3.841 ➔ Tolak H0. Terdapat hubungan asosiasi signifikan antara pemilihan layanan ekonomi terhadap potensi keterlambatan paket.",
+                            "Keputusan: χ² hitung > 3.841 -> Tolak H0. Terdapat hubungan asosiasi signifikan antara pemilihan layanan ekonomi terhadap potensi keterlambatan paket.",
                         ],
                     },
                     {

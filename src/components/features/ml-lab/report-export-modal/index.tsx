@@ -364,7 +364,7 @@ export default function ReportExportModal({ open, onClose }: ReportExportModalPr
                         }}
                     >
                         <Typography sx={{ fontSize: "0.82rem", fontWeight: 600, color: "#e2e8f0" }}>
-                            📄 Ringkasan Berkas PDF yang Akan Dicetak:
+                            Ringkasan Berkas PDF yang Akan Dicetak:
                         </Typography>
                         <div>
                             • Kop Surat Resmi:{" "}

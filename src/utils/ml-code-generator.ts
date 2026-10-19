@@ -55,7 +55,7 @@ from sklearn.metrics import silhouette_score
 ${preprocessing.scaling === "standard" ? "from sklearn.preprocessing import StandardScaler\n" : ""}${preprocessing.scaling === "minmax" ? "from sklearn.preprocessing import MinMaxScaler\n" : ""}
 # 1. Load dataset from Pyodide virtual filesystem
 df = pd.read_csv("${filename}")
-print(f"📊 Dataset dimuat: {df.shape[0]} baris, {df.shape[1]} kolom")
+print(f"Dataset dimuat: {df.shape[0]} baris, {df.shape[1]} kolom")
 
 # 2. Fitur terpilih
 features = ${featureColsRepr}
@@ -84,8 +84,8 @@ labels = kmeans.fit_predict(X_scaled)
 # 4. Evaluasi
 if len(np.unique(labels)) > 1:
     sil_score = silhouette_score(X_scaled, labels)
-    print(f"✅ Silhouette Score (k={k}): {sil_score:.4f}")
-print(f"✅ Inersia (Sum of squared distances): {kmeans.inertia_:.2f}")
+    print(f"Silhouette Score (k={k}): {sil_score:.4f}")
+print(f"Inersia (Sum of squared distances): {kmeans.inertia_:.2f}")
 
 # Distribusi cluster
 cluster_counts = pd.Series(labels).value_counts().sort_index()
@@ -122,9 +122,9 @@ df = pd.read_csv("${filename}")
 target_col = ${targetRepr}
 feature_cols = ${featureColsRepr}
 
-print(f"📊 Dataset dimuat: {df.shape[0]} baris, {df.shape[1]} kolom")
-print(f"🎯 Target: {target_col}")
-print(f"🔍 Fitur ({len(feature_cols)}): {', '.join(feature_cols[:5])}{'...' if len(feature_cols) > 5 else ''}")
+print(f"Dataset dimuat: {df.shape[0]} baris, {df.shape[1]} kolom")
+print(f"Target: {target_col}")
+print(f"Fitur ({len(feature_cols)}): {', '.join(feature_cols[:5])}{'...' if len(feature_cols) > 5 else ''}")
 
 # 2. Pra-pemrosesan Data
 df_work = df[feature_cols + [target_col]].copy()
@@ -185,7 +185,7 @@ prec = precision_score(y_test, y_pred, average='weighted', zero_division=0)
 rec = recall_score(y_test, y_pred, average='weighted', zero_division=0)
 f1 = f1_score(y_test, y_pred, average='weighted', zero_division=0)
 
-print(f"\\n🎯 HASIL EVALUASI MODEL:")
+print(f"\\nHASIL EVALUASI MODEL:")
 print(f" - Akurasi:  {acc:.4f} ({acc*100:.1f}%)")
 print(f" - Presisi:  {prec:.4f}")
 print(f" - Recall:   {rec:.4f}")
@@ -214,7 +214,7 @@ mse = mean_squared_error(y_test, y_pred)
 rmse = np.sqrt(mse)
 r2 = r2_score(y_test, y_pred)
 
-print(f"\\n🎯 HASIL EVALUASI REGRESI:")
+print(f"\\nHASIL EVALUASI REGRESI:")
 print(f" - MAE:  {mae:.4f}")
 print(f" - MSE:  {mse:.4f}")
 print(f" - RMSE: {rmse:.4f}")
@@ -234,6 +234,6 @@ plt.grid(True, linestyle="--", alpha=0.5)
 plt.tight_layout()
 plt.show()
 `}
-print("\\n✅ Eksperimen selesai!")
+print("\\nEksperimen selesai!")
 `;
 }

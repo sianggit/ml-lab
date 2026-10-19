@@ -15,7 +15,18 @@ export default function Footer() {
                     {/* Brand & Academic Profile */}
                     <Box sx={footerStyles.brandColumn}>
                         <Box sx={footerStyles.brandTitle}>
-                            <IconComponent name="microscope" size={20} color="#67D9FF" />
+                            <Box
+                                component="img"
+                                src="/ap-logo-white.png"
+                                alt="Logo AP"
+                                sx={{
+                                    height: 24,
+                                    width: "auto",
+                                    maxWidth: 36,
+                                    objectFit: "contain",
+                                    display: "inline-block",
+                                }}
+                            />
                             <span>ML Lab Simulator</span>
                             <Chip
                                 size="small"

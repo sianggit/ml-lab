@@ -29,7 +29,7 @@ export default function AssignmentShowcase() {
                 >
                     <span>Tugas Praktikum Bab 04 (Titanic Pipeline)</span>
                     <Box component="span" sx={assignmentStyles.tabBadge("completed")}>
-                        ✓ Selesai
+                        Selesai
                     </Box>
                 </Box>
 
@@ -42,7 +42,7 @@ export default function AssignmentShowcase() {
                 >
                     <span>Tugas Pertemuan 1 - 6 (Kisi-Kisi UTS)</span>
                     <Box component="span" sx={assignmentStyles.tabBadge("active")}>
-                        ⏳ Aktif
+                        Aktif
                     </Box>
                 </Box>
 

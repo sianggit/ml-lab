@@ -12,7 +12,8 @@ export default function AssignmentHeader() {
         <Box sx={assignmentStyles.headerCard}>
             <Box sx={assignmentStyles.headerBadgeRow}>
                 <Box component="span" sx={assignmentStyles.badgeVerified}>
-                    <span>●</span> Portofolio Akademik
+                    <Box component="span" sx={{ width: "6px", height: "6px", borderRadius: "50%", bgcolor: "#43D9A3", display: "inline-block" }} />
+                    Portofolio Akademik
                 </Box>
                 <Box component="span" sx={assignmentStyles.badgeSemester}>
                     Semester Gasal 2026 / 2027

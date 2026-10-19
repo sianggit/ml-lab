@@ -1,27 +1,22 @@
 "use client";
 
-import { useState } from "react";
 import Box from "@mui/material/Box";
 import Typography from "@mui/material/Typography";
-import Button from "@mui/material/Button";
+import IconComponent from "@/shared/components/icon";
 import { ML_ASSIGNMENTS } from "@/consts/ml-assignments.const";
+import { ASSIGNMENT_SIMULATION_PRESETS } from "@/consts/ml-assignment-simulations.const";
 import { assignmentStyles } from "./assignment-showcase.styles";
-import AssignmentSimulationRunner from "./assignment-simulation-runner";
+import AssignmentNotebookCell from "./assignment-notebook-cell";
 
 export default function Bab04Showcase() {
     const item = ML_ASSIGNMENTS.find((a) => a.id === "tugas-bab-04-titanic");
-    const [copied, setCopied] = useState(false);
-    const [showSimulation, setShowSimulation] = useState(false);
+    const bab04Preset = ASSIGNMENT_SIMULATION_PRESETS.find(
+        (p) => p.id === "sim-bab04-full-pipeline"
+    );
 
     if (!item) return null;
 
-    const handleCopyCode = () => {
-        if (item.sourceCodeSnippet) {
-            navigator.clipboard.writeText(item.sourceCodeSnippet);
-            setCopied(true);
-            setTimeout(() => setCopied(false), 2000);
-        }
-    };
+    const cellCode = bab04Preset?.code || item.sourceCodeSnippet || "";
 
     return (
         <Box sx={assignmentStyles.cardSection}>
@@ -45,7 +40,7 @@ export default function Bab04Showcase() {
                             {item.code}
                         </Box>
                         <Box component="span" sx={assignmentStyles.tabBadge("completed")}>
-                            ✓ Selesai & Teruji
+                            Selesai & Teruji
                         </Box>
                         <Typography sx={{ fontSize: "0.78rem", color: "#8E99A8" }}>
                             Pelaksanaan: {item.executionDate}
@@ -67,7 +62,8 @@ export default function Bab04Showcase() {
                         download="LAPORAN_PRAKTIKUM_4_ANGGIT_ARISA_SIWI_PRATAMA_202343570045.pdf"
                         sx={assignmentStyles.downloadBtn}
                     >
-                        <span>⬇ Unduh Laporan PDF (273 KB)</span>
+                        <IconComponent name="download" size={13} color="#FFFFFF" />
+                        <span>Unduh Laporan PDF (273 KB)</span>
                     </Box>
                 </Box>
             </Box>
@@ -126,7 +122,7 @@ export default function Bab04Showcase() {
                         sx={assignmentStyles.chartImage}
                     />
                     <Typography sx={assignmentStyles.chartCaption}>
-                        Gambar 1. Uji Asosiasi Chi-Square (χ²) Fitur Kategorikal vs Status Survived
+                        Gambar 1. Uji Asosiasi Chi-Square Fitur Kategorikal vs Status Survived
                     </Typography>
                 </Box>
 
@@ -143,61 +139,18 @@ export default function Bab04Showcase() {
                 </Box>
             </Box>
 
-            {/* ─── Source Code Snippet ───────────────────────────────── */}
+            {/* ─── Notebook-Style Interactive Simulation Cell ──────────── */}
             <Typography sx={{ fontSize: "0.84rem", fontWeight: 700, color: "#F5F7FA", mb: "10px" }}>
-                Implementasi Source Code Python (ColumnTransformer & Pipeline)
+                Implementasi Source Code Python & Eksekusi Notebook
             </Typography>
-            <Box sx={assignmentStyles.codeContainer}>
-                <Box sx={assignmentStyles.codeHeader}>
-                    <Typography sx={assignmentStyles.codeTitle}>titanic_preprocessing_pipeline.py</Typography>
-                    <Box sx={{ display: "flex", alignItems: "center", gap: "8px" }}>
-                        <Button
-                            size="small"
-                            onClick={() => setShowSimulation((prev) => !prev)}
-                            sx={{
-                                color: showSimulation ? "#67D9FF" : "#43D9A3",
-                                bgcolor: showSimulation ? "rgba(103, 217, 255, 0.12)" : "rgba(67, 217, 163, 0.12)",
-                                border: showSimulation ? "1px solid rgba(103, 217, 255, 0.35)" : "1px solid rgba(67, 217, 163, 0.35)",
-                                fontSize: "0.74rem",
-                                fontWeight: 700,
-                                textTransform: "none",
-                                fontFamily: "var(--font-mono), monospace",
-                                px: "10px",
-                                py: "3px",
-                                "&:hover": {
-                                    bgcolor: showSimulation ? "rgba(103, 217, 255, 0.20)" : "rgba(67, 217, 163, 0.20)",
-                                },
-                            }}
-                        >
-                            {showSimulation ? "▼ Tutup Simulasi" : "▶ Run Simulasi (WASM)"}
-                        </Button>
-                        <Button
-                            size="small"
-                            onClick={handleCopyCode}
-                            sx={{
-                                color: copied ? "#43D9A3" : "#8E99A8",
-                                fontSize: "0.72rem",
-                                textTransform: "none",
-                                fontFamily: "var(--font-mono), monospace",
-                            }}
-                        >
-                            {copied ? "✓ Tersalin" : "Salin Kode"}
-                        </Button>
-                    </Box>
-                </Box>
-                <Box component="pre" sx={assignmentStyles.codePre}>
-                    <code>{item.sourceCodeSnippet}</code>
-                </Box>
-            </Box>
 
-            {/* ─── Interactive WASM Simulation Runner ────────────────── */}
-            {showSimulation && (
-                <AssignmentSimulationRunner
-                    assignmentId="tugas-bab-04-titanic"
-                    initialPresetId="sim-bab04-full-pipeline"
-                    onClose={() => setShowSimulation(false)}
-                />
-            )}
+            <AssignmentNotebookCell
+                cellNumber={1}
+                title="titanic_preprocessing_pipeline.py"
+                description="ColumnTransformer dengan 3 sub-pipeline: imputasi median & standard scaling numerik, imputasi modus & one-hot encoding nominal (drop first), serta ordinal encoding. Dilengkapi evaluasi komparasi dan visualisasi Confusion Matrix."
+                code={cellCode}
+                maxCodeHeight="420px"
+            />
 
             {/* ─── Key Highlights List ───────────────────────────────── */}
             <Box

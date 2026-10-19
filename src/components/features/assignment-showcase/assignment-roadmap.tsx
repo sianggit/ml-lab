@@ -72,7 +72,7 @@ export default function AssignmentRoadmap() {
                                     </Box>
                                     <Box component="td" sx={assignmentStyles.td(item.highlighted)}>
                                         <Box component="span" sx={assignmentStyles.tabBadge(isDone ? "completed" : isActive ? "active" : "neutral")}>
-                                            {isDone ? "✓ Selesai" : isActive ? "⏳ Dalam Pengerjaan" : "Terjadwal"}
+                                            {isDone ? "Selesai" : isActive ? "Dalam Pengerjaan" : "Terjadwal"}
                                         </Box>
                                     </Box>
                                 </Box>

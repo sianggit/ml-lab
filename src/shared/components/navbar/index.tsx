@@ -108,33 +108,19 @@ export default function Navbar({ activeMenu, blurNav = false }: NavbarProps) {
                         className="logo"
                         aria-label="ML Lab, beranda"
                     >
-                        <svg viewBox="0 0 32 32" aria-hidden="true" style={navbarStyles.logoSvg}>
-                            <rect
-                                x=".75"
-                                y=".75"
-                                width="30.5"
-                                height="30.5"
-                                rx="8"
-                                fill="#11151A"
-                                stroke="rgba(255,255,255,.14)"
-                            />
-                            <path
-                                d="M5 14c4 7 7 7 11 0s7-7 11 0"
-                                fill="none"
-                                stroke="#F5F7FA"
-                                strokeOpacity=".3"
-                                strokeWidth="1.4"
-                                strokeLinecap="round"
-                            />
-                            <path
-                                d="M5 21c4-9 7-9 11 0s7 9 11 0"
-                                fill="none"
-                                stroke="#67D9FF"
-                                strokeWidth="1.8"
-                                strokeLinecap="round"
-                            />
-                            <circle cx="10.5" cy="14.3" r="2.2" fill="#43D9A3" />
-                        </svg>
+                        <Box
+                            component="img"
+                            src="/ap-logo-white.png"
+                            alt="Logo Anggit Pratama"
+                            sx={{
+                                height: 32,
+                                width: "auto",
+                                maxWidth: 48,
+                                objectFit: "contain",
+                                display: "block",
+                                filter: "drop-shadow(0 2px 8px rgba(103, 217, 255, 0.25))",
+                            }}
+                        />
                         <Box sx={navbarStyles.logoTextWrapper}>
                             <Box component="b" sx={navbarStyles.logoTitle}>
                                 ML Lab

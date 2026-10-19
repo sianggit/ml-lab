@@ -1,12 +1,12 @@
 "use client";
 
-import { useState } from "react";
 import Box from "@mui/material/Box";
 import Typography from "@mui/material/Typography";
-import Button from "@mui/material/Button";
+import IconComponent from "@/shared/components/icon";
 import { ML_ASSIGNMENTS } from "@/consts/ml-assignments.const";
+import { ASSIGNMENT_SIMULATION_PRESETS } from "@/consts/ml-assignment-simulations.const";
 import { assignmentStyles } from "./assignment-showcase.styles";
-import AssignmentSimulationRunner from "./assignment-simulation-runner";
+import AssignmentNotebookCell from "./assignment-notebook-cell";
 
 const QUESTION_SIM_PRESETS: Record<string, string> = {
     "soal-2": "sim-uts-soal-2-smote",
@@ -17,17 +17,8 @@ const QUESTION_SIM_PRESETS: Record<string, string> = {
 
 export default function UtsTasksShowcase() {
     const item = ML_ASSIGNMENTS.find((a) => a.id === "tugas-uts-pertemuan-1-6");
-    const [activeSimulationPreset, setActiveSimulationPreset] = useState<string | null>(null);
 
     if (!item) return null;
-
-    const handleToggleSimulation = (presetId: string) => {
-        if (activeSimulationPreset === presetId) {
-            setActiveSimulationPreset(null);
-        } else {
-            setActiveSimulationPreset(presetId);
-        }
-    };
 
     return (
         <Box sx={assignmentStyles.cardSection}>
@@ -51,7 +42,7 @@ export default function UtsTasksShowcase() {
                             {item.code}
                         </Box>
                         <Box component="span" sx={assignmentStyles.tabBadge("active")}>
-                            ⏳ Aktif / Dalam Pengerjaan
+                            Aktif / Dalam Pengerjaan
                         </Box>
                         <Typography sx={{ fontSize: "0.78rem", color: "#FFB84D", fontWeight: 600 }}>
                             Batas Submit: {item.deadline}
@@ -73,7 +64,8 @@ export default function UtsTasksShowcase() {
                         download="Tugas_Machine_Learning_Pertemuan_1-6_Soal.pdf"
                         sx={assignmentStyles.secondaryBtn}
                     >
-                        <span>📄 Unduh Berkas Soal Resmi (187 KB)</span>
+                        <IconComponent name="file-pdf" size={13} />
+                        <span>Unduh Berkas Soal Resmi (187 KB)</span>
                     </Box>
                 </Box>
             </Box>
@@ -96,118 +88,16 @@ export default function UtsTasksShowcase() {
                 </Typography>
             </Box>
 
-            {/* ─── Interactive WASM Simulation Action Bar ────────────── */}
-            <Box
-                sx={{
-                    p: "14px 16px",
-                    borderRadius: "10px",
-                    bgcolor: "rgba(103, 217, 255, 0.05)",
-                    border: "1px solid rgba(103, 217, 255, 0.20)",
-                    mb: "20px",
-                    display: "flex",
-                    alignItems: "center",
-                    justifyContent: "space-between",
-                    flexWrap: "wrap",
-                    gap: "10px",
-                }}
-            >
-                <Box sx={{ display: "flex", alignItems: "center", gap: "8px" }}>
-                    <Box
-                        component="span"
-                        sx={{
-                            width: "8px",
-                            height: "8px",
-                            borderRadius: "50%",
-                            bgcolor: "#67D9FF",
-                            boxShadow: "0 0 8px #67D9FF",
-                        }}
-                    />
-                    <Typography sx={{ fontSize: "0.82rem", fontWeight: 700, color: "#F5F7FA" }}>
-                        Simulasi Interaktif Komputasi UTS (Pyodide WASM Engine)
-                    </Typography>
-                </Box>
-
-                <Box sx={{ display: "flex", alignItems: "center", gap: "6px", flexWrap: "wrap" }}>
-                    <Button
-                        size="small"
-                        onClick={() => handleToggleSimulation("sim-uts-soal-5-knn")}
-                        sx={{
-                            bgcolor: activeSimulationPreset === "sim-uts-soal-5-knn" ? "rgba(103, 217, 255, 0.25)" : "rgba(255, 255, 255, 0.05)",
-                            color: activeSimulationPreset === "sim-uts-soal-5-knn" ? "#67D9FF" : "#CBD5E1",
-                            border: "1px solid rgba(103, 217, 255, 0.25)",
-                            fontSize: "0.74rem",
-                            textTransform: "none",
-                            fontFamily: "var(--font-mono), monospace",
-                            "&:hover": { bgcolor: "rgba(103, 217, 255, 0.20)" },
-                        }}
-                    >
-                        ▶ Soal 5: KNN (q=3,5)
-                    </Button>
-                    <Button
-                        size="small"
-                        onClick={() => handleToggleSimulation("sim-uts-soal-4-tree")}
-                        sx={{
-                            bgcolor: activeSimulationPreset === "sim-uts-soal-4-tree" ? "rgba(103, 217, 255, 0.25)" : "rgba(255, 255, 255, 0.05)",
-                            color: activeSimulationPreset === "sim-uts-soal-4-tree" ? "#67D9FF" : "#CBD5E1",
-                            border: "1px solid rgba(103, 217, 255, 0.25)",
-                            fontSize: "0.74rem",
-                            textTransform: "none",
-                            fontFamily: "var(--font-mono), monospace",
-                            "&:hover": { bgcolor: "rgba(103, 217, 255, 0.20)" },
-                        }}
-                    >
-                        ▶ Soal 4: Decision Tree
-                    </Button>
-                    <Button
-                        size="small"
-                        onClick={() => handleToggleSimulation("sim-uts-soal-3-chi2")}
-                        sx={{
-                            bgcolor: activeSimulationPreset === "sim-uts-soal-3-chi2" ? "rgba(103, 217, 255, 0.25)" : "rgba(255, 255, 255, 0.05)",
-                            color: activeSimulationPreset === "sim-uts-soal-3-chi2" ? "#67D9FF" : "#CBD5E1",
-                            border: "1px solid rgba(103, 217, 255, 0.25)",
-                            fontSize: "0.74rem",
-                            textTransform: "none",
-                            fontFamily: "var(--font-mono), monospace",
-                            "&:hover": { bgcolor: "rgba(103, 217, 255, 0.20)" },
-                        }}
-                    >
-                        ▶ Soal 3: Chi-Square
-                    </Button>
-                    <Button
-                        size="small"
-                        onClick={() => handleToggleSimulation("sim-uts-soal-2-smote")}
-                        sx={{
-                            bgcolor: activeSimulationPreset === "sim-uts-soal-2-smote" ? "rgba(103, 217, 255, 0.25)" : "rgba(255, 255, 255, 0.05)",
-                            color: activeSimulationPreset === "sim-uts-soal-2-smote" ? "#67D9FF" : "#CBD5E1",
-                            border: "1px solid rgba(103, 217, 255, 0.25)",
-                            fontSize: "0.74rem",
-                            textTransform: "none",
-                            fontFamily: "var(--font-mono), monospace",
-                            "&:hover": { bgcolor: "rgba(103, 217, 255, 0.20)" },
-                        }}
-                    >
-                        ▶ Soal 2: SMOTE
-                    </Button>
-                </Box>
-            </Box>
-
-            {/* ─── Active Simulation Runner View ─────────────────────── */}
-            {activeSimulationPreset && (
-                <AssignmentSimulationRunner
-                    assignmentId="tugas-uts-pertemuan-1-6"
-                    initialPresetId={activeSimulationPreset}
-                    onClose={() => setActiveSimulationPreset(null)}
-                />
-            )}
-
-            {/* ─── 5 Question Cards ─────────────────────────────────── */}
+            {/* ─── 5 Question Cards with Inline Notebook Cells ───────── */}
             <Typography sx={{ fontSize: "0.92rem", fontWeight: 750, color: "#F5F7FA", mb: "14px" }}>
                 Rincian Analisis & Komputasi 5 Paket Soal
             </Typography>
 
             {item.questions?.map((q) => {
-                const simPreset = QUESTION_SIM_PRESETS[q.id];
-                const isThisSimActive = activeSimulationPreset === simPreset;
+                const presetId = QUESTION_SIM_PRESETS[q.id];
+                const simPreset = presetId
+                    ? ASSIGNMENT_SIMULATION_PRESETS.find((p) => p.id === presetId)
+                    : null;
 
                 return (
                     <Box key={q.id} sx={assignmentStyles.questionCard}>
@@ -220,29 +110,6 @@ export default function UtsTasksShowcase() {
                                     Topik: {q.topic}
                                 </Typography>
                             </Box>
-
-                            {simPreset && (
-                                <Button
-                                    size="small"
-                                    onClick={() => handleToggleSimulation(simPreset)}
-                                    sx={{
-                                        color: isThisSimActive ? "#67D9FF" : "#43D9A3",
-                                        bgcolor: isThisSimActive ? "rgba(103, 217, 255, 0.14)" : "rgba(67, 217, 163, 0.12)",
-                                        border: isThisSimActive ? "1px solid rgba(103, 217, 255, 0.35)" : "1px solid rgba(67, 217, 163, 0.30)",
-                                        fontSize: "0.72rem",
-                                        fontWeight: 700,
-                                        textTransform: "none",
-                                        fontFamily: "var(--font-mono), monospace",
-                                        px: "8px",
-                                        py: "2px",
-                                        "&:hover": {
-                                            bgcolor: isThisSimActive ? "rgba(103, 217, 255, 0.22)" : "rgba(67, 217, 163, 0.20)",
-                                        },
-                                    }}
-                                >
-                                    {isThisSimActive ? "▼ Tutup Simulasi" : "▶ Run Simulasi Soal"}
-                                </Button>
-                            )}
                         </Box>
 
                         <Typography sx={assignmentStyles.questionTitle}>
@@ -270,10 +137,25 @@ export default function UtsTasksShowcase() {
                                 </Box>
                             ))}
                         </Box>
+
+                        {/* Inline Notebook-Style Simulation Cell (if question involves numerical computation) */}
+                        {simPreset && (
+                            <Box sx={{ mt: "18px" }}>
+                                <Typography sx={{ fontSize: "0.78rem", fontWeight: 700, color: "#67D9FF", mb: "8px", textTransform: "uppercase", letterSpacing: "0.04em" }}>
+                                    Implementasi Komputasi & Notebook Cell (WASM)
+                                </Typography>
+                                <AssignmentNotebookCell
+                                    cellNumber={q.number}
+                                    title={`${q.id.replace("-", "_")}_simulation.py`}
+                                    description={simPreset.description}
+                                    code={simPreset.code}
+                                    maxCodeHeight="360px"
+                                />
+                            </Box>
+                        )}
                     </Box>
                 );
             })}
         </Box>
     );
 }
-

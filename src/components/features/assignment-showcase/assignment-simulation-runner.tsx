@@ -106,7 +106,7 @@ export default function AssignmentSimulationRunner({
                 <Box>
                     <Box sx={{ display: "flex", alignItems: "center", gap: "8px", mb: "6px" }}>
                         <Box component="span" sx={assignmentStyles.simBadge}>
-                            ⚡ Interactive WASM Simulator
+                            Interactive WASM Simulator
                         </Box>
                         <Box
                             component="span"
@@ -144,7 +144,7 @@ export default function AssignmentSimulationRunner({
                             "&:hover": { color: "#F5F7FA" },
                         }}
                     >
-                        ✕ Tutup Simulator
+                        Tutup Simulator
                     </Button>
                 )}
             </Box>
@@ -184,7 +184,6 @@ export default function AssignmentSimulationRunner({
                             </>
                         ) : (
                             <>
-                                <span>▶</span>
                                 <span>Jalankan Simulasi (WASM)</span>
                             </>
                         )}
@@ -196,7 +195,6 @@ export default function AssignmentSimulationRunner({
                         sx={assignmentStyles.simSecondaryBtn}
                         title="Reset runtime Pyodide kernel"
                     >
-                        <span>↺</span>
                         <span>Reset Kernel</span>
                     </Box>
                 </Box>
@@ -213,8 +211,8 @@ export default function AssignmentSimulationRunner({
                             }}
                         >
                             {output.status === "success"
-                                ? `✓ Selesai (${(output.executionTime / 1000).toFixed(2)}s)`
-                                : "✕ Terjadi Kesalahan"}
+                                ? `Selesai (${(output.executionTime / 1000).toFixed(2)}s)`
+                                : "Terjadi Kesalahan"}
                         </Typography>
                     )}
 
@@ -257,7 +255,6 @@ export default function AssignmentSimulationRunner({
                     onClick={() => setActiveTab("plot")}
                     sx={assignmentStyles.simTabItem(activeTab === "plot")}
                 >
-                    <span>📊</span>
                     <span>Visual Plot {hasPlots ? `(${output?.plots.length})` : ""}</span>
                 </Box>
 
@@ -282,7 +279,7 @@ export default function AssignmentSimulationRunner({
                                 fontFamily: "var(--font-mono), monospace",
                             }}
                         >
-                            {copied ? "✓ Tersalin" : "Salin Output"}
+                            {copied ? "Tersalin" : "Salin Output"}
                         </Button>
                     </Box>
                 )}
@@ -322,7 +319,7 @@ export default function AssignmentSimulationRunner({
                     ) : (
                         <Box sx={{ py: "24px", textAlign: "center", color: "#64748B" }}>
                             <Typography sx={{ fontSize: "0.82rem", fontFamily: "var(--font-mono), monospace" }}>
-                                Klik &quot;▶ Jalankan Simulasi (WASM)&quot; untuk mengeksekusi kode Python dan melihat output numerik real-time.
+                                Klik &quot;Jalankan Simulasi (WASM)&quot; untuk mengeksekusi kode Python dan melihat output numerik real-time.
                             </Typography>
                         </Box>
                     )}
@@ -363,7 +360,7 @@ export default function AssignmentSimulationRunner({
                                                 },
                                             }}
                                         >
-                                            ⬇ Unduh Gambar Plot (PNG)
+                                            Unduh Gambar Plot (PNG)
                                         </Button>
                                     </Box>
                                 </Box>

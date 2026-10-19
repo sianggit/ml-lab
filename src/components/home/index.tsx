@@ -74,10 +74,10 @@ function SvgMotif2() {
     const points: Array<{ cx: number; cy: number; side: boolean }> = [];
 
     for (let i = 0; i < 46; i++) {
-        const a = r() * 250 + 25;
-        const b = r() * 140 + 25;
+        const a = +(r() * 250 + 25).toFixed(1);
+        const b = +(r() * 140 + 25).toFixed(1);
         const side = a * 0.62 + b > 165 + 22 * (r() - 0.5) * 2;
-        points.push({ cx: a, cy: 190 - b, side });
+        points.push({ cx: a, cy: +(190 - b).toFixed(1), side });
     }
 
     return (
@@ -113,7 +113,9 @@ function SvgMotif3() {
         for (let i = 0; i < 16; i++) {
             const a = r() * 6.28;
             const d = Math.sqrt(r()) * 40;
-            pts.push([c[0] + Math.cos(a) * d, c[1] + Math.sin(a) * d]);
+            const px = +(c[0] + Math.cos(a) * d).toFixed(1);
+            const py = +(c[1] + Math.sin(a) * d).toFixed(1);
+            pts.push([px, py]);
         }
         return { c, color: O[k], pts };
     });
