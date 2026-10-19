@@ -77,7 +77,7 @@ export class LabReportAdapter {
             }
 
             md += `### 5. Evaluasi & Catatan Mahasiswa\n`;
-            md += `- Status Verifikasi: ${isCompleted ? "[Terverifikasi Berhasil]" : "[Belum Selesai]"}\n`;
+            md += `- Status Pengerjaan: ${isCompleted ? "[Selesai Dikerjakan]" : "[Belum Selesai]"}\n`;
             md += `- Catatan Analisis: Kode algoritma telah diuji pada dataset \`${ch.datasetKey}\` dengan representasi visual \`${ch.visualType}\`.\n\n`;
             md += `---\n\n`;
         });
@@ -186,7 +186,7 @@ export class LabReportAdapter {
             }
             html += `
         <p style="margin-top: 12px; font-size: 13px; color: #4B5563;">
-            Status: <strong>${isCompleted ? "[Lulus Validasi]" : "[Belum Dieksekusi]"}</strong>
+            Status: <strong>${isCompleted ? "[Selesai Dikerjakan]" : "[Belum Dieksekusi]"}</strong>
         </p>
     </div>
 `;

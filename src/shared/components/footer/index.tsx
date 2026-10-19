@@ -28,17 +28,6 @@ export default function Footer() {
                                 }}
                             />
                             <span>ML Lab Simulator</span>
-                            <Chip
-                                size="small"
-                                label="Bab 01 - 14"
-                                sx={{
-                                    height: 20,
-                                    fontSize: "0.68rem",
-                                    backgroundColor: "rgba(99, 102, 241, 0.15)",
-                                    color: "#A5B4FC",
-                                    border: "1px solid rgba(99, 102, 241, 0.3)",
-                                }}
-                            />
                         </Box>
                         <Typography sx={footerStyles.brandSubtitle}>
                             Platform interaktif laboratorium <i>Machine Learning</i> untuk menjalankan komputasi Python murni

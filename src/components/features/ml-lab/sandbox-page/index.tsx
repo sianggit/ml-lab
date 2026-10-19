@@ -8,6 +8,7 @@ import CodeCell from "@/components/features/ml-lab/code-cell";
 import CellOutput from "@/components/features/ml-lab/cell-output";
 import CustomDatasetStudio from "@/components/features/ml-lab/custom-dataset-studio";
 import { useCustomDatasetStore } from "@/stores/use-custom-dataset-store";
+import ScrollableTabsRow from "@/shared/components/scrollable-tabs-row";
 import { sandboxPageStyles } from "./sandbox-page.styles";
 
 interface PresetSnippet {
@@ -166,75 +167,86 @@ export default function SandboxPage() {
     };
 
     return (
-        <Box sx={sandboxPageStyles.wrap} className="wrap">
-            {/* ─── Head ──────────────────────────────────────────────────────── */}
-            <Box sx={{ mb: 3 }}>
-                <Box component="div" sx={sandboxPageStyles.chip} className="chip">
-                    <Box component="span" sx={sandboxPageStyles.dot} className="dot" />
-                    <span>Python 3.11 · WebAssembly · Scikit-Learn</span>
+        <Box sx={sandboxPageStyles.root}>
+            <Box sx={sandboxPageStyles.bg} aria-hidden="true" />
+
+            <Box component="main" sx={sandboxPageStyles.wrap} className="wrap">
+                {/* ─── Hero Section ────────────────────────────────────────────── */}
+                <Box sx={sandboxPageStyles.hero} className="hero">
+                    <Box sx={sandboxPageStyles.eyebrow} className="eyebrow">
+                        <b>Simulator</b>
+                        <s />
+                        <span>Python 3.11 · WebAssembly · Scikit-Learn</span>
+                    </Box>
+
+                    <Box component="h1" sx={sandboxPageStyles.title}>
+                        <span>Monaco scientific</span>
+                        <span className="g">workbench</span>
+                    </Box>
+
+                    <Box component="p" sx={sandboxPageStyles.lead} className="bio">
+                        Eksperimen bebas dengan NumPy, scikit-learn, dan Matplotlib. Gunakan preset bawaan atau unggah dataset CSV Anda sendiri (Kaggle).
+                    </Box>
                 </Box>
 
-                <Box component="h1" sx={sandboxPageStyles.title}>
-                    Monaco scientific workbench
-                </Box>
+                {/* ─── Presets Strip with Floating Chevrons ──────────────────────── */}
+                <ScrollableTabsRow
+                    sx={sandboxPageStyles.presetsWrapper}
+                    scrollContainerSx={sandboxPageStyles.presetsBar}
+                    role="tablist"
+                    ariaLabel="Preset kode workbench"
+                >
+                    <Box component="span" sx={sandboxPageStyles.presetsLabel}>
+                        Mode / Preset:
+                    </Box>
 
-                <Box component="p" sx={sandboxPageStyles.lead} className="lead">
-                    Eksperimen bebas dengan NumPy, scikit-learn, dan Matplotlib. Gunakan preset bawaan atau
-                    unggah dataset CSV Anda sendiri (Kaggle).
-                </Box>
-            </Box>
-
-            {/* ─── Presets Strip ──────────────────────────────────────────────── */}
-            <Box sx={sandboxPageStyles.pre} className="pre">
-                <Box component="span" sx={sandboxPageStyles.preLabel} className="mono">
-                    Mode / Preset:
-                </Box>
-
-                {PRESET_SNIPPETS.map((snippet) => {
-                    const isPressed = selectedPreset.key === snippet.key;
-                    return (
-                        <Button
-                            key={snippet.key}
-                            onClick={() => handleSelectPreset(snippet)}
-                            sx={sandboxPageStyles.presetBtn(isPressed)}
-                            className="btn btn-sm"
-                            aria-pressed={isPressed}
-                        >
-                            <span>{snippet.label}</span>
-                            <Box component="kbd" sx={sandboxPageStyles.kbd}>
-                                {snippet.keyHint}
+                    {PRESET_SNIPPETS.map((snippet) => {
+                        const isPressed = selectedPreset.key === snippet.key;
+                        const cleanLabel = snippet.label.replace(/^\d+\.\s*/, "");
+                        return (
+                            <Box
+                                component="button"
+                                key={snippet.key}
+                                onClick={() => handleSelectPreset(snippet)}
+                                sx={sandboxPageStyles.presetTab(isPressed)}
+                                role="tab"
+                                aria-selected={isPressed}
+                            >
+                                <Box component="sup">0{snippet.id}</Box>
+                                <span>{cleanLabel}</span>
+                                <Box component="small">{snippet.keyHint}</Box>
                             </Box>
-                        </Button>
-                    );
-                })}
-            </Box>
+                        );
+                    })}
+                </ScrollableTabsRow>
 
-            {/* ─── Custom Dataset Studio (Visible if preset 4 is active or user uploaded dataset) ─── */}
-            {selectedPreset.key === "custom" && (
-                <Box sx={{ mb: 3 }}>
-                    <CustomDatasetStudio
-                        onApplyToSandbox={handleApplyCustomCodeToSandbox}
-                        onRunExperiment={handleRunCustomExperiment}
-                    />
-                </Box>
-            )}
-
-            {/* ─── Monaco / Python IDE Frame ─────────────────────────────────── */}
-            <Box sx={sandboxPageStyles.ideContainer}>
-                <CodeCell
-                    key={editorKey}
-                    initialCode={editorCode}
-                    onRun={runCode}
-                    isRunning={isExecuting}
-                    onResetKernel={() => {
-                        resetKernel();
-                        setEditorKey((prev) => prev + 1);
-                    }}
-                />
-
-                {(lastOutput || isExecuting) && (
-                    <CellOutput output={lastOutput} isRunning={isExecuting} />
+                {/* ─── Custom Dataset Studio (Visible if preset 4 is active or user uploaded dataset) ─── */}
+                {selectedPreset.key === "custom" && (
+                    <Box sx={{ mb: 3 }}>
+                        <CustomDatasetStudio
+                            onApplyToSandbox={handleApplyCustomCodeToSandbox}
+                            onRunExperiment={handleRunCustomExperiment}
+                        />
+                    </Box>
                 )}
+
+                {/* ─── Monaco / Python IDE Frame ─────────────────────────────────── */}
+                <Box sx={sandboxPageStyles.ideContainer}>
+                    <CodeCell
+                        key={editorKey}
+                        initialCode={editorCode}
+                        onRun={runCode}
+                        isRunning={isExecuting}
+                        onResetKernel={() => {
+                            resetKernel();
+                            setEditorKey((prev) => prev + 1);
+                        }}
+                    />
+
+                    {(lastOutput || isExecuting) && (
+                        <CellOutput output={lastOutput} isRunning={isExecuting} />
+                    )}
+                </Box>
             </Box>
         </Box>
     );

@@ -12,10 +12,10 @@ export const navbarStyles = defineStyles({
             !blurNav || scrolled ? "blur(14px)" : "none",
         backdropFilter:
             !blurNav || scrolled ? "blur(14px)" : "none",
-        borderBottom:
-            !blurNav || scrolled
-                ? "1px solid rgba(255, 255, 255, 0.10)"
-                : "1px solid transparent",
+        // borderBottom:
+        //     !blurNav || scrolled
+        //         ? "1px solid rgba(255, 255, 255, 0.10)"
+        //         : "1px solid transparent",
         transition: "background 0.25s ease, border-color 0.25s ease",
     }),
     wrap: {

@@ -6,55 +6,49 @@ import { useMlLabStore } from "@/stores/use-ml-lab-store";
 import { assignmentStyles } from "./assignment-showcase.styles";
 
 export default function AssignmentHeader() {
-    const { studentInfo } = useMlLabStore();
+    const { studentInfo, setProfileModalOpen } = useMlLabStore();
 
     return (
-        <Box sx={assignmentStyles.headerCard}>
-            <Box sx={assignmentStyles.headerBadgeRow}>
-                <Box component="span" sx={assignmentStyles.badgeVerified}>
-                    <Box component="span" sx={{ width: "6px", height: "6px", borderRadius: "50%", bgcolor: "#43D9A3", display: "inline-block" }} />
-                    Portofolio Akademik
-                </Box>
-                <Box component="span" sx={assignmentStyles.badgeSemester}>
-                    Semester Gasal 2026 / 2027
-                </Box>
+        <Box sx={assignmentStyles.header}>
+            <Box sx={assignmentStyles.eyebrow}>
+                <b>PORTOFOLIO AKADEMIK</b>
+                <s />
+                <span>SEMESTER GASAL 2026 / 2027</span>
             </Box>
 
-            <Typography component="h1" sx={assignmentStyles.headerTitle}>
-                Machine Learning Assignment Showcase
+            <Typography component="h1" sx={assignmentStyles.title}>
+                <span>Machine Learning</span>
+                <span className="g">Assignment Showcase</span>
             </Typography>
 
-            <Typography sx={assignmentStyles.headerSubtitle}>
+            <Typography sx={assignmentStyles.lead}>
                 Dokumentasi penugasan praktikum laboratorium, rekayasa fitur data riil Titanic, dan kisi-kisi evaluasi UTS mata kuliah Machine Learning.
             </Typography>
 
-            <Box sx={assignmentStyles.studentMetaGrid}>
-                <Box sx={assignmentStyles.metaItem}>
-                    <Typography sx={assignmentStyles.metaLabel}>Mahasiswa</Typography>
-                    <Typography sx={assignmentStyles.metaValue}>
-                        {studentInfo.name || "Anggit Arisa Siwi Pratama"}
-                    </Typography>
+            <Box sx={assignmentStyles.plate}>
+                <Box
+                    sx={assignmentStyles.plateCol(true, true)}
+                    onClick={() => setProfileModalOpen(true)}
+                    role="button"
+                    tabIndex={0}
+                    onKeyDown={(e) => (e.key === "Enter" || e.key === " ") && setProfileModalOpen(true)}
+                    aria-label="Buka detail identitas penyusun"
+                >
+                    <Box component="span" sx={assignmentStyles.plateLabel}>Disusun Oleh</Box>
+                    <Box component="span" sx={assignmentStyles.plateName}>{studentInfo.name || "Anggit Arisa Siwi Pratama"}</Box>
+                    <Box component="span" sx={assignmentStyles.plateNim}>NPM {studentInfo.studentId || "202343570045"}</Box>
                 </Box>
 
-                <Box sx={assignmentStyles.metaItem}>
-                    <Typography sx={assignmentStyles.metaLabel}>NPM</Typography>
-                    <Typography sx={assignmentStyles.metaValue}>
-                        {studentInfo.studentId || "202343570045"}
-                    </Typography>
+                <Box sx={assignmentStyles.plateCol(false)}>
+                    <Box component="span" sx={assignmentStyles.plateLabel}>Dosen Pengampu</Box>
+                    <Box component="span" sx={assignmentStyles.plateText}>Nurfidah Dwitiyanti, M.Kom.</Box>
+                    <Box component="span" sx={assignmentStyles.plateTa}>Teknik Informatika</Box>
                 </Box>
 
-                <Box sx={assignmentStyles.metaItem}>
-                    <Typography sx={assignmentStyles.metaLabel}>Kelas & Program</Typography>
-                    <Typography sx={assignmentStyles.metaValue}>
-                        {studentInfo.classGroup || "XC Ekstensi"} (S1 TI)
-                    </Typography>
-                </Box>
-
-                <Box sx={assignmentStyles.metaItem}>
-                    <Typography sx={assignmentStyles.metaLabel}>Dosen Pengampu</Typography>
-                    <Typography sx={assignmentStyles.metaValue}>
-                        Nurfidah Dwitiyanti, M.Kom.
-                    </Typography>
+                <Box sx={assignmentStyles.plateCol(false)}>
+                    <Box component="span" sx={assignmentStyles.plateLabel}>Program &amp; Kelas</Box>
+                    <Box component="span" sx={assignmentStyles.plateClass}>{studentInfo.classGroup || "XC Ekstensi"} (S1 TI)</Box>
+                    <Box component="span" sx={assignmentStyles.plateTa}>TA 2026/2027</Box>
                 </Box>
             </Box>
         </Box>

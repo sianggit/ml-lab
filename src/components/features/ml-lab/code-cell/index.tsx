@@ -132,12 +132,11 @@ export default function CodeCell({
         <Box sx={codeCellStyles.container} onKeyDown={handleKeyDown}>
             {/* ─── 1. OS-Style Window Titlebar ─── */}
             <Box sx={codeCellStyles.windowTitlebar}>
-                {/* Left: Window Dots & Tabs */}
+                {/* Left: Cell Index & Tabs */}
                 <Box sx={codeCellStyles.windowControlsLeft}>
-                    <Box sx={codeCellStyles.macDotsGroup}>
-                        <Box sx={codeCellStyles.macDot("#F43F5E")} />
-                        <Box sx={codeCellStyles.macDot("#F59E0B")} />
-                        <Box sx={codeCellStyles.macDot("#00F59B")} />
+                    <Box sx={codeCellStyles.cellIndexIndicator}>
+                        <Box component="span" className="dot" />
+                        <span>IN [1]</span>
                     </Box>
 
                     {/* File Tabs */}

@@ -50,4 +50,8 @@ export interface AssignmentItem {
     resources: AssignmentResource[];
     sourceCodeSnippet?: string;
     questions?: UtsQuestion[];
+    slug?: string;
+    datasetName?: string;
+    datasetKaggleUrl?: string;
+    datasetDownloadUrl?: string;
 }

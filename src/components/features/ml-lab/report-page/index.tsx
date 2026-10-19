@@ -65,7 +65,7 @@ export default function ReportPage() {
                         {completionPercent}%
                     </Box>
                     <Box component="span" sx={reportPageStyles.teleKey} className="k">
-                        Tingkat kelulusan
+                        Cakupan modul
                     </Box>
                 </Box>
                 <Box component="li" sx={reportPageStyles.teleItem(true)}>

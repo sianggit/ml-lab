@@ -3,8 +3,6 @@
 import { useState } from "react";
 import Link from "next/link";
 import Box from "@mui/material/Box";
-import Button from "@mui/material/Button";
-import IconComponent from "@/shared/components/icon";
 import { ML_CHAPTERS } from "@/consts/ml-chapters.const";
 import { useMlLabStore } from "@/stores/use-ml-lab-store";
 import { curriculumPageStyles } from "./curriculum-page.styles";
@@ -66,154 +64,148 @@ export default function CurriculumPage() {
     const hasMore = visibleCount < TOTAL_CHAPTERS;
 
     return (
-        <Box sx={curriculumPageStyles.wrap} className="wrap">
-            {/* ─── Header ────────────────────────────────────────────────────── */}
-            <Box component="div" sx={curriculumPageStyles.chip} className="chip">
-                <Box component="span" sx={curriculumPageStyles.dot} className="dot" />
-                <span>Lab Bab 01–14</span>
-            </Box>
+        <Box sx={curriculumPageStyles.root}>
+            <Box sx={curriculumPageStyles.bg} aria-hidden="true" />
 
-            <Box component="h1" sx={curriculumPageStyles.title}>
-                Kurikulum laboratorium
-            </Box>
-
-            <Box component="p" sx={curriculumPageStyles.lead} className="lead">
-                Empat fase dari fondasi numerik sampai produksi. Bab 01 sudah lengkap; bab lain dapat
-                dibuka dan dicoba di Sandbox.
-            </Box>
-
-            {/* ─── Telemetry Summary Strip ────────────────────────────────────── */}
-            <Box component="ul" sx={curriculumPageStyles.tele} className="panel tele">
-                <Box component="li" sx={curriculumPageStyles.teleItem(false)}>
-                    <Box component="span" sx={curriculumPageStyles.teleValue} className="v">
-                        {completedCount} / {TOTAL_CHAPTERS}
+            <Box component="main" sx={curriculumPageStyles.wrap} className="wrap">
+                {/* ─── Hero Section ────────────────────────────────────────────── */}
+                <Box sx={curriculumPageStyles.hero} className="hero">
+                    <Box sx={curriculumPageStyles.eyebrow} className="eyebrow">
+                        <b>Kurikulum</b>
+                        <s />
+                        <span>Lab Bab 01–14</span>
                     </Box>
-                    <Box component="span" sx={curriculumPageStyles.teleKey} className="k">
-                        Bab selesai
-                    </Box>
-                </Box>
-                <Box component="li" sx={curriculumPageStyles.teleItem(true)}>
-                    <Box component="span" sx={curriculumPageStyles.teleValue} className="v">
-                        {completionPercent}%
-                    </Box>
-                    <Box component="span" sx={curriculumPageStyles.teleKey} className="k">
-                        Tingkat kelulusan
-                    </Box>
-                </Box>
-                <Box component="li" sx={curriculumPageStyles.teleItem(true)}>
-                    <Box component="span" sx={curriculumPageStyles.teleValue} className="v">
-                        {totalXp}
-                    </Box>
-                    <Box component="span" sx={curriculumPageStyles.teleKey} className="k">
-                        Skor XP · Level {userLevel}
-                    </Box>
-                </Box>
-            </Box>
 
-            {/* ─── Curriculum Phases & BAB Cards ────────────────────────────── */}
-            {PHASES.map((phase) => {
-                // Chapters belonging to this phase
-                const phaseChapters = ML_CHAPTERS.filter(
-                    (c) => c.number >= phase.startBab && c.number <= phase.endBab
-                );
+                    <Box component="h1" sx={curriculumPageStyles.title}>
+                        <span>Kurikulum</span>
+                        <span className="g">laboratorium</span>
+                    </Box>
 
-                // Filter chapters that are currently revealed by the Load More mechanism
-                const visiblePhaseChapters = phaseChapters.filter(
-                    (c) => c.number <= visibleCount
-                );
+                    <Box component="p" sx={curriculumPageStyles.lead} className="bio">
+                        Empat fase dari fondasi numerik sampai produksi. <strong>Bab 01</strong> sudah lengkap; bab lain dapat dibuka dan dicoba di Sandbox.
+                    </Box>
 
-                // If no chapters in this phase are revealed yet, don't show the phase section
-                if (visiblePhaseChapters.length === 0) {
-                    return null;
-                }
-
-                return (
-                    <Box
-                        component="section"
-                        key={phase.title}
-                        sx={curriculumPageStyles.phaseSection}
-                        className="phase"
-                    >
-                        <Box sx={curriculumPageStyles.phaseMeta}>
-                            <Box component="span" sx={curriculumPageStyles.phaseBadge} className="rng">
-                                BAB {padNumber(phase.startBab)}–{padNumber(phase.endBab)}
+                    {/* ─── Stats Hairline Block ────────────────────────────────────── */}
+                    <Box component="section" sx={curriculumPageStyles.stats} className="stats" aria-label="Ringkasan progres">
+                        <Box sx={curriculumPageStyles.statsCol(true)}>
+                            <Box component="label" sx={curriculumPageStyles.statsLabel}>Bab selesai</Box>
+                            <Box component="b" sx={curriculumPageStyles.statsValue}>
+                                {completedCount}<em> / {TOTAL_CHAPTERS}</em>
                             </Box>
-                            <h2>{phase.title}</h2>
-                            <p>{phase.description}</p>
                         </Box>
-
-                        <Box sx={curriculumPageStyles.rowsPanel} className="panel rows">
-                            {visiblePhaseChapters.map((chapter, idx) => {
-                                const prog = chapterProgress[chapter.slug];
-                                const isDone = !!prog?.isCompleted;
-                                const mastery = prog?.masteryPercent || (isDone ? 100 : 0);
-
-                                let statusType: "ok" | "on" | "muted" = "muted";
-                                let statusText = "Belum dimulai";
-
-                                if (isDone) {
-                                    statusType = "ok";
-                                    statusText = "Selesai";
-                                } else if (mastery > 0) {
-                                    statusType = "on";
-                                    statusText = `Dikerjakan ${mastery}%`;
-                                }
-
-                                return (
-                                    <Box
-                                        key={chapter.id}
-                                        component={Link}
-                                        href={`/ml-lab/${chapter.slug}`}
-                                        sx={curriculumPageStyles.row(idx === 0)}
-                                        className="row"
-                                    >
-                                        <Box component="span" sx={curriculumPageStyles.rowNumber} className="n">
-                                            {padNumber(chapter.number)}
-                                        </Box>
-                                        <Box sx={curriculumPageStyles.rowContent}>
-                                            <h3>{chapter.title}</h3>
-                                            <small>
-                                                {chapter.category} · {chapter.estimatedMinutes} menit
-                                            </small>
-                                        </Box>
-                                        <Box
-                                            component="span"
-                                            sx={curriculumPageStyles.status(statusType)}
-                                            className={`st ${statusType === "ok" ? "ok" : statusType === "on" ? "on" : ""}`}
-                                        >
-                                            {statusText}
-                                        </Box>
-                                    </Box>
-                                );
-                            })}
+                        <Box sx={curriculumPageStyles.statsCol(false)}>
+                            <Box component="label" sx={curriculumPageStyles.statsLabel}>Cakupan kurikulum</Box>
+                            <Box component="b" sx={curriculumPageStyles.statsValue}>
+                                {completionPercent}%
+                            </Box>
+                        </Box>
+                        <Box sx={curriculumPageStyles.statsCol(false)}>
+                            <Box component="label" sx={curriculumPageStyles.statsLabel}>Skor XP</Box>
+                            <Box component="b" sx={curriculumPageStyles.statsValue}>
+                                {totalXp}
+                            </Box>
+                            <Box component="span" sx={curriculumPageStyles.statsSub}>Level {userLevel}</Box>
                         </Box>
                     </Box>
-                );
-            })}
+                </Box>
 
-            {/* ─── Functional Load More Progressive Disclosure ───────────────── */}
-            <Box sx={curriculumPageStyles.loadMoreContainer}>
-                {hasMore ? (
-                    <>
-                        <Button
-                            onClick={handleLoadMore}
-                            sx={curriculumPageStyles.loadMoreButton}
-                            className="btn"
-                            aria-label={`Muat lebih banyak bab. Saat ini menampilkan ${visibleCount} dari ${TOTAL_CHAPTERS} bab.`}
+                {/* ─── Curriculum Phases & BAB Rows ────────────────────────────── */}
+                {PHASES.map((phase) => {
+                    const phaseChapters = ML_CHAPTERS.filter(
+                        (c) => c.number >= phase.startBab && c.number <= phase.endBab
+                    );
+
+                    const visiblePhaseChapters = phaseChapters.filter(
+                        (c) => c.number <= visibleCount
+                    );
+
+                    if (visiblePhaseChapters.length === 0) {
+                        return null;
+                    }
+
+                    return (
+                        <Box
+                            component="section"
+                            key={phase.title}
+                            sx={curriculumPageStyles.phaseSection}
+                            className="phase"
                         >
-                            <IconComponent name="arrow-down" size={15} />
-                            <span>Muat Lebih Banyak Bab (+{Math.min(LOAD_MORE_STEP, TOTAL_CHAPTERS - visibleCount)} Bab)</span>
-                        </Button>
-                        <Box component="span" sx={curriculumPageStyles.loadMoreProgressText}>
-                            Menampilkan {visibleCount} dari {TOTAL_CHAPTERS} Bab Kurikulum
+                            <Box sx={curriculumPageStyles.phaseMeta} className="ph">
+                                <Box component="label">
+                                    BAB {padNumber(phase.startBab)}–{padNumber(phase.endBab)}
+                                </Box>
+                                <Box component="h2">{phase.title}</Box>
+                                <Box component="p">{phase.description}</Box>
+                            </Box>
+
+                            <Box sx={curriculumPageStyles.rowsPanel} className="rows">
+                                {visiblePhaseChapters.map((chapter) => {
+                                    const prog = chapterProgress[chapter.slug];
+                                    const isDone = !!prog?.isCompleted;
+                                    const mastery = prog?.masteryPercent || (isDone ? 100 : 0);
+
+                                    let statusText = "Belum dimulai";
+                                    if (isDone) {
+                                        statusText = "Selesai";
+                                    } else if (mastery > 0) {
+                                        statusText = `Dikerjakan ${mastery}%`;
+                                    }
+
+                                    return (
+                                        <Box
+                                            key={chapter.id}
+                                            component={Link}
+                                            href={`/ml-lab/${chapter.slug}`}
+                                            sx={curriculumPageStyles.row}
+                                            className="row"
+                                        >
+                                            <Box component="span" sx={curriculumPageStyles.rowNumber} className="n">
+                                                {padNumber(chapter.number)}
+                                            </Box>
+                                            <Box sx={curriculumPageStyles.rowContent}>
+                                                <Box component="h3">{chapter.title}</Box>
+                                                <Box component="small">
+                                                    {chapter.category} · {chapter.estimatedMinutes} menit
+                                                </Box>
+                                            </Box>
+                                            <Box
+                                                component="span"
+                                                sx={curriculumPageStyles.status(isDone)}
+                                                className="st"
+                                            >
+                                                {statusText}
+                                            </Box>
+                                        </Box>
+                                    );
+                                })}
+                            </Box>
                         </Box>
-                    </>
-                ) : (
-                    <Box sx={curriculumPageStyles.allLoadedBadge}>
-                        <IconComponent name="check" size={16} />
-                        <span>Seluruh {TOTAL_CHAPTERS} Bab Kurikulum Telah Ditampilkan</span>
-                    </Box>
-                )}
+                    );
+                })}
+
+                {/* ─── Functional Load More Progressive Disclosure ───────────────── */}
+                <Box sx={curriculumPageStyles.loadMoreContainer} className="more">
+                    {hasMore ? (
+                        <>
+                            <Box
+                                component="button"
+                                onClick={handleLoadMore}
+                                sx={curriculumPageStyles.loadMoreButton}
+                                className="btn"
+                                aria-label={`Muat lebih banyak bab. Saat ini menampilkan ${visibleCount} dari ${TOTAL_CHAPTERS} bab.`}
+                            >
+                                Muat lebih banyak bab (+{Math.min(LOAD_MORE_STEP, TOTAL_CHAPTERS - visibleCount)})
+                            </Box>
+                            <Box component="span" sx={curriculumPageStyles.loadMoreProgressText}>
+                                Menampilkan {visibleCount} dari {TOTAL_CHAPTERS} bab kurikulum
+                            </Box>
+                        </>
+                    ) : (
+                        <Box sx={curriculumPageStyles.allLoadedBadge}>
+                            <span>Menampilkan seluruh {TOTAL_CHAPTERS} bab kurikulum</span>
+                        </Box>
+                    )}
+                </Box>
             </Box>
         </Box>
     );

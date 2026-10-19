@@ -189,6 +189,69 @@ except Exception:
     }
 }
 
+function ensureVfsDirAndWrite(fs: any, filePath: string, content: string) {
+    try {
+        const dir = filePath.substring(0, filePath.lastIndexOf("/"));
+        if (dir) {
+            const parts = dir.split("/").filter(Boolean);
+            let current = filePath.startsWith("/") ? "" : ".";
+            for (const part of parts) {
+                current = (current === "." ? "" : current) + "/" + part;
+                try {
+                    fs.mkdir(current);
+                } catch {
+                    // directory already exists
+                }
+            }
+        }
+        fs.writeFile(filePath, content, { encoding: "utf8" });
+    } catch (err) {
+        console.warn("[Pyodide Worker] FS write error for:", filePath, err);
+    }
+}
+
+async function autoMountReferencedDatasets(code: string) {
+    if (!pyodideInstance || !pyodideInstance.FS) return;
+
+    // Detect all dataset paths like '/datasets/...', 'datasets/...', or './datasets/...'
+    const matches = Array.from(code.matchAll(/['"](\.?\/?datasets\/[^'"]+)['"]/g), (m) => m[1]);
+    if (!matches || matches.length === 0) return;
+
+    const uniqueNormalized = Array.from(
+        new Set(matches.map((p) => p.replace(/^(\.\/|\/)+/, "")))
+    );
+
+    for (const normalized of uniqueNormalized) {
+        const absPath = "/" + normalized;
+        const homePath = "/home/pyodide/" + normalized;
+        const relPath = normalized;
+
+        let alreadyMounted = false;
+        try {
+            pyodideInstance.FS.stat(absPath);
+            alreadyMounted = true;
+        } catch {
+            alreadyMounted = false;
+        }
+
+        if (!alreadyMounted) {
+            try {
+                const origin = typeof location !== "undefined" ? location.origin : "";
+                const url = origin ? `${origin}/${normalized}` : `/${normalized}`;
+                const response = await fetch(url);
+                if (response.ok) {
+                    const text = await response.text();
+                    ensureVfsDirAndWrite(pyodideInstance.FS, absPath, text);
+                    ensureVfsDirAndWrite(pyodideInstance.FS, homePath, text);
+                    ensureVfsDirAndWrite(pyodideInstance.FS, relPath, text);
+                }
+            } catch (err) {
+                console.warn("[Pyodide Worker] Auto-mount dataset failed:", normalized, err);
+            }
+        }
+    }
+}
+
 async function executePythonCode(id: string, code: string) {
     const startTime = performance.now();
 
@@ -196,6 +259,9 @@ async function executePythonCode(id: string, code: string) {
         if (!pyodideInstance) {
             await initializePyodideEngine();
         }
+
+        // Auto-mount any referenced CSV datasets before execution
+        await autoMountReferencedDatasets(code);
 
         // Start capturing stdout & stderr in Python
         await pyodideInstance.runPythonAsync("_worker_buffer.start_capture()");

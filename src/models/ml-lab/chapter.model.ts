@@ -27,6 +27,27 @@ export interface ChapterResource {
     description: string;
 }
 
+export interface DatasetInfo {
+    name: string;
+    description: string;
+    filename?: string;
+    downloadUrl?: string;
+    kaggleUrl?: string;
+    columns: string[];
+    previewRows: (string | number)[][];
+    totalRows?: number;
+    sizeKb?: number;
+}
+
+export interface ChapterVariant {
+    id: "original" | "alternatif";
+    label: string;
+    badge: string;
+    description: string;
+    code: string;
+    datasetInfo?: DatasetInfo;
+}
+
 export interface Chapter {
     id: string;
     number: number; // 1 to 14
@@ -43,4 +64,5 @@ export interface Chapter {
     expectedOutputSummary?: string;
     keyFormulas?: string[];
     resources?: ChapterResource[];
+    variants?: ChapterVariant[];
 }

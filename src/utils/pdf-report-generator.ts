@@ -461,7 +461,7 @@ export function generatePrintableReportHTML(options: PDFReportOptions): string {
                 ? "badge-inprogress"
                 : "badge-pending";
         const statusText = isComp
-            ? "Lulus / Selesai"
+            ? "Selesai Dikerjakan"
             : mastery > 0
                 ? `Aktif (${mastery}%)`
                 : "Belum Diambil";

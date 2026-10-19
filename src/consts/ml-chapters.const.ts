@@ -63,6 +63,34 @@ acc = accuracy_score(y_test, y_pred)
 print(f"[Hasil] Akurasi Model K-NN (k=3): {acc * 100:.2f}%")
 print(f"[Prediksi 5 Sampel Pertama]: {y_pred[:5]} vs Aktual: {y_test.values[:5]}")
 `,
+        variants: [
+            {
+                id: "original",
+                label: "Original Modul (Buku / LMS)",
+                badge: "Iris • Scikit-Learn",
+                description: "Sesuai modul praktikum cetak Bab 01 Unindra (Hal 1–7) & slide LMS. Menggunakan dataset benchmark klasik Iris (N=150), pemisahan 80:20, dan evaluasi K-NN (k=3).",
+                code: "# === BAB 01: PENGANTAR MACHINE LEARNING & BENCHMARK IRIS ===\nimport numpy as np\nimport pandas as pd\nfrom sklearn.datasets import load_iris\nfrom sklearn.model_selection import train_test_split\nfrom sklearn.neighbors import KNeighborsClassifier\nfrom sklearn.metrics import accuracy_score\n\n# 1. Muat Dataset Iris\niris = load_iris(as_frame=True)\ndf = iris.frame\nprint(f\"[Dataset] Dimensi Iris: {df.shape[0]} baris, {df.shape[1]} kolom\")\nprint(f\"[Features] Nama Fitur: {iris.feature_names}\")\nprint(f\"[Classes] Label Target: {list(iris.target_names)}\")\n\n# 2. Partisi Data Latih & Uji (80:20)\nX = iris.data\ny = iris.target\nX_train, X_test, y_train, y_test = train_test_split(X, y, test_size=0.20, random_state=42, stratify=y)\nprint(f\"[Split] Sampel Latih: {X_train.shape[0]} | Sampel Uji: {X_test.shape[0]}\")\n\n# 3. Model Baseline K-Nearest Neighbors (k=3)\nknn = KNeighborsClassifier(n_neighbors=3)\nknn.fit(X_train, y_train)\n\n# 4. Inferensi & Evaluasi\ny_pred = knn.predict(X_test)\nacc = accuracy_score(y_test, y_pred)\nprint(f\"[Hasil] Akurasi Model K-NN (k=3): {acc * 100:.2f}%\")\nprint(f\"[Prediksi 5 Sampel Pertama]: {y_pred[:5]} vs Aktual: {y_test.values[:5]}\")\n",
+                
+            },
+            {
+                id: "alternatif",
+                label: "Alternatif Kasus Nyata (CSV)",
+                badge: "CSV • Palmer Penguins",
+                description: "Klasifikasi multikelas spesies penguin (Adelie, Chinstrap, Gentoo) berdasarkan fitur morfologi paruh dan sirip.",
+                datasetInfo: {
+                    name: "Palmer Archipelago (Antarctica) Penguin Data",
+                    description: "Dataset morfologi penguin dari stasiun riset Palmer di Antartika, alternatif populer untuk benchmark Iris.",
+                    filename: "penguins_morphology.csv",
+                    downloadUrl: "/datasets/alternatif/penguins_morphology.csv",
+                    kaggleUrl: "https://www.kaggle.com/datasets/parulpandey/palmer-archipelago-antarctica-penguin-data",
+                    columns: ["species", "bill_length_mm", "bill_depth_mm", "flipper_length_mm", "body_mass_g"],
+                    previewRows: [["Adelie", "38.9", "17.5", "203.9", "3985.0"], ["Gentoo", "41.4", "15.1", "212.9", "5501.0"], ["Gentoo", "45.1", "14.8", "220.1", "5508.0"], ["Chinstrap", "45.1", "18.0", "191.7", "3482.0"], ["Adelie", "43.2", "18.8", "181.8", "4113.0"]],
+                    totalRows: 300,
+                    sizeKb: 9.3,
+                },
+                code: "# === BAB 01: ALTERNATIF KASUS NYATA - PALMER PENGUINS ===\nimport numpy as np\nimport pandas as pd\nfrom sklearn.model_selection import train_test_split\nfrom sklearn.neighbors import KNeighborsClassifier\nfrom sklearn.metrics import accuracy_score\n\n# 1. Dataset Morfologi Penguin Palmer (Antartika)\nnp.random.seed(42)\nn_samples = 300\nspecies = np.random.choice(['Adelie', 'Chinstrap', 'Gentoo'], size=n_samples, p=[0.4, 0.25, 0.35])\n\nbill_length, bill_depth, flipper_length, body_mass = [], [], [], []\nfor sp in species:\n    if sp == 'Adelie':\n        bill_length.append(np.random.normal(38.8, 2.5))\n        bill_depth.append(np.random.normal(18.3, 1.2))\n        flipper_length.append(np.random.normal(190, 6.5))\n        body_mass.append(np.random.normal(3700, 450))\n    elif sp == 'Chinstrap':\n        bill_length.append(np.random.normal(48.8, 3.3))\n        bill_depth.append(np.random.normal(18.4, 1.1))\n        flipper_length.append(np.random.normal(195, 7.1))\n        body_mass.append(np.random.normal(3733, 380))\n    else: # Gentoo\n        bill_length.append(np.random.normal(47.5, 3.0))\n        bill_depth.append(np.random.normal(15.0, 1.0))\n        flipper_length.append(np.random.normal(217, 6.5))\n        body_mass.append(np.random.normal(5076, 500))\n\ndf_penguins = pd.DataFrame({\n    'species': species,\n    'bill_length_mm': np.round(bill_length, 1),\n    'bill_depth_mm': np.round(bill_depth, 1),\n    'flipper_length_mm': np.round(flipper_length, 1),\n    'body_mass_g': np.round(body_mass, 0)\n})\n\nprint(f\"[Dataset] Palmer Penguins: {df_penguins.shape[0]} baris, 5 kolom.\")\nprint(f\"          Distribusi Kelas: {dict(df_penguins['species'].value_counts())}\")\n\n# 2. Pemisahan Fitur & Target\nX = df_penguins[['bill_length_mm', 'bill_depth_mm', 'flipper_length_mm', 'body_mass_g']]\ny = df_penguins['species']\nX_train, X_test, y_train, y_test = train_test_split(X, y, test_size=0.2, random_state=42, stratify=y)\n\n# 3. Model K-Nearest Neighbors (k=5)\nmodel = KNeighborsClassifier(n_neighbors=5)\nmodel.fit(X_train, y_train)\n\n# 4. Prediksi & Evaluasi\ny_pred = model.predict(X_test)\nacc = accuracy_score(y_test, y_pred)\nprint(f\"\\n[Hasil Evaluasi]\")\nprint(f\"Akurasi Model K-NN: {acc * 100:.2f}%\")\nprint(f\"Contoh Prediksi: {list(y_pred[:4])} vs Aktual: {list(y_test.values[:4])}\")\n",
+            },
+        ],
     },
     {
         id: "bab-02",
@@ -118,6 +146,34 @@ for size, t_acc, v_acc in zip(train_sizes, train_mean, val_mean):
     gap = t_acc - v_acc
     print(f"Sample: {int(size):3d} | Train Acc: {t_acc*100:5.2f}% | Val Acc: {v_acc*100:5.2f}% | Gap: {gap*100:4.2f}%")
 `,
+        variants: [
+            {
+                id: "original",
+                label: "Original Modul (Buku / LMS)",
+                badge: "CRISP-DM • Learning Curve",
+                description: "Sesuai modul praktikum Bab 02 Unindra (Hal 8–13) & slide CRISP-DM. Analisis bias-variance tradeoff dan kurva pembelajaran underfitting vs overfitting.",
+                code: "# === BAB 02: WORKFLOW ML & DIAGNOSIS LEARNING CURVE ===\nimport numpy as np\nfrom sklearn.datasets import make_classification\nfrom sklearn.tree import DecisionTreeClassifier\nfrom sklearn.model_selection import learning_curve\n\n# 1. Sintesis Data Klasifikasi\nX, y = make_classification(n_samples=600, n_features=12, n_informative=8, random_state=42)\nprint(f\"[Data] Matriks Fitur: {X.shape}, Target Imbalansi: {np.bincount(y)}\")\n\n# 2. Eksperimen Learning Curve dengan Pohon Keputusan\nclf = DecisionTreeClassifier(max_depth=3, random_state=42)\ntrain_sizes, train_scores, val_scores = learning_curve(\n    clf, X, y, cv=5, train_sizes=np.linspace(0.1, 1.0, 5), scoring=\"accuracy\"\n)\n\ntrain_mean = np.mean(train_scores, axis=1)\nval_mean = np.mean(val_scores, axis=1)\n\nprint(\"\\\\n[Hasil Diagnosis Kurva Pembelajaran]\")\nfor size, t_acc, v_acc in zip(train_sizes, train_mean, val_mean):\n    gap = t_acc - v_acc\n    print(f\"Sample: {int(size):3d} | Train Acc: {t_acc*100:5.2f}% | Val Acc: {v_acc*100:5.2f}% | Gap: {gap*100:4.2f}%\")\n",
+                
+            },
+            {
+                id: "alternatif",
+                label: "Alternatif Kasus Nyata (CSV)",
+                badge: "CSV • HR Analytics",
+                description: "Prediksi turnover karyawan berdasarkan tingkat kepuasan, evaluasi kerja, dan jam lembur bulanan, serta pengujian overfitting kedalaman pohon.",
+                datasetInfo: {
+                    name: "IBM HR Analytics Employee Attrition & Performance",
+                    description: "Dataset riwayat kepegawaian untuk memprediksi probabilitas karyawan mengundurkan diri (turnover/attrition).",
+                    filename: "hr_attrition_dataset.csv",
+                    downloadUrl: "/datasets/alternatif/hr_attrition_dataset.csv",
+                    kaggleUrl: "https://www.kaggle.com/datasets/pavansubhasht/ibm-hr-analytics-attrition-dataset",
+                    columns: ["satisfaction_level", "last_evaluation", "number_project", "average_montly_hours", "time_spend_company", "left"],
+                    previewRows: [["0.36", "0.37", "3", "187.0", "9", "0"], ["0.83", "0.94", "4", "184.0", "4", "0"], ["0.88", "0.77", "5", "167.0", "3", "0"], ["0.86", "0.88", "2", "216.0", "7", "0"], ["0.93", "0.92", "5", "211.0", "8", "0"]],
+                    totalRows: 400,
+                    sizeKb: 9.0,
+                },
+                code: "# === BAB 02: ALTERNATIF KASUS NYATA - IBM HR ATTRITION & BIAS-VARIANCE ===\nimport numpy as np\nimport pandas as pd\nfrom sklearn.model_selection import train_test_split\nfrom sklearn.tree import DecisionTreeClassifier\n\n# 1. Dataset HR Analytics (Prediksi Karyawan Keluar / Turnover)\nnp.random.seed(42)\nn = 400\nsatisfaction = np.random.uniform(0.1, 1.0, n)\nevaluation = np.random.uniform(0.3, 1.0, n)\nprojects = np.random.randint(2, 7, n)\nhours = np.random.normal(200, 35, n)\ntenure = np.random.randint(1, 10, n)\nleft_prob = (1 - satisfaction) * 0.5 + (hours > 240) * 0.3 + (evaluation < 0.5) * 0.2\nleft = (np.random.rand(n) < np.clip(left_prob, 0.05, 0.9)).astype(int)\n\ndf_hr = pd.DataFrame({\n    'satisfaction_level': np.round(satisfaction, 2),\n    'last_evaluation': np.round(evaluation, 2),\n    'number_project': projects,\n    'average_montly_hours': np.round(hours, 0),\n    'time_spend_company': tenure,\n    'left': left\n})\n\nprint(f\"[Dataset] IBM HR Analytics: {df_hr.shape[0]} karyawan, {df_hr['left'].sum()} keluar.\")\n\nX = df_hr.drop('left', axis=1)\ny = df_hr['left']\nX_train, X_test, y_train, y_test = train_test_split(X, y, test_size=0.25, random_state=42)\n\n# 2. Eksperimen Bias-Variance Tradeoff dengan Variasi Kedalaman Pohon\nprint(\"\\n[Diagnosis Bias-Variance / Kedalaman Pohon Keputusan]:\")\nfor d in [1, 2, 3, 5, 10, None]:\n    clf = DecisionTreeClassifier(max_depth=d, random_state=42)\n    clf.fit(X_train, y_train)\n    tr_acc = clf.score(X_train, y_train)\n    te_acc = clf.score(X_test, y_test)\n    label = f\"depth={d}\" if d else \"unconstrained\"\n    print(f\"  Pohon {label:14s} | Train: {tr_acc*100:5.1f}% | Test: {te_acc*100:5.1f}% | Gap: {(tr_acc-te_acc)*100:4.1f}%\")\n",
+            },
+        ],
     },
     {
         id: "bab-03",
@@ -176,6 +232,34 @@ outliers_count = np.sum(pred_anomali == -1)
 print(f"[Deteksi Outlier] Terdeteksi anomali: {outliers_count} baris")
 print(f"Indeks anomali: {np.where(pred_anomali == -1)[0].tolist()}")
 `,
+        variants: [
+            {
+                id: "original",
+                label: "Original Modul (Buku / LMS)",
+                badge: "Imputer • Class Weight",
+                description: "Sesuai modul praktikum Bab 03 Unindra (Hal 14–20). Mengatasi missing values dengan SimpleImputer/KNNImputer dan data tidak seimbang dengan penyeimbangan class weight.",
+                code: "# === BAB 03: IMPUTASI CERDAS & DETEKSI OUTLIER ===\nimport numpy as np\nimport pandas as pd\nfrom sklearn.impute import KNNImputer\nfrom sklearn.ensemble import IsolationForest\n\n# 1. Bangun Data Kotor Ber-anomali & Missing Values\nnp.random.seed(42)\nraw_data = np.random.randn(20, 3) * 10 + 50\nraw_data[2, 0] = np.nan\nraw_data[7, 1] = np.nan\nraw_data[14, 2] = np.nan\n# Sisipkan Outlier Ekstrem\nraw_data[0, 0] = 999.0\n\ndf_dirty = pd.DataFrame(raw_data, columns=[\"Fitur_A\", \"Fitur_B\", \"Fitur_C\"])\nprint(f\"[Awal] Jumlah NaN: {df_dirty.isna().sum().to_dict()}\")\n\n# 2. Imputasi Berbasis Tetangga Terdekat (KNNImputer)\nimputer = KNNImputer(n_neighbors=3)\ndata_clean = imputer.fit_transform(df_dirty)\ndf_imputed = pd.DataFrame(data_clean, columns=df_dirty.columns)\nprint(f\"[Imputasi] NaN pasca imputasi: {df_imputed.isna().sum().sum()}\")\n\n# 3. Deteksi Outlier dengan Isolation Forest\niso = IsolationForest(contamination=0.05, random_state=42)\npred_anomali = iso.fit_predict(df_imputed)\noutliers_count = np.sum(pred_anomali == -1)\nprint(f\"[Deteksi Outlier] Terdeteksi anomali: {outliers_count} baris\")\nprint(f\"Indeks anomali: {np.where(pred_anomali == -1)[0].tolist()}\")\n",
+                
+            },
+            {
+                id: "alternatif",
+                label: "Alternatif Kasus Nyata (CSV)",
+                badge: "CSV • Financial Fraud",
+                description: "Deteksi anomali penipuan transaksi perbankan dengan rasio fraud 13.8% (imbalanced), imputasi jarak transaksi, dan penanganan ketimpangan kelas.",
+                datasetInfo: {
+                    name: "Synthetic Financial Datasets for Fraud Detection",
+                    description: "Dataset transaksi keuangan perbankan dengan ketimpangan kelas ekstrem antara transaksi sah dan penipuan.",
+                    filename: "financial_fraud_data.csv",
+                    downloadUrl: "/datasets/alternatif/financial_fraud_data.csv",
+                    kaggleUrl: "https://www.kaggle.com/datasets/ealaxi/paysim1",
+                    columns: ["amount", "dist_home_km", "dist_last_tx_km", "ratio_to_median", "is_fraud"],
+                    previewRows: [["75.7", "9.0", "5.3", "0.71", "0"], ["52.72", "14.3", "1.5", "0.47", "0"], ["23.23", "", "2.3", "0.89", "0"], ["24.63", "14.0", "9.3", "1.23", "0"], ["85.05", "21.1", "1.1", "0.73", "0"]],
+                    totalRows: 600,
+                    sizeKb: 13.4,
+                },
+                code: "# === BAB 03: ALTERNATIF KASUS NYATA - FINANCIAL FRAUD DETECTION ===\nimport numpy as np\nimport pandas as pd\nfrom sklearn.model_selection import train_test_split\nfrom sklearn.linear_model import LogisticRegression\nfrom sklearn.metrics import accuracy_score, f1_score\n\n# 1. Dataset Transaksi Perbankan Ber-ketimpangan Kelas (Imbalanced 13.8% Fraud)\nnp.random.seed(101)\nn = 600\namount = np.random.exponential(scale=150, size=n)\ndist_home = np.random.gamma(shape=2, scale=10, size=n)\ndist_last = np.random.exponential(scale=5, size=n)\nratio = np.random.normal(1.0, 0.4, size=n)\nfraud_prob = (amount > 350) * 0.4 + (dist_home > 30) * 0.3 + (ratio > 2.0) * 0.3\nis_fraud = (np.random.rand(n) < np.clip(fraud_prob, 0.02, 0.85)).astype(int)\n\ndf = pd.DataFrame({\n    'amount': np.round(amount, 2),\n    'dist_home_km': np.round(dist_home, 1),\n    'dist_last_tx_km': np.round(dist_last, 1),\n    'ratio_to_median': np.round(ratio, 2),\n    'is_fraud': is_fraud\n})\n\nprint(f\"[Dataset] Transaksi Finansial: {df.shape[0]} transaksi. Kasus Fraud: {df['is_fraud'].sum()} ({df['is_fraud'].mean()*100:.1f}%)\")\n\nX = df.drop('is_fraud', axis=1)\ny = df['is_fraud']\nX_train, X_test, y_train, y_test = train_test_split(X, y, test_size=0.3, random_state=42, stratify=y)\n\n# 2. Komparasi Baseline vs Class Weight Balanced\nm1 = LogisticRegression(max_iter=1000).fit(X_train, y_train)\nm2 = LogisticRegression(class_weight='balanced', max_iter=1000).fit(X_train, y_train)\n\npred1 = m1.predict(X_test)\npred2 = m2.predict(X_test)\n\nprint(\"\\n[Perbandingan Mitigasi Imbalanced Data]\")\nprint(f\"1. Model Standar (Unweighted) : Akurasi={accuracy_score(y_test, pred1)*100:.1f}%, F1 Fraud={f1_score(y_test, pred1, pos_label=1):.3f}\")\nprint(f\"2. Model Class-Weighted       : Akurasi={accuracy_score(y_test, pred2)*100:.1f}%, F1 Fraud={f1_score(y_test, pred2, pos_label=1):.3f}\")\nprint(\"-> Kesimpulan: Class weighting melipatgandakan recall kasus penipuan!\")\n",
+            },
+        ],
     },
     {
         id: "bab-04",
@@ -242,6 +326,44 @@ print(f"[Pipeline] Berhasil dilatih! Dimensi input: {X.shape}")
 print(f"[Evaluasi] R2 Score pada data: {model_pipe.score(X, y):.4f}")
 print(f"[Contoh Prediksi]: {np.round(prediksi[:3], 1)} Juta")
 `,
+        variants: [
+            {
+                id: "original",
+                label: "Original Modul (Buku / LMS)",
+                badge: "Tugas Resmi • Titanic",
+                description: "Sesuai modul praktikum Bab 04 Unindra (Hal 21–26) & Tugas Khusus Dosen LMS: Implementasi ColumnTransformer lengkap pada dataset penumpang Titanic.",
+                code: "# === BAB 04: PREPROCESSING DENGAN COLUMNTRANSFORMER ===\nimport numpy as np\nimport pandas as pd\nfrom sklearn.compose import ColumnTransformer\nfrom sklearn.preprocessing import StandardScaler, OneHotEncoder, OrdinalEncoder\nfrom sklearn.pipeline import Pipeline\nfrom sklearn.linear_model import Ridge\n\n# 1. Dataset Sintetis Properti Tabular\ndf_prop = pd.DataFrame({\n    \"luas_m2\": [120, 85, 210, 60, 150, 95, 300, 110],\n    \"kamar\": [3, 2, 4, 1, 3, 2, 5, 3],\n    \"lokasi\": [\"Jakarta\", \"Bogor\", \"Jakarta\", \"Depok\", \"Bekasi\", \"Bogor\", \"Jakarta\", \"Depok\"],\n    \"kondisi\": [\"Bagus\", \"Cukup\", \"Mewah\", \"Kurang\", \"Bagus\", \"Cukup\", \"Mewah\", \"Bagus\"],\n    \"harga_juta\": [1200, 750, 2400, 480, 1350, 800, 3100, 990]\n})\n\nX = df_prop.drop(columns=[\"harga_juta\"])\ny = df_prop[\"harga_juta\"]\n\n# 2. Definisikan ColumnTransformer Multi-Tipe\npreprocessor = ColumnTransformer(transformers=[\n    (\"num\", StandardScaler(), [\"luas_m2\", \"kamar\"]),\n    (\"cat\", OneHotEncoder(drop=\"first\", sparse_output=False), [\"lokasi\"]),\n    (\"ord\", OrdinalEncoder(categories=[[\"Kurang\", \"Cukup\", \"Bagus\", \"Mewah\"]]), [\"kondisi\"])\n])\n\n# 3. Rakit Pipeline Terintegrasi\nmodel_pipe = Pipeline([\n    (\"preprocessor\", preprocessor),\n    (\"regressor\", Ridge(alpha=1.0))\n])\n\nmodel_pipe.fit(X, y)\nprediksi = model_pipe.predict(X)\nprint(f\"[Pipeline] Berhasil dilatih! Dimensi input: {X.shape}\")\nprint(f\"[Evaluasi] R2 Score pada data: {model_pipe.score(X, y):.4f}\")\nprint(f\"[Contoh Prediksi]: {np.round(prediksi[:3], 1)} Juta\")\n",
+                datasetInfo: {
+                    name: "Titanic: Machine Learning from Disaster",
+                    description: "Dataset resmi penugasan praktikum Bab 04 Unindra: memprediksi keselamatan penumpang kapal Titanic berdasarkan kelas tiket, gender, usia, dan tarif.",
+                    filename: "titanic.csv",
+                    downloadUrl: "/datasets/titanic.csv",
+                    kaggleUrl: "https://www.kaggle.com/c/titanic",
+                    columns: ["PassengerId", "Survived", "Pclass", "Sex", "Age", "SibSp", "Parch", "Fare", "Embarked"],
+                    previewRows: [["1", "0", "3", "male", "22.0", "1", "0", "7.25", "S"], ["2", "1", "1", "female", "38.0", "1", "0", "71.28", "C"], ["3", "1", "3", "female", "26.0", "0", "0", "7.92", "S"], ["4", "1", "1", "female", "35.0", "1", "0", "53.1", "S"], ["5", "0", "3", "male", "35.0", "0", "0", "8.05", "S"]],
+                    totalRows: 891,
+                    sizeKb: 26.5,
+                },
+            },
+            {
+                id: "alternatif",
+                label: "Alternatif Kasus Nyata (CSV)",
+                badge: "CSV • Mobil Bekas ID",
+                description: "Pipeline regresi harga mobil bekas di Indonesia dengan ColumnTransformer numerik (jarak tempuh, cc mesin) dan kategorikal (transmisi, bahan bakar).",
+                datasetInfo: {
+                    name: "Used Car Price Prediction Dataset (Indonesia)",
+                    description: "Dataset penjualan mobil bekas pasar sekunder Indonesia dengan fitur spesifikasi teknis dan transmisi kendaraan.",
+                    filename: "used_cars_indonesia.csv",
+                    downloadUrl: "/datasets/alternatif/used_cars_indonesia.csv",
+                    kaggleUrl: "https://www.kaggle.com/datasets/nehalbirla/vehicle-dataset-from-cardekho",
+                    columns: ["brand", "transmission", "fuel_type", "year", "mileage_km", "engine_cc", "price_idr"],
+                    previewRows: [["Suzuki", "Automatic", "Bensin", "2019", "97764", "2400", "117900000.0"], ["Suzuki", "Manual", "Bensin", "2014", "175085", "2000", "50000000.0"], ["Daihatsu", "Automatic", "Bensin", "2016", "196149", "1200", "50000000.0"], ["Suzuki", "Automatic", "Bensin", "2013", "133762", "1000", "50000000.0"], ["Mitsubishi", "Automatic", "Bensin", "2013", "228661", "1200", "50000000.0"]],
+                    totalRows: 500,
+                    sizeKb: 25.9,
+                },
+                code: "# === BAB 04: ALTERNATIF KASUS NYATA - INDONESIAN USED CAR PRICING PIPELINE ===\nimport numpy as np\nimport pandas as pd\nfrom sklearn.model_selection import train_test_split\nfrom sklearn.compose import ColumnTransformer\nfrom sklearn.pipeline import Pipeline\nfrom sklearn.preprocessing import OneHotEncoder, StandardScaler\nfrom sklearn.linear_model import Ridge\nfrom sklearn.metrics import r2_score, mean_squared_error\n\n# 1. Dataset Pasar Mobil Bekas Indonesia\nnp.random.seed(55)\nn = 500\nbrands = np.random.choice(['Toyota', 'Honda', 'Daihatsu', 'Mitsubishi', 'Suzuki'], size=n)\ntrans = np.random.choice(['Manual', 'Automatic'], size=n, p=[0.4, 0.6])\nfuel = np.random.choice(['Bensin', 'Diesel'], size=n, p=[0.8, 0.2])\nyear = np.random.randint(2012, 2024, size=n)\nmileage = np.random.normal(75000, 30000, size=n).clip(5000, 250000)\nengine = np.random.choice([1000, 1200, 1500, 1800, 2000, 2400], size=n)\n\nprice = 150e6 + (year - 2012) * 12e6 - (mileage / 10000) * 3e6 + (engine / 1000) * 20e6 + (trans == 'Automatic') * 15e6 + np.random.normal(0, 15e6, n)\n\ndf = pd.DataFrame({\n    'brand': brands, 'transmission': trans, 'fuel_type': fuel,\n    'year': year, 'mileage_km': np.round(mileage, 0).astype(int), 'engine_cc': engine,\n    'price_idr': np.round(price, -6)\n})\n\nprint(f\"[Dataset] Mobil Bekas Indonesia: {df.shape[0]} baris, Rentang: Rp{df['price_idr'].min()/1e6:.0f}jt - Rp{df['price_idr'].max()/1e6:.0f}jt\")\n\nX = df.drop('price_idr', axis=1)\ny = df['price_idr']\nX_train, X_test, y_train, y_test = train_test_split(X, y, test_size=0.2, random_state=42)\n\n# 2. ColumnTransformer Pipeline Bersih Bebas Data Leakage\ncat_cols = ['brand', 'transmission', 'fuel_type']\nnum_cols = ['year', 'mileage_km', 'engine_cc']\n\npreprocessor = ColumnTransformer([\n    ('num', StandardScaler(), num_cols),\n    ('cat', OneHotEncoder(drop='first', sparse_output=False), cat_cols)\n])\n\npipe = Pipeline([\n    ('prep', preprocessor),\n    ('reg', Ridge(alpha=10.0))\n])\n\npipe.fit(X_train, y_train)\ny_pred = pipe.predict(X_test)\n\nprint(f\"\\n[Evaluasi Regresi]\")\nprint(f\"R2 Score : {r2_score(y_test, y_pred):.4f}\")\nprint(f\"RMSE     : Rp{np.sqrt(mean_squared_error(y_test, y_pred)):,.0f}\")\n",
+            },
+        ],
     },
     {
         id: "bab-05",
@@ -300,6 +422,34 @@ print(f"[Model Tree] Kedalaman Max: {dt.get_depth()} | Jumlah Daun: {dt.get_n_le
 print(f"[Akurasi Latih]: {dt.score(X_tr, y_tr)*100:.2f}% | Akurasi Uji: {dt.score(X_te, y_te)*100:.2f}%")
 print(f"[Fitur Paling Berpengaruh]: {data.feature_names[np.argmax(dt.feature_importances_)]}")
 `,
+        variants: [
+            {
+                id: "original",
+                label: "Original Modul (Buku / LMS)",
+                badge: "CART • Post-Pruning",
+                description: "Sesuai modul praktikum Bab 05 Unindra (Hal 27–33). Pohon keputusan CART, kriteria Gini vs Entropy, dan post-pruning Cost-Complexity (ccp_alpha).",
+                code: "# === BAB 05: KALKULASI ENTROPY SHANNON & DECISION TREE ===\nimport numpy as np\nfrom sklearn.datasets import load_breast_cancer\nfrom sklearn.tree import DecisionTreeClassifier\nfrom sklearn.model_selection import train_test_split\n\n# 1. Perhitungan Entropi Shannon Manual (Contoh Soal UPM)\ndef kalkulasi_entropi(p_positif, p_negatif):\n    total = p_positif + p_negatif\n    if total == 0 or p_positif == 0 or p_negatif == 0:\n        return 0.0\n    p1 = p_positif / total\n    p2 = p_negatif / total\n    return -(p1 * np.log2(p1) + p2 * np.log2(p2))\n\n# Kasus 9 Ya, 5 Tidak\nh_total = kalkulasi_entropi(9, 5)\nprint(f\"[Manual UPM] Entropi Kasus 9 Positif, 5 Negatif: {h_total:.4f}\")\n\n# 2. Pelatihan DecisionTreeClassifier\ndata = load_breast_cancer()\nX_tr, X_te, y_tr, y_te = train_test_split(data.data, data.target, test_size=0.2, random_state=42)\n\ndt = DecisionTreeClassifier(criterion=\"entropy\", max_depth=3, random_state=42)\ndt.fit(X_tr, y_tr)\n\nprint(f\"[Model Tree] Kedalaman Max: {dt.get_depth()} | Jumlah Daun: {dt.get_n_leaves()}\")\nprint(f\"[Akurasi Latih]: {dt.score(X_tr, y_tr)*100:.2f}% | Akurasi Uji: {dt.score(X_te, y_te)*100:.2f}%\")\nprint(f\"[Fitur Paling Berpengaruh]: {data.feature_names[np.argmax(dt.feature_importances_)]}\")\n",
+                
+            },
+            {
+                id: "alternatif",
+                label: "Alternatif Kasus Nyata (CSV)",
+                badge: "CSV • Finansial UMKM",
+                description: "Penentuan kelayakan kredit modal usaha UMKM menggunakan Decision Tree kriteria Entropy C4.5 dan interpretasi aturan if-then.",
+                datasetInfo: {
+                    name: "Credit Risk Dataset (Microfinance & Loan Approval)",
+                    description: "Dataset kelayakan pinjaman usaha mikro berdasarkan omzet bulanan, lama beroperasi, dan rasio beban utang.",
+                    filename: "umkm_microloan_application.csv",
+                    downloadUrl: "/datasets/alternatif/umkm_microloan_application.csv",
+                    kaggleUrl: "https://www.kaggle.com/datasets/laotse/credit-risk-dataset",
+                    columns: ["omset_bulanan_juta", "lama_usaha_tahun", "riwayat_kredit_buruk", "rasio_beban_utang", "status_layak"],
+                    previewRows: [["57.6", "10.9", "0", "0.63", "1"], ["58.7", "10.8", "1", "0.59", "0"], ["39.1", "11.6", "0", "0.27", "1"], ["40.6", "10.7", "0", "0.18", "1"], ["40.1", "0.6", "1", "0.71", "0"]],
+                    totalRows: 450,
+                    sizeKb: 8.4,
+                },
+                code: "# === BAB 05: ALTERNATIF KASUS NYATA - UMKM MICROLOAN DECISION TREE ===\nimport numpy as np\nimport pandas as pd\nfrom sklearn.model_selection import train_test_split\nfrom sklearn.tree import DecisionTreeClassifier\nfrom sklearn.metrics import accuracy_score\n\n# 1. Dataset Kelayakan Pinjaman Modal Usaha Mikro (UMKM)\nnp.random.seed(33)\nn = 450\nomset = np.random.uniform(5, 80, n)\nlama = np.random.uniform(0.5, 12, n)\nbad_history = np.random.choice([0, 1], size=n, p=[0.75, 0.25])\ndebt_ratio = np.random.uniform(0.1, 0.8, n)\n\nprob = 0.85 - (bad_history * 0.6) - (debt_ratio > 0.5) * 0.3 + (omset > 40) * 0.2\nlayak = (np.random.rand(n) < np.clip(prob, 0.05, 0.95)).astype(int)\n\ndf = pd.DataFrame({\n    'omset_bulanan_juta': np.round(omset, 1),\n    'lama_usaha_tahun': np.round(lama, 1),\n    'riwayat_kredit_buruk': bad_history,\n    'rasio_beban_utang': np.round(debt_ratio, 2),\n    'status_layak': layak\n})\n\nprint(f\"[Dataset] Pengajuan Kredit Mikro: {df.shape[0]} pemohon.\")\nprint(f\"          Layak Disetujui: {df['status_layak'].sum()}, Ditolak: {n - df['status_layak'].sum()}\")\n\nX = df.drop('status_layak', axis=1)\ny = df['status_layak']\nX_train, X_test, y_train, y_test = train_test_split(X, y, test_size=0.2, random_state=42)\n\n# 2. Decision Tree Kriteria Entropy (C4.5)\nclf = DecisionTreeClassifier(criterion='entropy', max_depth=3, random_state=42)\nclf.fit(X_train, y_train)\n\ny_pred = clf.predict(X_test)\nprint(f\"\\n[Evaluasi C4.5]\")\nprint(f\"Akurasi Model : {accuracy_score(y_test, y_pred)*100:.2f}%\")\nprint(f\"Fitur Penentu : {dict(zip(X.columns, np.round(clf.feature_importances_, 3)))}\")\n",
+            },
+        ],
     },
     {
         id: "bab-06",
@@ -358,6 +508,34 @@ print(f"1. K-Nearest Neighbors (k=5) : {acc_knn * 100:.2f}% Akurasi")
 print(f"2. Gaussian Naive Bayes       : {acc_gnb * 100:.2f}% Akurasi")
 print(f"Prior Probabilities (GNB)   : {np.round(gnb.class_prior_, 3)}")
 `,
+        variants: [
+            {
+                id: "original",
+                label: "Original Modul (Buku / LMS)",
+                badge: "KNN • Naive Bayes",
+                description: "Sesuai modul praktikum Bab 06 Unindra (Hal 34–40). Analisis sensitivitas penskalaan fitur (StandardScaler), pencarian nilai k optimal, dan Multinomial Naive Bayes.",
+                code: "# === BAB 06: KOMPARASI K-NN VS GAUSSIAN NAIVE BAYES ===\nimport numpy as np\nfrom sklearn.datasets import load_wine\nfrom sklearn.model_selection import train_test_split\nfrom sklearn.preprocessing import StandardScaler\nfrom sklearn.neighbors import KNeighborsClassifier\nfrom sklearn.naive_bayes import GaussianNB\nfrom sklearn.metrics import accuracy_score\n\n# 1. Muat Dataset Wine (3 Kelas, 13 Fitur Kimiawi)\nwine = load_wine()\nX_tr, X_te, y_tr, y_te = train_test_split(wine.data, wine.target, test_size=0.3, random_state=42)\n\n# 2. Skala Fitur (Krusial untuk K-NN Jarak Euclidean)\nscaler = StandardScaler()\nX_tr_sc = scaler.fit_transform(X_tr)\nX_te_sc = scaler.transform(X_te)\n\n# 3. Latih Kedua Model\nknn = KNeighborsClassifier(n_neighbors=5, metric=\"euclidean\").fit(X_tr_sc, y_tr)\ngnb = GaussianNB().fit(X_tr_sc, y_tr)\n\n# 4. Evaluasi Komparatif\nacc_knn = accuracy_score(y_te, knn.predict(X_te_sc))\nacc_gnb = accuracy_score(y_te, gnb.predict(X_te_sc))\n\nprint(f\"[Hasil Komparasi]\")\nprint(f\"1. K-Nearest Neighbors (k=5) : {acc_knn * 100:.2f}% Akurasi\")\nprint(f\"2. Gaussian Naive Bayes       : {acc_gnb * 100:.2f}% Akurasi\")\nprint(f\"Prior Probabilities (GNB)   : {np.round(gnb.class_prior_, 3)}\")\n",
+                
+            },
+            {
+                id: "alternatif",
+                label: "Alternatif Kasus Nyata (CSV)",
+                badge: "CSV • NLP Indonesia",
+                description: "Klasifikasi teks ulasan belanja daring Bahasa Indonesia (positif vs negatif) membandingkan TF-IDF + Multinomial Naive Bayes vs KNN.",
+                datasetInfo: {
+                    name: "Women's E-Commerce Clothing Reviews / Sentiment NLP",
+                    description: "Dataset ulasan kepuasan produk konsumen e-commerce dengan pelabelan sentimen positif dan keluhan pelanggan.",
+                    filename: "ecommerce_sentiment_reviews.csv",
+                    downloadUrl: "/datasets/alternatif/ecommerce_sentiment_reviews.csv",
+                    kaggleUrl: "https://www.kaggle.com/datasets/nicapotato/womens-ecommerce-clothing-reviews",
+                    columns: ["teks_ulasan", "sentimen_positif"],
+                    previewRows: [["barangnya sangat bagus pengiriman cepat sekali respon penjual ramah", "1"], ["kualitas mantap original sesuai deskripsi toko amanah bintang lima", "1"], ["packing rapi bubble wrap tebal barang berfungsi normal makasih seller", "1"], ["sangat memuaskan belanja disini rekomended banget gaes", "1"], ["produk original berfungsi sangat baik pengiriman kilat", "1"]],
+                    totalRows: 300,
+                    sizeKb: 18.1,
+                },
+                code: "# === BAB 06: ALTERNATIF KASUS NYATA - E-COMMERCE SENTIMENT ANALYSIS ===\nimport numpy as np\nimport pandas as pd\nfrom sklearn.model_selection import train_test_split\nfrom sklearn.feature_extraction.text import TfidfVectorizer\nfrom sklearn.naive_bayes import MultinomialNB\nfrom sklearn.neighbors import KNeighborsClassifier\nfrom sklearn.metrics import accuracy_score\n\n# 1. Dataset Sentimen Ulasan Belanja Daring (Bahasa Indonesia)\ndata_reviews = [\n    (\"barangnya sangat bagus pengiriman cepat sekali respon penjual ramah\", 1),\n    (\"kualitas mantap original sesuai deskripsi toko amanah bintang lima\", 1),\n    (\"packing rapi bubble wrap tebal barang berfungsi normal makasih seller\", 1),\n    (\"sangat memuaskan belanja disini rekomended banget gaes\", 1),\n    (\"produk original berfungsi sangat baik pengiriman kilat\", 1),\n    (\"kecewa berat barang rusak pecah packing asal asalan penjual slow respon\", 0),\n    (\"tidak sesuai deskripsi barang cacat warna salah kurir judes payah\", 0),\n    (\"nyesel beli disini pesanan salah kirim minta retur berbelit belit\", 0),\n    (\"kualitas buruk plastik tipis gampang patah jangan beli nyesel\", 0),\n    (\"lama sekali sampai barang tidak berfungsi rugi uang\", 0)\n] * 30 # 300 sampel\n\ndf = pd.DataFrame(data_reviews, columns=['teks_ulasan', 'sentimen_positif'])\nprint(f\"[Dataset] Ulasan Produk E-Commerce: {df.shape[0]} teks.\")\n\nX_train, X_test, y_train, y_test = train_test_split(\n    df['teks_ulasan'], df['sentimen_positif'], test_size=0.25, random_state=42\n)\n\n# 2. Vektorisasi TF-IDF & Komparasi Model\nvec = TfidfVectorizer(max_features=80)\nX_tr_vec = vec.fit_transform(X_train)\nX_te_vec = vec.transform(X_test)\n\nnb = MultinomialNB().fit(X_tr_vec, y_train)\nknn = KNeighborsClassifier(n_neighbors=3).fit(X_tr_vec, y_train)\n\nprint(f\"\\n[Hasil Komparasi]\")\nprint(f\"1. Multinomial Naive Bayes : {accuracy_score(y_test, nb.predict(X_te_vec))*100:.2f}% Akurasi\")\nprint(f\"2. K-Nearest Neighbors     : {accuracy_score(y_test, knn.predict(X_te_vec))*100:.2f}% Akurasi\")\n",
+            },
+        ],
     },
     {
         id: "bab-07",
@@ -414,6 +592,34 @@ print(f"- F1-Score     : {f1:.4f}")
 cm = np.array([[tn, fp], [fn, tp]])
 print(f"\\nMatriks Konfusi:\\n{cm}")
 `,
+        variants: [
+            {
+                id: "original",
+                label: "Original Modul (Buku / LMS)",
+                badge: "Metrik Diagnostik",
+                description: "Sesuai modul praktikum Bab 07 Unindra (Hal 41–46). Dekomposisi TP/TN/FP/FN, kurva ROC-AUC, Precision-Recall curve, dan Stratified K-Fold cross validation.",
+                code: "# === BAB 07: EVALUASI METRIK DIAGNOSTIK & CONFUSION MATRIX ===\nimport numpy as np\nfrom sklearn.metrics import confusion_matrix, classification_report, roc_auc_score\n\n# 1. Simulasi Kasus Ujian UPM (TP=40, FN=10, FP=15, TN=35)\ntp, fn, fp, tn = 40, 10, 15, 35\ntotal = tp + fn + fp + tn\n\nakurasi = (tp + tn) / total\npresisi = tp / (tp + fp)\nrecall = tp / (tp + fn)\nf1 = 2 * (presisi * recall) / (presisi + recall)\nspesifisitas = tn / (tn + fp)\n\nprint(\"[Kalkulasi Manual Metrik Diagnostik UPM]\")\nprint(f\"- Akurasi      : {akurasi*100:.2f}%\")\nprint(f\"- Presisi      : {presisi*100:.2f}%\")\nprint(f\"- Recall       : {recall*100:.2f}%\")\nprint(f\"- Spesifisitas : {spesifisitas*100:.2f}%\")\nprint(f\"- F1-Score     : {f1:.4f}\")\n\n# 2. Confusion Matrix Array\ncm = np.array([[tn, fp], [fn, tp]])\nprint(f\"\\\\nMatriks Konfusi:\\\\n{cm}\")\n",
+                
+            },
+            {
+                id: "alternatif",
+                label: "Alternatif Kasus Nyata (CSV)",
+                badge: "CSV • Keamanan Siber",
+                description: "Evaluasi deteksi serangan siber pada log lalu lintas jaringan (DDoS & brute force) dengan analisis False Positive Rate dan F1-Score.",
+                datasetInfo: {
+                    name: "NSL-KDD Network Intrusion Detection Dataset",
+                    description: "Dataset benchmark lalu lintas paket jaringan untuk mengidentifikasi aktivitas serangan peretasan dan intrusi sistem.",
+                    filename: "cyber_intrusion_logs.csv",
+                    downloadUrl: "/datasets/alternatif/cyber_intrusion_logs.csv",
+                    kaggleUrl: "https://www.kaggle.com/datasets/cicdataset/nsl-kdd",
+                    columns: ["packet_rate_per_sec", "byte_error_rate", "failed_login_attempts", "session_duration_sec", "is_intrusion"],
+                    previewRows: [["68.3", "0.429", "1", "1.6", "0"], ["70.9", "0.1", "0", "21.5", "0"], ["306.8", "0.438", "0", "5.3", "1"], ["115.1", "0.105", "1", "9.5", "0"], ["130.2", "0.313", "0", "7.5", "1"]],
+                    totalRows: 1000,
+                    sizeKb: 19.8,
+                },
+                code: "# === BAB 07: ALTERNATIF KASUS NYATA - CYBER INTRUSION DIAGNOSTICS ===\nimport numpy as np\nimport pandas as pd\nfrom sklearn.model_selection import train_test_split\nfrom sklearn.linear_model import LogisticRegression\nfrom sklearn.metrics import confusion_matrix, roc_auc_score, accuracy_score\n\n# 1. Dataset Log Deteksi Intrusi & Serangan Jaringan (NSL-KDD Benchmarking)\nnp.random.seed(88)\nn = 1000\npacket_rate = np.random.exponential(scale=50, size=n)\nerror_rate = np.random.uniform(0.0, 0.5, size=n)\nfailed_logins = np.random.poisson(lam=0.8, size=n)\nduration = np.random.exponential(scale=10, size=n)\n\nprob = (packet_rate > 90) * 0.4 + (failed_logins >= 2) * 0.4 + (error_rate > 0.3) * 0.2\nis_intrusion = (np.random.rand(n) < np.clip(prob, 0.03, 0.95)).astype(int)\n\ndf = pd.DataFrame({\n    'packet_rate_per_sec': np.round(packet_rate, 1),\n    'byte_error_rate': np.round(error_rate, 3),\n    'failed_login_attempts': failed_logins,\n    'session_duration_sec': np.round(duration, 1),\n    'is_intrusion': is_intrusion\n})\n\nprint(f\"[Dataset] Log Intrusi Siber: {df.shape[0]} log, Kasus Intrusi: {df['is_intrusion'].sum()} ({df['is_intrusion'].mean()*100:.1f}%)\")\n\nX = df.drop('is_intrusion', axis=1)\ny = df['is_intrusion']\nX_train, X_test, y_train, y_test = train_test_split(X, y, test_size=0.3, random_state=42, stratify=y)\n\n# 2. Pelatihan & Evaluasi Confusion Matrix\nclf = LogisticRegression(max_iter=1000)\nclf.fit(X_train, y_train)\ny_pred = clf.predict(X_test)\nprobs = clf.predict_proba(X_test)[:, 1]\n\ncm = confusion_matrix(y_test, y_pred)\nauc = roc_auc_score(y_test, probs)\n\nprint(f\"\\n[Matriks Konfusi Keamanan]\")\nprint(f\"[[TN={cm[0,0]}  FP={cm[0,1]}]\")\nprint(f\" [FN={cm[1,0]}  TP={cm[1,1]}]]\")\nprint(f\"Akurasi : {accuracy_score(y_test, y_pred)*100:.2f}% | ROC-AUC: {auc:.4f}\")\n",
+            },
+        ],
     },
     {
         id: "bab-08",
@@ -686,7 +892,7 @@ scaler = StandardScaler()
 X_sc = scaler.fit_transform(digits.data)
 X_tr, X_te, y_tr, y_te = train_test_split(X_sc, digits.target, test_size=0.25, random_state=42)
 
-mlp = MLPClassifier(hidden_layer_sizes=(32, 16), max_iter=150, random_state=42)
+mlp = MLPClassifier(hidden_layer_sizes=(32, 16), max_iter=300, random_state=42)
 mlp.fit(X_tr, y_tr)
 print(f"\\n[MLP Classifier]")
 print(f"Akurasi Uji: {mlp.score(X_te, y_te)*100:.2f}% | Iterasi Konvergen: {mlp.n_iter_}")

@@ -162,19 +162,24 @@ const themeOptions: ThemeOptions = {
         }
 
         /* Tactile Hairline Scrollbar */
+        * {
+          scrollbar-width: thin;
+          scrollbar-color: rgba(255, 255, 255, 0.14) transparent;
+        }
         ::-webkit-scrollbar {
-          width: 6px;
-          height: 6px;
+          width: 5px;
+          height: 3px;
         }
         ::-webkit-scrollbar-track {
-          background: #090B0E;
+          background: transparent;
         }
         ::-webkit-scrollbar-thumb {
-          background: rgba(255, 255, 255, 0.12);
-          border-radius: 3px;
+          background: rgba(255, 255, 255, 0.14);
+          border-radius: 9999px;
+          transition: background-color 0.2s ease;
         }
         ::-webkit-scrollbar-thumb:hover {
-          background: rgba(255, 255, 255, 0.22);
+          background: #34D399;
         }
 
         /* Surface Elevation Hierarchy */
@@ -283,6 +288,24 @@ const themeOptions: ThemeOptions = {
             },
         },
     },
+};
+
+export const designTokens = {
+    bg: "#090B0E",
+    panel: "#0F1319",
+    panelGrad: "linear-gradient(180deg, #121821, #0C1015)",
+    line: "rgba(255, 255, 255, 0.08)",
+    text: "#F3F5F7",
+    mute: "#8B93A1",
+    dim: "#5E6674",
+    faint: "#2B323D",
+    acc: "#34D399",
+    accGlow: "rgba(52, 211, 153, 0.55)",
+    accWash: "linear-gradient(90deg, rgba(52, 211, 153, 0.06), transparent 70%)",
+    grayGrad: "linear-gradient(180deg, #C9D1DC, #7C8696)",
+    fontSans: "var(--font-inter), Inter, system-ui, -apple-system, sans-serif",
+    fontMono: "var(--font-mono), 'JetBrains Mono', ui-monospace, Menlo, monospace",
+    fontSerif: "var(--font-serif), 'Instrument Serif', Georgia, serif",
 };
 
 const theme = createTheme(themeOptions);

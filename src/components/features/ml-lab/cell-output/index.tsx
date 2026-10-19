@@ -137,19 +137,18 @@ export default function CellOutput({ output, isRunning = false }: CellOutputProp
                     <Typography sx={cellOutputStyles.metaBadge}>
                         WASM 64-bit • Heap ~34MB
                     </Typography>
-                    <Chip
-                        size="small"
-                        label={
-                            status === "running"
-                                ? "Calculating..."
-                                : status === "success"
-                                ? `Exit: 0 (${output?.executionTime || 0}ms)`
-                                : status === "error"
-                                ? "Exit: 1 (Error)"
-                                : "Standby (Idle)"
-                        }
-                        sx={cellOutputStyles.statusChip(status)}
-                    />
+                    <Box
+                        component="span"
+                        sx={cellOutputStyles.statusText(status)}
+                    >
+                        {status === "running"
+                            ? "[EXECUTING...]"
+                            : status === "success"
+                            ? `[EXIT: 0 · ${output?.executionTime || 0}ms]`
+                            : status === "error"
+                            ? "[EXIT: 1 · ERROR]"
+                            : "[STANDBY · IDLE]"}
+                    </Box>
                 </Box>
             </Box>
 

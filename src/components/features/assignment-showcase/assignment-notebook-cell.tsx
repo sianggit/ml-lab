@@ -1,13 +1,24 @@
 "use client";
 
-import { useState } from "react";
+import { useState, useEffect, useMemo } from "react";
+import dynamic from "next/dynamic";
 import Box from "@mui/material/Box";
 import Typography from "@mui/material/Typography";
 import Button from "@mui/material/Button";
+import Dialog from "@mui/material/Dialog";
+import DialogContent from "@mui/material/DialogContent";
+import IconButton from "@mui/material/IconButton";
 import CircularProgress from "@mui/material/CircularProgress";
 import IconComponent from "@/shared/components/icon";
 import { usePyodideKernel } from "@/hooks/use-pyodide-kernel";
 import { ExecutionOutput } from "@/models/ml-lab/chapter.model";
+import { designTokens } from "@/config/theme";
+
+// Dynamically import Monaco Editor to avoid SSR hydration mismatches
+const Editor = dynamic(() => import("@monaco-editor/react"), {
+    ssr: false,
+    loading: () => null,
+});
 
 export interface AssignmentNotebookCellProps {
     cellNumber?: number | string;
@@ -18,22 +29,35 @@ export interface AssignmentNotebookCellProps {
     onReset?: () => void;
 }
 
+type OutputViewMode = "stacked" | "plot" | "terminal";
+
 export default function AssignmentNotebookCell({
-    cellNumber = 1,
     title,
     code: initialCode,
     description,
-    maxCodeHeight = "360px",
+    maxCodeHeight = "380px",
     onReset,
 }: AssignmentNotebookCellProps) {
     const [code, setCode] = useState<string>(initialCode);
     const [output, setOutput] = useState<ExecutionOutput | null>(null);
-    const [activeTab, setActiveTab] = useState<"terminal" | "plot">("terminal");
+    const [outputView, setOutputView] = useState<OutputViewMode>("stacked");
     const [copiedCode, setCopiedCode] = useState(false);
     const [copiedOutput, setCopiedOutput] = useState(false);
     const [executionCount, setExecutionCount] = useState<number | null>(null);
+    const [zoomPlotSrc, setZoomPlotSrc] = useState<string | null>(null);
+    const [isEditorMounted, setIsEditorMounted] = useState(false);
 
-    const { status, isExecuting, runCode, resetKernel } = usePyodideKernel();
+    useEffect(() => {
+        setCode(initialCode);
+        setOutput(null);
+        setOutputView("stacked");
+    }, [initialCode]);
+
+    useEffect(() => {
+        setIsEditorMounted(true);
+    }, []);
+
+    const { isExecuting, runCode } = usePyodideKernel();
 
     const handleRun = async () => {
         if (isExecuting) return;
@@ -42,9 +66,9 @@ export default function AssignmentNotebookCell({
             setOutput(res);
             setExecutionCount((prev) => (prev ? prev + 1 : 1));
             if (res.plots && res.plots.length > 0) {
-                setActiveTab("plot");
+                setOutputView("stacked");
             } else {
-                setActiveTab("terminal");
+                setOutputView("terminal");
             }
         } catch (err) {
             console.error("Cell execution error:", err);
@@ -81,7 +105,12 @@ export default function AssignmentNotebookCell({
     };
 
     const hasPlots = !!output?.plots && output.plots.length > 0;
-    const lines = code.trim().split("\n");
+    const lines = useMemo(() => code.trim().split("\n"), [code]);
+    const calculatedEditorHeight = useMemo(() => {
+        const lineCount = lines.length;
+        const target = Math.min(Math.max(lineCount * 21 + 24, 220), 400);
+        return `${target}px`;
+    }, [lines]);
 
     const renderPromptTag = () => {
         if (isExecuting) {
@@ -89,13 +118,11 @@ export default function AssignmentNotebookCell({
                 <Box
                     component="span"
                     sx={{
-                        color: "#67D9FF",
-                        fontWeight: 700,
-                        fontFamily: "var(--font-mono), monospace",
-                        fontSize: "0.80rem",
-                        display: "inline-flex",
-                        alignItems: "center",
-                        gap: "4px",
+                        color: designTokens.acc,
+                        fontWeight: 600,
+                        fontFamily: designTokens.fontMono,
+                        fontSize: "12px",
+                        letterSpacing: "0.06em",
                     }}
                 >
                     In [*]:
@@ -107,10 +134,11 @@ export default function AssignmentNotebookCell({
                 <Box
                     component="span"
                     sx={{
-                        color: "#43D9A3",
-                        fontWeight: 700,
-                        fontFamily: "var(--font-mono), monospace",
-                        fontSize: "0.80rem",
+                        color: designTokens.acc,
+                        fontWeight: 600,
+                        fontFamily: designTokens.fontMono,
+                        fontSize: "12px",
+                        letterSpacing: "0.06em",
                     }}
                 >
                     In [{executionCount}]:
@@ -121,10 +149,11 @@ export default function AssignmentNotebookCell({
             <Box
                 component="span"
                 sx={{
-                    color: "#64748B",
-                    fontWeight: 700,
-                    fontFamily: "var(--font-mono), monospace",
-                    fontSize: "0.80rem",
+                    color: designTokens.dim,
+                    fontWeight: 500,
+                    fontFamily: designTokens.fontMono,
+                    fontSize: "12px",
+                    letterSpacing: "0.06em",
                 }}
             >
                 In [ ]:
@@ -132,15 +161,76 @@ export default function AssignmentNotebookCell({
         );
     };
 
+    // Render formatted stdout text with distinct semantic colors for ML outputs
+    const renderFormattedStdout = (rawText: string) => {
+        const textLines = rawText.split("\n");
+        return textLines.map((line, idx) => {
+            if (!line.trim()) {
+                return <div key={idx} style={{ height: "8px" }} />;
+            }
+            if (line.startsWith("===") || line.startsWith("---")) {
+                return (
+                    <Box
+                        key={idx}
+                        sx={{
+                            color: designTokens.dim,
+                            py: "2px",
+                            fontFamily: designTokens.fontMono,
+                            fontSize: "11px",
+                            letterSpacing: "0.05em",
+                        }}
+                    >
+                        {line}
+                    </Box>
+                );
+            }
+            if (line.includes("[OK]") || line.includes("[Selesai]")) {
+                return (
+                    <Box
+                        key={idx}
+                        sx={{
+                            color: designTokens.acc,
+                            fontWeight: 600,
+                            my: "2px",
+                            fontFamily: designTokens.fontMono,
+                        }}
+                    >
+                        {line}
+                    </Box>
+                );
+            }
+            if (line.startsWith("[") && line.endsWith("]")) {
+                return (
+                    <Box
+                        key={idx}
+                        sx={{
+                            color: "#FFFFFF",
+                            fontWeight: 600,
+                            mt: "6px",
+                            mb: "3px",
+                            fontFamily: designTokens.fontMono,
+                        }}
+                    >
+                        {line}
+                    </Box>
+                );
+            }
+            return (
+                <div key={idx} style={{ minHeight: "18px" }}>
+                    {line}
+                </div>
+            );
+        });
+    };
+
     return (
         <Box
             sx={{
-                borderRadius: "10px",
-                border: "1px solid rgba(255, 255, 255, 0.08)",
-                bgcolor: "#0B0F15",
+                borderRadius: "4px",
+                border: `1px solid ${designTokens.line}`,
+                bgcolor: designTokens.panel,
                 overflow: "hidden",
-                mb: "20px",
-                boxShadow: "0 6px 20px rgba(0, 0, 0, 0.35)",
+                mb: "24px",
             }}
         >
             {/* ─── Cell Header Toolbar ─────────────────────────────────── */}
@@ -150,51 +240,74 @@ export default function AssignmentNotebookCell({
                     alignItems: "center",
                     justifyContent: "space-between",
                     flexWrap: "wrap",
-                    gap: "8px",
-                    px: "14px",
-                    py: "8px",
-                    bgcolor: "rgba(255, 255, 255, 0.03)",
-                    borderBottom: "1px solid rgba(255, 255, 255, 0.06)",
+                    gap: "10px",
+                    px: "16px",
+                    py: "10px",
+                    bgcolor: "rgba(255, 255, 255, 0.02)",
+                    borderBottom: `1px solid ${designTokens.line}`,
                 }}
             >
-                {/* Left: Prompt & Title & Badge */}
+                {/* Left: Prompt, Filename & Title */}
                 <Box sx={{ display: "flex", alignItems: "center", gap: "10px", flexWrap: "wrap" }}>
                     {renderPromptTag()}
 
                     <Box sx={{ display: "flex", alignItems: "center", gap: "6px" }}>
-                        <IconComponent name="code" size={13} color="#67D9FF" />
+                        <IconComponent name="code" size={13} color={designTokens.acc} />
                         <Typography
                             sx={{
-                                fontSize: "0.78rem",
-                                fontWeight: 650,
-                                color: "#E2E8F0",
-                                fontFamily: "var(--font-mono), monospace",
+                                fontSize: "12.5px",
+                                fontWeight: 600,
+                                color: designTokens.text,
+                                fontFamily: designTokens.fontMono,
                             }}
                         >
-                            {title}
+                            main.py
                         </Typography>
                     </Box>
 
                     <Box
                         component="span"
                         sx={{
-                            px: "6px",
-                            py: "1px",
-                            borderRadius: "4px",
-                            bgcolor: "rgba(103, 217, 255, 0.10)",
-                            color: "#67D9FF",
-                            fontSize: "0.68rem",
-                            fontWeight: 600,
-                            fontFamily: "var(--font-mono), monospace",
-                            border: "1px solid rgba(103, 217, 255, 0.20)",
+                            color: designTokens.dim,
+                            fontSize: "12px",
+                            fontFamily: designTokens.fontMono,
                         }}
                     >
-                        Python 3.12 (Pyodide WASM)
+                        ·
+                    </Box>
+
+                    <Typography
+                        sx={{
+                            fontSize: "12px",
+                            color: designTokens.mute,
+                            fontFamily: designTokens.fontSans,
+                            fontWeight: 500,
+                        }}
+                    >
+                        {title}
+                    </Typography>
+
+                    <Box
+                        component="span"
+                        sx={{
+                            fontFamily: designTokens.fontMono,
+                            fontSize: "10px",
+                            letterSpacing: "0.12em",
+                            textTransform: "uppercase",
+                            color: designTokens.dim,
+                            border: `1px solid ${designTokens.line}`,
+                            px: "6px",
+                            py: "1px",
+                            borderRadius: "2px",
+                        }}
+                    >
+                        {lines.length} lines
                     </Box>
                 </Box>
 
-                {/* Right: Actions */}
-                <Box sx={{ display: "flex", alignItems: "center", gap: "6px" }}>
+                {/* Right: Action Buttons */}
+                <Box sx={{ display: "flex", alignItems: "center", gap: "8px" }}>
+                    {/* Primary Button: White-filled per DESIGN.md */}
                     <Button
                         size="small"
                         onClick={handleRun}
@@ -203,35 +316,38 @@ export default function AssignmentNotebookCell({
                             display: "inline-flex",
                             alignItems: "center",
                             gap: "6px",
-                            px: "10px",
-                            py: "3px",
-                            borderRadius: "5px",
-                            bgcolor: isExecuting ? "rgba(103, 217, 255, 0.10)" : "rgba(67, 217, 163, 0.15)",
-                            color: isExecuting ? "#67D9FF" : "#43D9A3",
-                            border: isExecuting ? "1px solid rgba(103, 217, 255, 0.30)" : "1px solid rgba(67, 217, 163, 0.35)",
-                            fontSize: "0.74rem",
-                            fontWeight: 700,
+                            px: "14px",
+                            py: "5px",
+                            borderRadius: "4px",
+                            bgcolor: isExecuting ? "rgba(255, 255, 255, 0.15)" : "#FFFFFF",
+                            color: isExecuting ? designTokens.mute : "#0B0E12",
+                            fontSize: "12px",
+                            fontWeight: 600,
                             textTransform: "none",
-                            fontFamily: "var(--font-mono), monospace",
+                            fontFamily: designTokens.fontSans,
                             cursor: isExecuting ? "not-allowed" : "pointer",
+                            transition: "opacity 0.2s, transform 0.2s",
                             "&:hover": {
-                                bgcolor: isExecuting ? "rgba(103, 217, 255, 0.10)" : "rgba(67, 217, 163, 0.25)",
+                                bgcolor: "#FFFFFF",
+                                opacity: 0.9,
+                                transform: "translateY(-1px)",
                             },
                         }}
                     >
                         {isExecuting ? (
                             <>
-                                <CircularProgress size={11} sx={{ color: "#67D9FF" }} />
+                                <CircularProgress size={12} sx={{ color: designTokens.text }} />
                                 <span>Menjalankan...</span>
                             </>
                         ) : (
                             <>
-                                <IconComponent name="play" size={11} color="#43D9A3" />
+                                <IconComponent name="play" size={11} color="#0B0E12" />
                                 <span>{executionCount !== null ? "Re-run Cell" : "Run Cell"}</span>
                             </>
                         )}
                     </Button>
 
+                    {/* Secondary Hairline Ghost Buttons */}
                     <Button
                         size="small"
                         onClick={handleReset}
@@ -240,21 +356,21 @@ export default function AssignmentNotebookCell({
                             display: "inline-flex",
                             alignItems: "center",
                             gap: "4px",
-                            px: "8px",
-                            py: "3px",
-                            borderRadius: "5px",
-                            bgcolor: "rgba(255, 255, 255, 0.03)",
-                            color: "#94A3B8",
-                            border: "1px solid rgba(255, 255, 255, 0.08)",
-                            fontSize: "0.72rem",
+                            px: "10px",
+                            py: "5px",
+                            borderRadius: "4px",
+                            bgcolor: "transparent",
+                            color: designTokens.mute,
+                            border: `1px solid ${designTokens.line}`,
+                            fontSize: "11px",
                             textTransform: "none",
-                            fontFamily: "var(--font-mono), monospace",
+                            fontFamily: designTokens.fontMono,
                             "&:hover": {
-                                bgcolor: "rgba(255, 255, 255, 0.08)",
-                                color: "#E2E8F0",
+                                borderColor: "rgba(255, 255, 255, 0.2)",
+                                color: designTokens.text,
                             },
                             "&:disabled": {
-                                opacity: 0.4,
+                                opacity: 0.35,
                                 cursor: "not-allowed",
                             },
                         }}
@@ -270,22 +386,22 @@ export default function AssignmentNotebookCell({
                             display: "inline-flex",
                             alignItems: "center",
                             gap: "4px",
-                            px: "8px",
-                            py: "3px",
-                            borderRadius: "5px",
-                            bgcolor: "rgba(255, 255, 255, 0.03)",
-                            color: copiedCode ? "#43D9A3" : "#94A3B8",
-                            border: "1px solid rgba(255, 255, 255, 0.08)",
-                            fontSize: "0.72rem",
+                            px: "10px",
+                            py: "5px",
+                            borderRadius: "4px",
+                            bgcolor: "transparent",
+                            color: copiedCode ? designTokens.acc : designTokens.mute,
+                            border: `1px solid ${copiedCode ? designTokens.acc : designTokens.line}`,
+                            fontSize: "11px",
                             textTransform: "none",
-                            fontFamily: "var(--font-mono), monospace",
+                            fontFamily: designTokens.fontMono,
                             "&:hover": {
-                                bgcolor: "rgba(255, 255, 255, 0.08)",
-                                color: "#E2E8F0",
+                                borderColor: "rgba(255, 255, 255, 0.2)",
+                                color: designTokens.text,
                             },
                         }}
                     >
-                        {copiedCode ? <IconComponent name="check" size={11} color="#43D9A3" /> : null}
+                        {copiedCode ? <IconComponent name="check" size={11} color={designTokens.acc} /> : null}
                         <span>{copiedCode ? "Tersalin" : "Salin Kode"}</span>
                     </Button>
                 </Box>
@@ -295,73 +411,107 @@ export default function AssignmentNotebookCell({
             {description && (
                 <Box
                     sx={{
-                        px: "14px",
-                        py: "6px",
-                        bgcolor: "rgba(103, 217, 255, 0.03)",
-                        borderBottom: "1px solid rgba(255, 255, 255, 0.04)",
+                        px: "16px",
+                        py: "8px",
+                        bgcolor: "rgba(255, 255, 255, 0.01)",
+                        borderBottom: `1px solid ${designTokens.line}`,
                     }}
                 >
-                    <Typography sx={{ fontSize: "0.78rem", color: "#94A3B8", lineHeight: 1.45 }}>
+                    <Typography sx={{ fontSize: "12.5px", color: designTokens.mute, lineHeight: 1.5 }}>
                         {description}
                     </Typography>
                 </Box>
             )}
 
-            {/* ─── Code Body (Monospace Cell with Line Numbers) ────────── */}
+            {/* ─── Code Body: Monaco Editor with Fallback ──────────────── */}
             <Box
                 sx={{
-                    display: "flex",
-                    bgcolor: "#070A0F",
+                    bgcolor: "#07090D",
+                    position: "relative",
+                    minHeight: "180px",
                     maxHeight: maxCodeHeight,
-                    overflowY: "auto",
-                    overflowX: "auto",
+                    overflow: "hidden",
                 }}
             >
-                {/* Line Numbers Column */}
-                <Box
-                    sx={{
-                        userSelect: "none",
-                        px: "10px",
-                        py: "14px",
-                        bgcolor: "rgba(0, 0, 0, 0.25)",
-                        borderRight: "1px solid rgba(255, 255, 255, 0.05)",
-                        fontFamily: "var(--font-mono), monospace",
-                        fontSize: "0.75rem",
-                        lineHeight: 1.5,
-                        color: "#475569",
-                        textAlign: "right",
-                        minWidth: "36px",
-                    }}
-                >
-                    {lines.map((_, i) => (
-                        <div key={i}>{i + 1}</div>
-                    ))}
-                </Box>
-
-                {/* Code Text Content */}
-                <Box
-                    component="pre"
-                    sx={{
-                        m: 0,
-                        p: "14px 16px",
-                        fontFamily: "var(--font-mono), monospace",
-                        fontSize: "0.76rem",
-                        lineHeight: 1.5,
-                        color: "#CBD5E1",
-                        overflowX: "auto",
-                        flex: 1,
-                    }}
-                >
-                    <code>{code}</code>
-                </Box>
+                {isEditorMounted ? (
+                    <Editor
+                        height={calculatedEditorHeight}
+                        language="python"
+                        theme="vs-dark"
+                        value={code}
+                        onChange={(val) => setCode(val || "")}
+                        options={{
+                            minimap: { enabled: false },
+                            fontSize: 12.5,
+                            fontFamily: "var(--font-mono), 'JetBrains Mono', Consolas, monospace",
+                            lineNumbers: "on",
+                            lineNumbersMinChars: 3,
+                            scrollBeyondLastLine: false,
+                            automaticLayout: true,
+                            tabSize: 4,
+                            renderLineHighlight: "all",
+                            padding: { top: 12, bottom: 12 },
+                            scrollbar: {
+                                vertical: "auto",
+                                horizontal: "auto",
+                                verticalScrollbarSize: 6,
+                                horizontalScrollbarSize: 6,
+                            },
+                        }}
+                    />
+                ) : (
+                    /* Initial Instant Render (No Flash of Empty Content) */
+                    <Box
+                        sx={{
+                            display: "flex",
+                            maxHeight: maxCodeHeight,
+                            overflowY: "auto",
+                        }}
+                    >
+                        <Box
+                            sx={{
+                                userSelect: "none",
+                                px: "12px",
+                                py: "14px",
+                                bgcolor: "rgba(0, 0, 0, 0.25)",
+                                borderRight: `1px solid ${designTokens.line}`,
+                                fontFamily: designTokens.fontMono,
+                                fontSize: "12px",
+                                lineHeight: 1.6,
+                                color: designTokens.dim,
+                                textAlign: "right",
+                                minWidth: "38px",
+                            }}
+                        >
+                            {lines.map((_, i) => (
+                                <div key={i}>{i + 1}</div>
+                            ))}
+                        </Box>
+                        <Box
+                            component="pre"
+                            sx={{
+                                m: 0,
+                                p: "14px 18px",
+                                fontFamily: designTokens.fontMono,
+                                fontSize: "12.5px",
+                                lineHeight: 1.6,
+                                color: "#D8DFE9",
+                                overflowX: "auto",
+                                flex: 1,
+                            }}
+                        >
+                            <code>{code}</code>
+                        </Box>
+                    </Box>
+                )}
             </Box>
 
-            {/* ─── Output Section (Out [n]: Directly Inline) ───────────── */}
+            {/* ─── Output Section: Out [n] ──────────────────────────────── */}
             {output ? (
                 <Box
                     sx={{
-                        borderTop: "1px solid rgba(255, 255, 255, 0.08)",
-                        bgcolor: "#080B10",
+                        borderTop: `1px solid ${designTokens.line}`,
+                        bgcolor: "#080A0E",
                     }}
                 >
                     {/* Output Header Bar */}
@@ -372,20 +522,20 @@ export default function AssignmentNotebookCell({
                             justifyContent: "space-between",
                             flexWrap: "wrap",
                             gap: "8px",
-                            px: "14px",
-                            py: "6px",
-                            bgcolor: "rgba(0, 0, 0, 0.35)",
-                            borderBottom: "1px solid rgba(255, 255, 255, 0.05)",
+                            px: "16px",
+                            py: "8px",
+                            bgcolor: "rgba(0, 0, 0, 0.3)",
+                            borderBottom: `1px solid ${designTokens.line}`,
                         }}
                     >
-                        <Box sx={{ display: "flex", alignItems: "center", gap: "10px" }}>
+                        <Box sx={{ display: "flex", alignItems: "center", gap: "10px", flexWrap: "wrap" }}>
                             <Box
                                 component="span"
                                 sx={{
-                                    color: output.status === "success" ? "#43D9A3" : "#FF5C5C",
-                                    fontWeight: 700,
-                                    fontFamily: "var(--font-mono), monospace",
-                                    fontSize: "0.78rem",
+                                    color: output.status === "success" ? designTokens.acc : "#EF4444",
+                                    fontWeight: 600,
+                                    fontFamily: designTokens.fontMono,
+                                    fontSize: "12px",
                                 }}
                             >
                                 Out [{executionCount || 1}]:
@@ -394,57 +544,75 @@ export default function AssignmentNotebookCell({
                             <Box
                                 component="span"
                                 sx={{
-                                    px: "6px",
-                                    py: "1px",
-                                    borderRadius: "4px",
-                                    fontSize: "0.68rem",
-                                    fontWeight: 650,
-                                    fontFamily: "var(--font-mono), monospace",
-                                    bgcolor: output.status === "success" ? "rgba(67, 217, 163, 0.12)" : "rgba(255, 92, 92, 0.12)",
-                                    color: output.status === "success" ? "#43D9A3" : "#FF5C5C",
-                                    border: output.status === "success" ? "1px solid rgba(67, 217, 163, 0.25)" : "1px solid rgba(255, 92, 92, 0.25)",
+                                    fontFamily: designTokens.fontMono,
+                                    fontSize: "11px",
+                                    letterSpacing: "0.08em",
+                                    color: output.status === "success" ? designTokens.acc : "#EF4444",
+                                    textTransform: "uppercase",
                                 }}
                             >
                                 {output.status === "success"
-                                    ? `Selesai (${(output.executionTime / 1000).toFixed(2)}s)`
-                                    : "Terjadi Kesalahan"}
+                                    ? `[EXIT: 0 · ${(output.executionTime / 1000).toFixed(2)}s]`
+                                    : "[EXIT: 1 · ERROR]"}
                             </Box>
 
-                            {/* Tabs if plots exist */}
+                            {/* View Mode Switcher (Stacked vs Plot vs Terminal) */}
                             {hasPlots && (
-                                <Box sx={{ display: "flex", gap: "4px", ml: "6px" }}>
+                                <Box
+                                    sx={{
+                                        display: "inline-flex",
+                                        alignItems: "center",
+                                        borderRadius: "3px",
+                                        border: `1px solid ${designTokens.line}`,
+                                        p: "2px",
+                                        bgcolor: "rgba(255, 255, 255, 0.02)",
+                                        ml: "6px",
+                                    }}
+                                >
                                     <Button
                                         size="small"
-                                        onClick={() => setActiveTab("plot")}
+                                        onClick={() => setOutputView("stacked")}
                                         sx={{
                                             px: "8px",
                                             py: "2px",
-                                            borderRadius: "4px",
-                                            fontSize: "0.70rem",
-                                            fontWeight: 650,
-                                            fontFamily: "var(--font-mono), monospace",
+                                            borderRadius: "2px",
+                                            fontSize: "10.5px",
+                                            fontFamily: designTokens.fontMono,
                                             textTransform: "none",
-                                            bgcolor: activeTab === "plot" ? "rgba(103, 217, 255, 0.16)" : "transparent",
-                                            color: activeTab === "plot" ? "#67D9FF" : "#94A3B8",
-                                            border: activeTab === "plot" ? "1px solid rgba(103, 217, 255, 0.30)" : "1px solid transparent",
+                                            bgcolor: outputView === "stacked" ? "rgba(255, 255, 255, 0.1)" : "transparent",
+                                            color: outputView === "stacked" ? designTokens.text : designTokens.mute,
                                         }}
                                     >
-                                        Plot Visualisasi ({output.plots!.length})
+                                        Semua (Plot &amp; Log)
                                     </Button>
                                     <Button
                                         size="small"
-                                        onClick={() => setActiveTab("terminal")}
+                                        onClick={() => setOutputView("plot")}
                                         sx={{
                                             px: "8px",
                                             py: "2px",
-                                            borderRadius: "4px",
-                                            fontSize: "0.70rem",
-                                            fontWeight: 650,
-                                            fontFamily: "var(--font-mono), monospace",
+                                            borderRadius: "2px",
+                                            fontSize: "10.5px",
+                                            fontFamily: designTokens.fontMono,
                                             textTransform: "none",
-                                            bgcolor: activeTab === "terminal" ? "rgba(103, 217, 255, 0.16)" : "transparent",
-                                            color: activeTab === "terminal" ? "#67D9FF" : "#94A3B8",
-                                            border: activeTab === "terminal" ? "1px solid rgba(103, 217, 255, 0.30)" : "1px solid transparent",
+                                            bgcolor: outputView === "plot" ? "rgba(255, 255, 255, 0.1)" : "transparent",
+                                            color: outputView === "plot" ? designTokens.text : designTokens.mute,
+                                        }}
+                                    >
+                                        Visual Plot ({output.plots!.length})
+                                    </Button>
+                                    <Button
+                                        size="small"
+                                        onClick={() => setOutputView("terminal")}
+                                        sx={{
+                                            px: "8px",
+                                            py: "2px",
+                                            borderRadius: "2px",
+                                            fontSize: "10.5px",
+                                            fontFamily: designTokens.fontMono,
+                                            textTransform: "none",
+                                            bgcolor: outputView === "terminal" ? "rgba(255, 255, 255, 0.1)" : "transparent",
+                                            color: outputView === "terminal" ? designTokens.text : designTokens.mute,
                                         }}
                                     >
                                         Terminal Stdout
@@ -454,7 +622,7 @@ export default function AssignmentNotebookCell({
                         </Box>
 
                         <Box sx={{ display: "flex", alignItems: "center", gap: "6px" }}>
-                            {activeTab === "terminal" && output.stdout && (
+                            {output.stdout && (
                                 <Button
                                     size="small"
                                     onClick={handleCopyOutput}
@@ -462,120 +630,237 @@ export default function AssignmentNotebookCell({
                                         display: "inline-flex",
                                         alignItems: "center",
                                         gap: "4px",
-                                        px: "7px",
-                                        py: "2px",
-                                        borderRadius: "4px",
-                                        bgcolor: "rgba(255, 255, 255, 0.03)",
-                                        color: copiedOutput ? "#43D9A3" : "#8E99A8",
-                                        border: "1px solid rgba(255, 255, 255, 0.06)",
-                                        fontSize: "0.70rem",
+                                        px: "8px",
+                                        py: "3px",
+                                        borderRadius: "3px",
+                                        bgcolor: "transparent",
+                                        color: copiedOutput ? designTokens.acc : designTokens.mute,
+                                        border: `1px solid ${designTokens.line}`,
+                                        fontSize: "10.5px",
                                         textTransform: "none",
-                                        fontFamily: "var(--font-mono), monospace",
+                                        fontFamily: designTokens.fontMono,
+                                        "&:hover": {
+                                            color: designTokens.text,
+                                            borderColor: "rgba(255, 255, 255, 0.2)",
+                                        },
                                     }}
                                 >
-                                    {copiedOutput ? <IconComponent name="check" size={10} color="#43D9A3" /> : null}
-                                    <span>{copiedOutput ? "Tersalin" : "Salin Output"}</span>
+                                    {copiedOutput ? <IconComponent name="check" size={10} color={designTokens.acc} /> : null}
+                                    <span>{copiedOutput ? "Tersalin" : "Salin Log"}</span>
                                 </Button>
                             )}
                         </Box>
                     </Box>
 
-                    {/* Output Body */}
-                    {activeTab === "plot" && hasPlots ? (
-                        <Box sx={{ p: "16px", textAlign: "center", bgcolor: "#06090D" }}>
+                    {/* ─── Visual Plot Output Container ─── */}
+                    {hasPlots && (outputView === "stacked" || outputView === "plot") && (
+                        <Box
+                            sx={{
+                                p: "16px 20px",
+                                bgcolor: "#06080C",
+                                borderBottom: outputView === "stacked" ? `1px solid ${designTokens.line}` : "none",
+                            }}
+                        >
+                            <Box
+                                sx={{
+                                    display: "flex",
+                                    alignItems: "center",
+                                    justifyContent: "space-between",
+                                    mb: "12px",
+                                }}
+                            >
+                                <Box sx={{ display: "flex", alignItems: "center", gap: "8px" }}>
+                                    <Box
+                                        component="span"
+                                        sx={{
+                                            display: "inline-block",
+                                            width: "6px",
+                                            height: "6px",
+                                            borderRadius: "50%",
+                                            bgcolor: designTokens.acc,
+                                        }}
+                                    />
+                                    <Typography
+                                        sx={{
+                                            fontFamily: designTokens.fontMono,
+                                            fontSize: "11px",
+                                            fontWeight: 600,
+                                            letterSpacing: "0.08em",
+                                            textTransform: "uppercase",
+                                            color: designTokens.text,
+                                        }}
+                                    >
+                                        Visual Output Plot (Matplotlib Figure)
+                                    </Typography>
+                                </Box>
+
+                                <Typography
+                                    sx={{
+                                        fontFamily: designTokens.fontMono,
+                                        fontSize: "10px",
+                                        color: designTokens.dim,
+                                    }}
+                                >
+                                    Client-Side Canvas Render · High-DPI
+                                </Typography>
+                            </Box>
+
                             {output.plots!.map((plotSrc, idx) => (
-                                <Box key={idx} sx={{ mb: idx === output.plots!.length - 1 ? 0 : "16px" }}>
+                                <Box
+                                    key={idx}
+                                    sx={{
+                                        mb: idx === output.plots!.length - 1 ? 0 : "20px",
+                                        p: "14px",
+                                        borderRadius: "4px",
+                                        border: `1px solid ${designTokens.line}`,
+                                        bgcolor: "#0B0E14",
+                                        textAlign: "center",
+                                    }}
+                                >
                                     <Box
                                         component="img"
                                         src={plotSrc}
                                         alt={`Plot Output ${idx + 1}`}
+                                        onClick={() => setZoomPlotSrc(plotSrc)}
                                         sx={{
                                             maxWidth: "100%",
                                             maxHeight: "440px",
-                                            borderRadius: "6px",
-                                            border: "1px solid rgba(255, 255, 255, 0.08)",
-                                            boxShadow: "0 4px 16px rgba(0, 0, 0, 0.4)",
+                                            objectFit: "contain",
+                                            borderRadius: "3px",
+                                            cursor: "zoom-in",
+                                            transition: "opacity 0.2s",
+                                            "&:hover": { opacity: 0.95 },
                                         }}
                                     />
-                                    <Box sx={{ mt: "10px", display: "flex", justifyContent: "center" }}>
+
+                                    {/* Plot Actions Strip */}
+                                    <Box
+                                        sx={{
+                                            mt: "12px",
+                                            pt: "10px",
+                                            borderTop: `1px solid rgba(255, 255, 255, 0.05)`,
+                                            display: "flex",
+                                            alignItems: "center",
+                                            justifyContent: "center",
+                                            gap: "10px",
+                                        }}
+                                    >
+                                        <Button
+                                            size="small"
+                                            onClick={() => setZoomPlotSrc(plotSrc)}
+                                            sx={{
+                                                display: "inline-flex",
+                                                alignItems: "center",
+                                                gap: "5px",
+                                                px: "10px",
+                                                py: "3px",
+                                                borderRadius: "3px",
+                                                bgcolor: "transparent",
+                                                color: designTokens.mute,
+                                                border: `1px solid ${designTokens.line}`,
+                                                fontSize: "11px",
+                                                textTransform: "none",
+                                                fontFamily: designTokens.fontMono,
+                                                "&:hover": {
+                                                    borderColor: "rgba(255, 255, 255, 0.2)",
+                                                    color: designTokens.text,
+                                                },
+                                            }}
+                                        >
+                                            <IconComponent name="search" size={11} />
+                                            <span>Perbesar Plot</span>
+                                        </Button>
+
                                         <Button
                                             size="small"
                                             onClick={() => handleDownloadPlot(plotSrc, idx)}
                                             sx={{
                                                 display: "inline-flex",
                                                 alignItems: "center",
-                                                gap: "6px",
+                                                gap: "5px",
                                                 px: "10px",
-                                                py: "4px",
-                                                borderRadius: "5px",
-                                                bgcolor: "rgba(103, 217, 255, 0.12)",
-                                                color: "#67D9FF",
-                                                border: "1px solid rgba(103, 217, 255, 0.25)",
-                                                fontSize: "0.72rem",
+                                                py: "3px",
+                                                borderRadius: "3px",
+                                                bgcolor: "transparent",
+                                                color: designTokens.mute,
+                                                border: `1px solid ${designTokens.line}`,
+                                                fontSize: "11px",
                                                 textTransform: "none",
-                                                fontFamily: "var(--font-mono), monospace",
+                                                fontFamily: designTokens.fontMono,
                                                 "&:hover": {
-                                                    bgcolor: "rgba(103, 217, 255, 0.20)",
+                                                    borderColor: "rgba(255, 255, 255, 0.2)",
+                                                    color: designTokens.text,
                                                 },
                                             }}
                                         >
-                                            <IconComponent name="download" size={12} />
-                                            <span>Unduh Gambar Plot (PNG)</span>
+                                            <IconComponent name="download" size={11} />
+                                            <span>Unduh PNG</span>
                                         </Button>
                                     </Box>
                                 </Box>
                             ))}
                         </Box>
-                    ) : (
+                    )}
+
+                    {/* ─── Terminal Stdout Output Container ─── */}
+                    {(outputView === "stacked" || outputView === "terminal" || !hasPlots) && (
                         <Box
-                            component="pre"
                             sx={{
-                                m: 0,
-                                p: "14px 16px",
-                                fontFamily: "var(--font-mono), monospace",
-                                fontSize: "0.78rem",
-                                lineHeight: 1.55,
-                                color: output.status === "error" ? "#FF8080" : "#E2E8F0",
-                                bgcolor: "#05070B",
-                                maxHeight: "320px",
+                                p: "16px 20px",
+                                fontFamily: designTokens.fontMono,
+                                fontSize: "12px",
+                                lineHeight: 1.6,
+                                color: output.status === "error" ? "#EF4444" : "#D8DFE9",
+                                bgcolor: "#05070A",
+                                maxHeight: "340px",
                                 overflowY: "auto",
                                 whiteSpace: "pre-wrap",
                                 wordBreak: "break-word",
                             }}
                         >
-                            {output.status === "error"
-                                ? output.stderr || output.errorDetails || "Terjadi kesalahan saat mengeksekusi skrip Python."
-                                : output.stdout || "(Skrip selesai dieksekusi tanpa keluaran teks stdout)"}
+                            {output.status === "error" ? (
+                                <Box sx={{ color: "#F43F5E", fontFamily: designTokens.fontMono }}>
+                                    {output.stderr || output.errorDetails || "Terjadi kesalahan saat mengeksekusi skrip Python."}
+                                </Box>
+                            ) : output.stdout ? (
+                                renderFormattedStdout(output.stdout)
+                            ) : (
+                                <Box sx={{ color: designTokens.dim, fontStyle: "italic" }}>
+                                    (Skrip selesai dieksekusi tanpa keluaran teks stdout)
+                                </Box>
+                            )}
                         </Box>
                     )}
                 </Box>
             ) : (
-                /* Sleek Initial Prompt Strip */
+                /* Sleek Initial Prompt Strip (Prior to first run) */
                 <Box
                     sx={{
                         display: "flex",
                         alignItems: "center",
                         justifyContent: "space-between",
-                        px: "14px",
-                        py: "8px",
+                        flexWrap: "wrap",
+                        gap: "10px",
+                        px: "16px",
+                        py: "10px",
                         bgcolor: "rgba(0, 0, 0, 0.25)",
-                        borderTop: "1px solid rgba(255, 255, 255, 0.05)",
+                        borderTop: `1px solid ${designTokens.line}`,
                     }}
                 >
                     <Box sx={{ display: "flex", alignItems: "center", gap: "8px" }}>
                         <Box
                             component="span"
                             sx={{
-                                color: "#475569",
-                                fontWeight: 700,
-                                fontFamily: "var(--font-mono), monospace",
-                                fontSize: "0.78rem",
+                                color: designTokens.dim,
+                                fontWeight: 600,
+                                fontFamily: designTokens.fontMono,
+                                fontSize: "12px",
                             }}
                         >
                             Out [ ]:
                         </Box>
-                        <Typography sx={{ fontSize: "0.74rem", color: "#64748B", fontFamily: "var(--font-mono), monospace" }}>
-                            Klik &quot;Run Cell&quot; di atas untuk mengeksekusi komputasi Python secara langsung via WASM engine.
+                        <Typography sx={{ fontSize: "11.5px", color: designTokens.dim, fontFamily: designTokens.fontMono }}>
+                            Klik &quot;Run Cell&quot; untuk mengeksekusi komputasi numerik &amp; visualisasi plot secara instan di browser.
                         </Typography>
                     </Box>
 
@@ -584,19 +869,77 @@ export default function AssignmentNotebookCell({
                         onClick={handleRun}
                         disabled={isExecuting}
                         sx={{
-                            color: "#67D9FF",
-                            fontSize: "0.72rem",
-                            fontFamily: "var(--font-mono), monospace",
+                            color: designTokens.mute,
+                            fontSize: "11px",
                             textTransform: "none",
+                            fontFamily: designTokens.fontMono,
+                            border: `1px solid ${designTokens.line}`,
                             px: "8px",
-                            py: "1px",
-                            "&:hover": { bgcolor: "rgba(103, 217, 255, 0.08)" },
+                            py: "2px",
+                            borderRadius: "3px",
+                            "&:hover": {
+                                color: designTokens.text,
+                                borderColor: "rgba(255, 255, 255, 0.25)",
+                            },
                         }}
                     >
-                        Jalankan Sekarang
+                        Jalankan Sekarang →
                     </Button>
                 </Box>
             )}
+
+            {/* ─── Lightbox Dialog for Fullscreen Plot Preview ─── */}
+            <Dialog
+                open={!!zoomPlotSrc}
+                onClose={() => setZoomPlotSrc(null)}
+                maxWidth="lg"
+                PaperProps={{
+                    sx: {
+                        bgcolor: "#070A0F",
+                        border: `1px solid ${designTokens.line}`,
+                        borderRadius: "6px",
+                        p: 0,
+                        overflow: "hidden",
+                    },
+                }}
+            >
+                <Box
+                    sx={{
+                        display: "flex",
+                        alignItems: "center",
+                        justifyContent: "space-between",
+                        px: "18px",
+                        py: "10px",
+                        borderBottom: `1px solid ${designTokens.line}`,
+                    }}
+                >
+                    <Typography sx={{ fontFamily: designTokens.fontMono, fontSize: "12px", color: designTokens.text, fontWeight: 600 }}>
+                        {title} — Visual Output Detail
+                    </Typography>
+                    <IconButton
+                        size="small"
+                        onClick={() => setZoomPlotSrc(null)}
+                        sx={{ color: designTokens.mute, "&:hover": { color: "#FFFFFF" } }}
+                    >
+                        <IconComponent name="x" size={16} />
+                    </IconButton>
+                </Box>
+                <DialogContent sx={{ p: "24px", textAlign: "center", bgcolor: "#05070A" }}>
+                    {zoomPlotSrc && (
+                        <Box
+                            component="img"
+                            src={zoomPlotSrc}
+                            alt="Full Plot Detail"
+                            sx={{
+                                maxWidth: "100%",
+                                maxHeight: "80vh",
+                                objectFit: "contain",
+                                borderRadius: "4px",
+                            }}
+                        />
+                    )}
+                </DialogContent>
+            </Dialog>
         </Box>
     );
 }

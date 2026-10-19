@@ -5,6 +5,7 @@ import Typography from "@mui/material/Typography";
 import IconComponent from "@/shared/components/icon";
 import { ML_ASSIGNMENTS } from "@/consts/ml-assignments.const";
 import { ASSIGNMENT_SIMULATION_PRESETS } from "@/consts/ml-assignment-simulations.const";
+import { designTokens } from "@/config/theme";
 import { assignmentStyles } from "./assignment-showcase.styles";
 import AssignmentNotebookCell from "./assignment-notebook-cell";
 
@@ -23,26 +24,16 @@ export default function Bab04Showcase() {
             {/* ─── Header ────────────────────────────────────────────── */}
             <Box sx={assignmentStyles.sectionHeader}>
                 <Box>
-                    <Box sx={{ display: "flex", alignItems: "center", gap: "8px", mb: "6px" }}>
-                        <Box
-                            component="span"
-                            sx={{
-                                px: "8px",
-                                py: "2px",
-                                borderRadius: "4px",
-                                bgcolor: "rgba(103, 217, 255, 0.15)",
-                                color: "#67D9FF",
-                                fontSize: "0.75rem",
-                                fontWeight: 700,
-                                fontFamily: "var(--font-mono), monospace",
-                            }}
-                        >
+                    <Box sx={assignmentStyles.sectionMetaRow}>
+                        <Box component="span" sx={assignmentStyles.sectionCode}>
                             {item.code}
                         </Box>
+                        <Box component="span" sx={{ width: "3px", height: "3px", borderRadius: "50%", bgcolor: "rgba(255,255,255,0.2)" }} />
                         <Box component="span" sx={assignmentStyles.tabBadge("completed")}>
-                            Selesai & Teruji
+                            Laporan Selesai
                         </Box>
-                        <Typography sx={{ fontSize: "0.78rem", color: "#8E99A8" }}>
+                        <Box component="span" sx={{ width: "3px", height: "3px", borderRadius: "50%", bgcolor: "rgba(255,255,255,0.2)" }} />
+                        <Typography sx={assignmentStyles.sectionDate}>
                             Pelaksanaan: {item.executionDate}
                         </Typography>
                     </Box>
@@ -54,45 +45,37 @@ export default function Bab04Showcase() {
                     </Typography>
                 </Box>
 
-                {/* PDF Download Button */}
-                <Box sx={{ display: "flex", gap: "8px", flexWrap: "wrap" }}>
+                {/* PDF Download Button (White-filled primary button per DESIGN.md) */}
+                <Box sx={{ display: "flex", gap: "10px", flexWrap: "wrap", alignItems: "flex-start" }}>
                     <Box
                         component="a"
                         href="/assignments/bab-04/LAPORAN_PRAKTIKUM_4_ANGGIT_ARISA_SIWI_PRATAMA_202343570045.pdf"
                         download="LAPORAN_PRAKTIKUM_4_ANGGIT_ARISA_SIWI_PRATAMA_202343570045.pdf"
                         sx={assignmentStyles.downloadBtn}
                     >
-                        <IconComponent name="download" size={13} color="#FFFFFF" />
+                        <IconComponent name="download" size={13} color="#0B0E12" />
                         <span>Unduh Laporan PDF (273 KB)</span>
                     </Box>
                 </Box>
             </Box>
 
             {/* ─── Abstract Box ──────────────────────────────────────── */}
-            <Box
-                sx={{
-                    p: "16px",
-                    borderRadius: "8px",
-                    bgcolor: "rgba(0, 0, 0, 0.25)",
-                    border: "1px solid rgba(255, 255, 255, 0.06)",
-                    mb: "20px",
-                }}
-            >
-                <Typography sx={{ fontSize: "0.76rem", fontWeight: 700, color: "#67D9FF", textTransform: "uppercase", letterSpacing: "0.04em", mb: "6px" }}>
+            <Box sx={assignmentStyles.abstractBox}>
+                <Box component="span" sx={assignmentStyles.abstractLabel}>
                     Abstrak Eksperimen
-                </Typography>
-                <Typography sx={{ fontSize: "0.85rem", color: "#CBD5E1", lineHeight: 1.5, textAlign: "justify" }}>
+                </Box>
+                <Typography sx={assignmentStyles.abstractText}>
                     {item.abstract}
                 </Typography>
             </Box>
 
-            {/* ─── Executive Metric Cards ────────────────────────────── */}
-            <Typography sx={{ fontSize: "0.84rem", fontWeight: 700, color: "#F5F7FA", mb: "10px" }}>
+            {/* ─── Executive Metric Cards (Hairlines) ────────────────── */}
+            <Typography sx={{ fontFamily: designTokens.fontMono, fontSize: "11px", fontWeight: 500, letterSpacing: "0.14em", textTransform: "uppercase", color: designTokens.mute, mb: "14px" }}>
                 Komparasi Kinerja Model (Test Set N = 179)
             </Typography>
             <Box sx={assignmentStyles.metricGrid}>
                 {item.metrics?.map((m, idx) => (
-                    <Box key={idx} sx={assignmentStyles.metricCard(m.highlight)}>
+                    <Box key={idx} sx={assignmentStyles.metricCard(idx === 0)}>
                         <Typography sx={assignmentStyles.metricLabel}>{m.label}</Typography>
                         <Box sx={assignmentStyles.metricValueRow}>
                             <Typography sx={assignmentStyles.metricValue}>{m.enhanced}</Typography>
@@ -110,8 +93,8 @@ export default function Bab04Showcase() {
             </Box>
 
             {/* ─── Visual Output Charts ──────────────────────────────── */}
-            <Typography sx={{ fontSize: "0.84rem", fontWeight: 700, color: "#F5F7FA", mb: "10px" }}>
-                Visualisasi Bukti Eksperimen & Asosiasi Statistik
+            <Typography sx={{ fontFamily: designTokens.fontMono, fontSize: "11px", fontWeight: 500, letterSpacing: "0.14em", textTransform: "uppercase", color: designTokens.mute, mb: "14px" }}>
+                Visualisasi Bukti Eksperimen &amp; Asosiasi Statistik
             </Typography>
             <Box sx={assignmentStyles.chartsRow}>
                 <Box sx={assignmentStyles.chartCard}>
@@ -140,8 +123,8 @@ export default function Bab04Showcase() {
             </Box>
 
             {/* ─── Notebook-Style Interactive Simulation Cell ──────────── */}
-            <Typography sx={{ fontSize: "0.84rem", fontWeight: 700, color: "#F5F7FA", mb: "10px" }}>
-                Implementasi Source Code Python & Eksekusi Notebook
+            <Typography sx={{ fontFamily: designTokens.fontMono, fontSize: "11px", fontWeight: 500, letterSpacing: "0.14em", textTransform: "uppercase", color: designTokens.mute, mb: "14px" }}>
+                Implementasi Source Code Python &amp; Eksekusi Notebook
             </Typography>
 
             <AssignmentNotebookCell
@@ -153,20 +136,13 @@ export default function Bab04Showcase() {
             />
 
             {/* ─── Key Highlights List ───────────────────────────────── */}
-            <Box
-                sx={{
-                    p: "16px",
-                    borderRadius: "8px",
-                    bgcolor: "rgba(255, 255, 255, 0.02)",
-                    border: "1px solid rgba(255, 255, 255, 0.06)",
-                }}
-            >
-                <Typography sx={{ fontSize: "0.78rem", fontWeight: 700, color: "#43D9A3", textTransform: "uppercase", letterSpacing: "0.04em", mb: "8px" }}>
-                    Temuan Kritis & Kesimpulan Praktikum
-                </Typography>
-                <ul style={{ margin: 0, paddingLeft: "18px", fontSize: "0.84rem", color: "#CBD5E1", lineHeight: 1.55 }}>
+            <Box sx={assignmentStyles.solutionBox}>
+                <Box component="span" sx={assignmentStyles.solutionPointTitle}>
+                    Temuan Kritis &amp; Kesimpulan Praktikum
+                </Box>
+                <ul style={assignmentStyles.solutionList}>
                     {item.keyHighlights.map((point, idx) => (
-                        <li key={idx} style={{ marginBottom: "4px" }}>
+                        <li key={idx} style={{ marginBottom: "6px" }}>
                             {point}
                         </li>
                     ))}
