@@ -19,14 +19,23 @@
     --ml-dim: #5E6674;
     --ml-faint: #2B323D;
     --ml-acc: #34D399;
+    --ml-acc-contrast: #090B0E;
     --ml-acc-glow: rgba(52, 211, 153, 0.55);
     --ml-acc-wash: linear-gradient(90deg, rgba(52, 211, 153, 0.06), transparent 70%);
     --ml-gray-grad: linear-gradient(180deg, #C9D1DC, #7C8696);
+    --ml-hero-headline-l3: linear-gradient(180deg, #C9D1DC, #7C8696);
     --ml-nav-bg: rgba(9, 11, 14, 0.85);
     --ml-card-bg: #0F1319;
     --ml-code-bg: #0B0E14;
     --ml-track-bg: #151A22;
     --ml-scrollbar-thumb: rgba(255, 255, 255, 0.14);
+    --ml-cyan: #67D9FF;
+    --ml-cyan-bg: rgba(103, 217, 255, 0.08);
+    --ml-cyan-border: rgba(103, 217, 255, 0.28);
+    --ml-box-subtle-bg: rgba(255, 255, 255, 0.03);
+    --ml-box-subtle-border: rgba(255, 255, 255, 0.08);
+    --ml-card-shadow: 0 1px 0 rgba(255, 255, 255, 0.06) inset, 0 20px 40px -20px rgba(0, 0, 0, 0.5);
+    --ml-viz-container-bg: #11151A;
 }
 
 [data-theme="light"] {
@@ -35,21 +44,30 @@
     --ml-panel: #FFFFFF;
     --ml-panel-alt: #F1F5F9;
     --ml-panel-grad: linear-gradient(180deg, #FFFFFF, #F8FAFC);
-    --ml-line: rgba(15, 23, 42, 0.10);
-    --ml-line-subtle: rgba(15, 23, 42, 0.05);
+    --ml-line: rgba(15, 23, 42, 0.12);
+    --ml-line-subtle: rgba(15, 23, 42, 0.06);
     --ml-text: #0F172A;
-    --ml-mute: #475569;
+    --ml-mute: #334155;
     --ml-dim: #64748B;
-    --ml-faint: #E2E8F0;
+    --ml-faint: #CBD5E1;
     --ml-acc: #059669;
+    --ml-acc-contrast: #FFFFFF;
     --ml-acc-glow: rgba(5, 150, 105, 0.35);
     --ml-acc-wash: linear-gradient(90deg, rgba(5, 150, 105, 0.08), transparent 70%);
-    --ml-gray-grad: linear-gradient(180deg, #0F172A, #475569);
-    --ml-nav-bg: rgba(255, 255, 255, 0.90);
+    --ml-gray-grad: linear-gradient(180deg, #0F172A, #334155);
+    --ml-hero-headline-l3: linear-gradient(180deg, #0F172A, #475569);
+    --ml-nav-bg: rgba(255, 255, 255, 0.92);
     --ml-card-bg: #FFFFFF;
     --ml-code-bg: #0F172A;
     --ml-track-bg: #E2E8F0;
     --ml-scrollbar-thumb: rgba(15, 23, 42, 0.20);
+    --ml-cyan: #0284C7;
+    --ml-cyan-bg: rgba(2, 132, 199, 0.08);
+    --ml-cyan-border: rgba(2, 132, 199, 0.30);
+    --ml-box-subtle-bg: #F1F5F9;
+    --ml-box-subtle-border: rgba(15, 23, 42, 0.10);
+    --ml-card-shadow: 0 4px 20px -2px rgba(15, 23, 42, 0.08), 0 1px 3px rgba(15, 23, 42, 0.05);
+    --ml-viz-container-bg: #FFFFFF;
 }
 
 /* ===== Reset & Base ===== */

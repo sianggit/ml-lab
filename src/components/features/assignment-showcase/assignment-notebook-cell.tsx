@@ -11,6 +11,7 @@ import IconButton from "@mui/material/IconButton";
 import CircularProgress from "@mui/material/CircularProgress";
 import IconComponent from "@/shared/components/icon";
 import { usePyodideKernel } from "@/hooks/use-pyodide-kernel";
+import { useMlLabStore } from "@/stores/use-ml-lab-store";
 import { ExecutionOutput } from "@/models/ml-lab/chapter.model";
 import { designTokens } from "@/config/theme";
 
@@ -57,6 +58,7 @@ export default function AssignmentNotebookCell({
         setIsEditorMounted(true);
     }, []);
 
+    const { themeMode } = useMlLabStore();
     const { isExecuting, runCode } = usePyodideKernel();
 
     const handleRun = async () => {
@@ -243,7 +245,7 @@ export default function AssignmentNotebookCell({
                     gap: "10px",
                     px: "16px",
                     py: "10px",
-                    bgcolor: "rgba(255, 255, 255, 0.02)",
+                    bgcolor: designTokens.panelAlt,
                     borderBottom: `1px solid ${designTokens.line}`,
                 }}
             >
@@ -307,7 +309,7 @@ export default function AssignmentNotebookCell({
 
                 {/* Right: Action Buttons */}
                 <Box sx={{ display: "flex", alignItems: "center", gap: "8px" }}>
-                    {/* Primary Button: White-filled per DESIGN.md */}
+                    {/* Primary Button: High contrast filled button */}
                     <Button
                         size="small"
                         onClick={handleRun}
@@ -319,29 +321,29 @@ export default function AssignmentNotebookCell({
                             px: "14px",
                             py: "5px",
                             borderRadius: "4px",
-                            bgcolor: isExecuting ? "rgba(255, 255, 255, 0.15)" : "#FFFFFF",
-                            color: isExecuting ? designTokens.mute : "#0B0E12",
+                            bgcolor: isExecuting ? designTokens.panelAlt : designTokens.text,
+                            color: isExecuting ? designTokens.mute : designTokens.bg,
                             fontSize: "12px",
                             fontWeight: 600,
                             textTransform: "none",
                             fontFamily: designTokens.fontSans,
                             cursor: isExecuting ? "not-allowed" : "pointer",
+                            boxShadow: "var(--ml-card-shadow)",
                             transition: "opacity 0.2s, transform 0.2s",
                             "&:hover": {
-                                bgcolor: "#FFFFFF",
-                                opacity: 0.9,
+                                filter: "brightness(0.92)",
                                 transform: "translateY(-1px)",
                             },
                         }}
                     >
                         {isExecuting ? (
                             <>
-                                <CircularProgress size={12} sx={{ color: designTokens.text }} />
+                                <CircularProgress size={12} sx={{ color: "currentColor" }} />
                                 <span>Menjalankan...</span>
                             </>
                         ) : (
                             <>
-                                <IconComponent name="play" size={11} color="#0B0E12" />
+                                <IconComponent name="play" size={11} color="currentColor" />
                                 <span>{executionCount !== null ? "Re-run Cell" : "Run Cell"}</span>
                             </>
                         )}
@@ -359,14 +361,14 @@ export default function AssignmentNotebookCell({
                             px: "10px",
                             py: "5px",
                             borderRadius: "4px",
-                            bgcolor: "transparent",
+                            bgcolor: designTokens.panel,
                             color: designTokens.mute,
                             border: `1px solid ${designTokens.line}`,
                             fontSize: "11px",
                             textTransform: "none",
                             fontFamily: designTokens.fontMono,
                             "&:hover": {
-                                borderColor: "rgba(255, 255, 255, 0.2)",
+                                borderColor: designTokens.dim,
                                 color: designTokens.text,
                             },
                             "&:disabled": {
@@ -389,14 +391,14 @@ export default function AssignmentNotebookCell({
                             px: "10px",
                             py: "5px",
                             borderRadius: "4px",
-                            bgcolor: "transparent",
+                            bgcolor: designTokens.panel,
                             color: copiedCode ? designTokens.acc : designTokens.mute,
                             border: `1px solid ${copiedCode ? designTokens.acc : designTokens.line}`,
                             fontSize: "11px",
                             textTransform: "none",
                             fontFamily: designTokens.fontMono,
                             "&:hover": {
-                                borderColor: "rgba(255, 255, 255, 0.2)",
+                                borderColor: designTokens.dim,
                                 color: designTokens.text,
                             },
                         }}
@@ -413,7 +415,7 @@ export default function AssignmentNotebookCell({
                     sx={{
                         px: "16px",
                         py: "8px",
-                        bgcolor: "rgba(255, 255, 255, 0.01)",
+                        bgcolor: designTokens.boxSubtleBg,
                         borderBottom: `1px solid ${designTokens.line}`,
                     }}
                 >
@@ -426,7 +428,7 @@ export default function AssignmentNotebookCell({
             {/* ─── Code Body: Monaco Editor with Fallback ──────────────── */}
             <Box
                 sx={{
-                    bgcolor: "#07090D",
+                    bgcolor: designTokens.panel,
                     position: "relative",
                     minHeight: "180px",
                     maxHeight: maxCodeHeight,
@@ -437,7 +439,7 @@ export default function AssignmentNotebookCell({
                     <Editor
                         height={calculatedEditorHeight}
                         language="python"
-                        theme="vs-dark"
+                        theme={themeMode === "light" ? "light" : "vs-dark"}
                         value={code}
                         onChange={(val) => setCode(val || "")}
                         options={{
@@ -473,7 +475,7 @@ export default function AssignmentNotebookCell({
                                 userSelect: "none",
                                 px: "12px",
                                 py: "14px",
-                                bgcolor: "rgba(0, 0, 0, 0.25)",
+                                bgcolor: designTokens.boxSubtleBg,
                                 borderRight: `1px solid ${designTokens.line}`,
                                 fontFamily: designTokens.fontMono,
                                 fontSize: "12px",
@@ -495,7 +497,7 @@ export default function AssignmentNotebookCell({
                                 fontFamily: designTokens.fontMono,
                                 fontSize: "12.5px",
                                 lineHeight: 1.6,
-                                color: "#D8DFE9",
+                                color: designTokens.text,
                                 overflowX: "auto",
                                 flex: 1,
                             }}
@@ -511,7 +513,7 @@ export default function AssignmentNotebookCell({
                 <Box
                     sx={{
                         borderTop: `1px solid ${designTokens.line}`,
-                        bgcolor: "#080A0E",
+                        bgcolor: designTokens.panel,
                     }}
                 >
                     {/* Output Header Bar */}
@@ -524,7 +526,7 @@ export default function AssignmentNotebookCell({
                             gap: "8px",
                             px: "16px",
                             py: "8px",
-                            bgcolor: "rgba(0, 0, 0, 0.3)",
+                            bgcolor: designTokens.panelAlt,
                             borderBottom: `1px solid ${designTokens.line}`,
                         }}
                     >
@@ -565,7 +567,7 @@ export default function AssignmentNotebookCell({
                                         borderRadius: "3px",
                                         border: `1px solid ${designTokens.line}`,
                                         p: "2px",
-                                        bgcolor: "rgba(255, 255, 255, 0.02)",
+                                        bgcolor: designTokens.boxSubtleBg,
                                         ml: "6px",
                                     }}
                                 >
@@ -579,7 +581,8 @@ export default function AssignmentNotebookCell({
                                             fontSize: "10.5px",
                                             fontFamily: designTokens.fontMono,
                                             textTransform: "none",
-                                            bgcolor: outputView === "stacked" ? "rgba(255, 255, 255, 0.1)" : "transparent",
+                                            bgcolor: outputView === "stacked" ? designTokens.panel : "transparent",
+                                            boxShadow: outputView === "stacked" ? "var(--ml-card-shadow)" : "none",
                                             color: outputView === "stacked" ? designTokens.text : designTokens.mute,
                                         }}
                                     >
@@ -595,7 +598,8 @@ export default function AssignmentNotebookCell({
                                             fontSize: "10.5px",
                                             fontFamily: designTokens.fontMono,
                                             textTransform: "none",
-                                            bgcolor: outputView === "plot" ? "rgba(255, 255, 255, 0.1)" : "transparent",
+                                            bgcolor: outputView === "plot" ? designTokens.panel : "transparent",
+                                            boxShadow: outputView === "plot" ? "var(--ml-card-shadow)" : "none",
                                             color: outputView === "plot" ? designTokens.text : designTokens.mute,
                                         }}
                                     >
@@ -611,7 +615,8 @@ export default function AssignmentNotebookCell({
                                             fontSize: "10.5px",
                                             fontFamily: designTokens.fontMono,
                                             textTransform: "none",
-                                            bgcolor: outputView === "terminal" ? "rgba(255, 255, 255, 0.1)" : "transparent",
+                                            bgcolor: outputView === "terminal" ? designTokens.panel : "transparent",
+                                            boxShadow: outputView === "terminal" ? "var(--ml-card-shadow)" : "none",
                                             color: outputView === "terminal" ? designTokens.text : designTokens.mute,
                                         }}
                                     >
@@ -633,7 +638,7 @@ export default function AssignmentNotebookCell({
                                         px: "8px",
                                         py: "3px",
                                         borderRadius: "3px",
-                                        bgcolor: "transparent",
+                                        bgcolor: designTokens.panel,
                                         color: copiedOutput ? designTokens.acc : designTokens.mute,
                                         border: `1px solid ${designTokens.line}`,
                                         fontSize: "10.5px",
@@ -641,7 +646,7 @@ export default function AssignmentNotebookCell({
                                         fontFamily: designTokens.fontMono,
                                         "&:hover": {
                                             color: designTokens.text,
-                                            borderColor: "rgba(255, 255, 255, 0.2)",
+                                            borderColor: designTokens.dim,
                                         },
                                     }}
                                 >
@@ -657,7 +662,7 @@ export default function AssignmentNotebookCell({
                         <Box
                             sx={{
                                 p: "16px 20px",
-                                bgcolor: "#06080C",
+                                bgcolor: designTokens.vizContainerBg,
                                 borderBottom: outputView === "stacked" ? `1px solid ${designTokens.line}` : "none",
                             }}
                         >
@@ -713,7 +718,8 @@ export default function AssignmentNotebookCell({
                                         p: "14px",
                                         borderRadius: "4px",
                                         border: `1px solid ${designTokens.line}`,
-                                        bgcolor: "#0B0E14",
+                                        bgcolor: designTokens.panel,
+                                        boxShadow: "var(--ml-card-shadow)",
                                         textAlign: "center",
                                     }}
                                 >
@@ -738,7 +744,7 @@ export default function AssignmentNotebookCell({
                                         sx={{
                                             mt: "12px",
                                             pt: "10px",
-                                            borderTop: `1px solid rgba(255, 255, 255, 0.05)`,
+                                            borderTop: `1px solid ${designTokens.line}`,
                                             display: "flex",
                                             alignItems: "center",
                                             justifyContent: "center",
@@ -755,14 +761,14 @@ export default function AssignmentNotebookCell({
                                                 px: "10px",
                                                 py: "3px",
                                                 borderRadius: "3px",
-                                                bgcolor: "transparent",
+                                                bgcolor: designTokens.panel,
                                                 color: designTokens.mute,
                                                 border: `1px solid ${designTokens.line}`,
                                                 fontSize: "11px",
                                                 textTransform: "none",
                                                 fontFamily: designTokens.fontMono,
                                                 "&:hover": {
-                                                    borderColor: "rgba(255, 255, 255, 0.2)",
+                                                    borderColor: designTokens.dim,
                                                     color: designTokens.text,
                                                 },
                                             }}
@@ -781,14 +787,14 @@ export default function AssignmentNotebookCell({
                                                 px: "10px",
                                                 py: "3px",
                                                 borderRadius: "3px",
-                                                bgcolor: "transparent",
+                                                bgcolor: designTokens.panel,
                                                 color: designTokens.mute,
                                                 border: `1px solid ${designTokens.line}`,
                                                 fontSize: "11px",
                                                 textTransform: "none",
                                                 fontFamily: designTokens.fontMono,
                                                 "&:hover": {
-                                                    borderColor: "rgba(255, 255, 255, 0.2)",
+                                                    borderColor: designTokens.dim,
                                                     color: designTokens.text,
                                                 },
                                             }}
@@ -810,8 +816,8 @@ export default function AssignmentNotebookCell({
                                 fontFamily: designTokens.fontMono,
                                 fontSize: "12px",
                                 lineHeight: 1.6,
-                                color: output.status === "error" ? "#EF4444" : "#D8DFE9",
-                                bgcolor: "#05070A",
+                                color: output.status === "error" ? "#EF4444" : designTokens.text,
+                                bgcolor: designTokens.panelAlt,
                                 maxHeight: "340px",
                                 overflowY: "auto",
                                 whiteSpace: "pre-wrap",
@@ -843,7 +849,7 @@ export default function AssignmentNotebookCell({
                         gap: "10px",
                         px: "16px",
                         py: "10px",
-                        bgcolor: "rgba(0, 0, 0, 0.25)",
+                        bgcolor: designTokens.panelAlt,
                         borderTop: `1px solid ${designTokens.line}`,
                     }}
                 >
@@ -879,7 +885,7 @@ export default function AssignmentNotebookCell({
                             borderRadius: "3px",
                             "&:hover": {
                                 color: designTokens.text,
-                                borderColor: "rgba(255, 255, 255, 0.25)",
+                                borderColor: designTokens.dim,
                             },
                         }}
                     >
@@ -895,7 +901,7 @@ export default function AssignmentNotebookCell({
                 maxWidth="lg"
                 PaperProps={{
                     sx: {
-                        bgcolor: "#070A0F",
+                        bgcolor: designTokens.panel,
                         border: `1px solid ${designTokens.line}`,
                         borderRadius: "6px",
                         p: 0,
@@ -919,12 +925,12 @@ export default function AssignmentNotebookCell({
                     <IconButton
                         size="small"
                         onClick={() => setZoomPlotSrc(null)}
-                        sx={{ color: designTokens.mute, "&:hover": { color: "#FFFFFF" } }}
+                        sx={{ color: designTokens.mute, "&:hover": { color: designTokens.text } }}
                     >
                         <IconComponent name="x" size={16} />
                     </IconButton>
                 </Box>
-                <DialogContent sx={{ p: "24px", textAlign: "center", bgcolor: "#05070A" }}>
+                <DialogContent sx={{ p: "24px", textAlign: "center", bgcolor: designTokens.vizContainerBg }}>
                     {zoomPlotSrc && (
                         <Box
                             component="img"

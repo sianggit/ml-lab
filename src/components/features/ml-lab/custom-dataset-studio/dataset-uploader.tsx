@@ -8,6 +8,7 @@ import CircularProgress from "@mui/material/CircularProgress";
 import IconComponent from "@/shared/components/icon";
 import { parseCSV } from "@/utils/csv-parser";
 import { useCustomDatasetStore } from "@/stores/use-custom-dataset-store";
+import { designTokens } from "@/config/theme";
 import { customDatasetStudioStyles } from "./custom-dataset-studio.styles";
 
 const MAX_FILE_SIZE_BYTES = 15 * 1024 * 1024; // 15MB limit
@@ -96,7 +97,6 @@ export default function DatasetUploader({ onUploadSuccess }: DatasetUploaderProp
         e.preventDefault();
         e.stopPropagation();
         setIsDragActive(false);
-
         if (e.dataTransfer.files && e.dataTransfer.files.length > 0) {
             const file = e.dataTransfer.files[0];
             processFile(file);
@@ -114,10 +114,10 @@ export default function DatasetUploader({ onUploadSuccess }: DatasetUploaderProp
         <Box sx={customDatasetStudioStyles.panelCard}>
             <Box sx={customDatasetStudioStyles.cardHeader}>
                 <Box sx={customDatasetStudioStyles.cardTitle}>
-                    <IconComponent name="upload" size={20} color="#38bdf8" />
+                    <IconComponent name="upload" size={20} color={designTokens.cyan} />
                     <span>Unggah Dataset Kustom (CSV)</span>
                 </Box>
-                <Typography variant="caption" sx={{ color: "#94a3b8", fontFamily: "var(--font-mono)" }}>
+                <Typography variant="caption" sx={{ color: designTokens.mute, fontFamily: designTokens.fontMono }}>
                     Maks. 15 MB · Format RFC 4180 / Kaggle
                 </Typography>
             </Box>
@@ -139,12 +139,12 @@ export default function DatasetUploader({ onUploadSuccess }: DatasetUploaderProp
                         borderRadius: "8px",
                         backgroundColor: "rgba(34, 197, 94, 0.1)",
                         border: "1px solid rgba(34, 197, 94, 0.25)",
-                        color: "#86efac",
+                        color: designTokens.acc,
                         fontSize: "0.85rem",
                         mb: "16px",
                     }}
                 >
-                    <IconComponent name="check" size={18} color="#86efac" />
+                    <IconComponent name="check" size={18} color={designTokens.acc} />
                     <Box>{successMessage}</Box>
                 </Box>
             )}
@@ -173,34 +173,34 @@ export default function DatasetUploader({ onUploadSuccess }: DatasetUploaderProp
             >
                 {isLoading ? (
                     <Box sx={{ py: 3, display: "flex", flexDirection: "column", alignItems: "center", gap: 2 }}>
-                        <CircularProgress size={36} sx={{ color: "#38bdf8" }} />
-                        <Typography sx={{ color: "#94a3b8", fontSize: "0.9rem" }}>
+                        <CircularProgress size={36} sx={{ color: designTokens.cyan }} />
+                        <Typography sx={{ color: designTokens.dim, fontSize: "0.9rem" }}>
                             Mem-parsing CSV & mengevaluasi profil kolom...
                         </Typography>
                     </Box>
                 ) : (
                     <>
                         <Box sx={customDatasetStudioStyles.uploadIconWrap}>
-                            <IconComponent name="upload" size={26} color="#38bdf8" />
+                            <IconComponent name="upload" size={26} color={designTokens.cyan} />
                         </Box>
-                        <Typography sx={{ fontWeight: 600, color: "#f8fafc", mb: 0.5, fontSize: "1rem" }}>
+                        <Typography sx={{ fontWeight: 600, color: designTokens.text, mb: 0.5, fontSize: "1rem" }}>
                             Tarik dan lepas file dataset CSV di sini
                         </Typography>
-                        <Typography sx={{ color: "#94a3b8", fontSize: "0.82rem", mb: 2 }}>
+                        <Typography sx={{ color: designTokens.mute, fontSize: "0.82rem", mb: 2 }}>
                             atau klik untuk memilih file dari komputer Anda
                         </Typography>
                         <Button
                             variant="outlined"
                             size="small"
                             sx={{
-                                borderColor: "rgba(255, 255, 255, 0.2)",
-                                color: "#38bdf8",
+                                borderColor: designTokens.line,
+                                color: designTokens.cyan,
                                 textTransform: "none",
                                 fontSize: "0.8rem",
                                 px: 2,
                                 "&:hover": {
-                                    borderColor: "#38bdf8",
-                                    backgroundColor: "rgba(56, 189, 248, 0.08)",
+                                    borderColor: designTokens.cyan,
+                                    backgroundColor: designTokens.cyanBg,
                                 },
                             }}
                             onClick={(e) => {

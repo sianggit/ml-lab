@@ -34,7 +34,7 @@ export default function ErrorBoundary({ error, reset }: ErrorProps) {
                 px: 3,
                 py: 8,
                 textAlign: "center",
-                background: "radial-gradient(ellipse at top, #1e1b4b 0%, #0B0F19 70%)",
+                background: "radial-gradient(ellipse at top, var(--ml-panel-alt, #1e1b4b) 0%, var(--ml-bg, #0B0F19) 70%)",
             }}
         >
             <Box
@@ -59,7 +59,7 @@ export default function ErrorBoundary({ error, reset }: ErrorProps) {
                 component="h1"
                 sx={{
                     fontWeight: 700,
-                    color: "#f8fafc",
+                    color: "var(--ml-text, #f8fafc)",
                     fontSize: { xs: "1.5rem", sm: "1.85rem" },
                     mb: 1.5,
                 }}
@@ -69,7 +69,7 @@ export default function ErrorBoundary({ error, reset }: ErrorProps) {
 
             <Typography
                 sx={{
-                    color: "#94a3b8",
+                    color: "var(--ml-mute, #94a3b8)",
                     maxWidth: 540,
                     fontSize: "0.95rem",
                     lineHeight: 1.6,
@@ -84,10 +84,10 @@ export default function ErrorBoundary({ error, reset }: ErrorProps) {
                 <Typography
                     variant="caption"
                     sx={{
-                        color: "#64748b",
+                        color: "var(--ml-dim, #64748b)",
                         fontFamily: "var(--font-mono)",
-                        background: "rgba(15, 23, 42, 0.6)",
-                        border: "1px solid rgba(255, 255, 255, 0.08)",
+                        background: "var(--ml-box-subtle-bg, rgba(15, 23, 42, 0.6))",
+                        border: "1px solid var(--ml-line, rgba(255, 255, 255, 0.08))",
                         px: 1.5,
                         py: 0.5,
                         borderRadius: "6px",
@@ -124,16 +124,16 @@ export default function ErrorBoundary({ error, reset }: ErrorProps) {
                     href="/"
                     variant="outlined"
                     sx={{
-                        borderColor: "rgba(255, 255, 255, 0.15)",
-                        color: "#e2e8f0",
+                        borderColor: "var(--ml-line, rgba(255, 255, 255, 0.15))",
+                        color: "var(--ml-text, #e2e8f0)",
                         fontWeight: 600,
                         textTransform: "none",
                         px: 3,
                         py: 1.2,
                         borderRadius: "10px",
                         "&:hover": {
-                            borderColor: "rgba(255, 255, 255, 0.3)",
-                            background: "rgba(255, 255, 255, 0.04)",
+                            borderColor: "var(--ml-line, rgba(255, 255, 255, 0.3))",
+                            background: "var(--ml-box-subtle-bg, rgba(255, 255, 255, 0.04))",
                         },
                     }}
                 >

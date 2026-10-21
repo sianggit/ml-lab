@@ -11,6 +11,7 @@ import IconComponent from "@/shared/components/icon";
 import { useCustomDatasetStore } from "@/stores/use-custom-dataset-store";
 import { pyodideBridge } from "@/services/ml-lab/pyodide-bridge.service";
 import { MLTaskType, MLModelType } from "@/utils/ml-code-generator";
+import { designTokens } from "@/config/theme";
 import { customDatasetStudioStyles } from "./custom-dataset-studio.styles";
 
 interface DatasetModelRunnerProps {
@@ -85,10 +86,10 @@ export default function DatasetModelRunner({
         <Box sx={customDatasetStudioStyles.panelCard}>
             <Box sx={customDatasetStudioStyles.cardHeader}>
                 <Box sx={customDatasetStudioStyles.cardTitle}>
-                    <IconComponent name="zap" size={20} color="#38bdf8" />
+                    <IconComponent name="zap" size={20} color={designTokens.cyan} />
                     <span>Konfigurasi Algoritma & Eksekusi Model</span>
                 </Box>
-                <Typography variant="caption" sx={{ color: "#94a3b8" }}>
+                <Typography variant="caption" sx={{ color: designTokens.mute }}>
                     Didukung: Scikit-learn · Pandas · NumPy
                 </Typography>
             </Box>
@@ -96,7 +97,7 @@ export default function DatasetModelRunner({
             <Box sx={{ display: "grid", gridTemplateColumns: { xs: "1fr", md: "1fr 1fr" }, gap: 3, mb: 3 }}>
                 {/* Task Type */}
                 <Box>
-                    <Typography sx={{ fontSize: "0.85rem", fontWeight: 600, color: "#f1f5f9", mb: 0.8 }}>
+                    <Typography sx={{ fontSize: "0.85rem", fontWeight: 600, color: designTokens.text, mb: 0.8 }}>
                         Jenis Tugas Machine Learning:
                     </Typography>
                     <Select
@@ -105,11 +106,11 @@ export default function DatasetModelRunner({
                         value={taskType}
                         onChange={(e) => setTaskType(e.target.value as MLTaskType)}
                         sx={{
-                            backgroundColor: "rgba(255, 255, 255, 0.05)",
-                            border: "1px solid rgba(255, 255, 255, 0.12)",
-                            color: "#f1f5f9",
+                            backgroundColor: designTokens.panel,
+                            border: `1px solid ${designTokens.line}`,
+                            color: designTokens.text,
                             fontSize: "0.82rem",
-                            "& .MuiSvgIcon-root": { color: "#94a3b8" },
+                            "& .MuiSvgIcon-root": { color: designTokens.dim },
                         }}
                     >
                         <MenuItem value="classification">Klasifikasi (Supervised - Target Kategorikal)</MenuItem>
@@ -120,7 +121,7 @@ export default function DatasetModelRunner({
 
                 {/* Model Algorithm */}
                 <Box>
-                    <Typography sx={{ fontSize: "0.85rem", fontWeight: 600, color: "#f1f5f9", mb: 0.8 }}>
+                    <Typography sx={{ fontSize: "0.85rem", fontWeight: 600, color: designTokens.text, mb: 0.8 }}>
                         Algoritma Model Pembelajaran:
                     </Typography>
                     <Select
@@ -129,11 +130,11 @@ export default function DatasetModelRunner({
                         value={modelType}
                         onChange={(e) => setModelType(e.target.value as MLModelType)}
                         sx={{
-                            backgroundColor: "rgba(255, 255, 255, 0.05)",
-                            border: "1px solid rgba(255, 255, 255, 0.12)",
-                            color: "#f1f5f9",
+                            backgroundColor: designTokens.panel,
+                            border: `1px solid ${designTokens.line}`,
+                            color: designTokens.text,
                             fontSize: "0.82rem",
-                            "& .MuiSvgIcon-root": { color: "#94a3b8" },
+                            "& .MuiSvgIcon-root": { color: designTokens.dim },
                         }}
                     >
                         {taskType === "classification" && (
@@ -179,9 +180,9 @@ export default function DatasetModelRunner({
                     sx={{
                         p: 1.5,
                         borderRadius: "6px",
-                        backgroundColor: "rgba(56, 189, 248, 0.08)",
-                        border: "1px solid rgba(56, 189, 248, 0.2)",
-                        color: "#bae6fd",
+                        backgroundColor: designTokens.cyanBg,
+                        border: `1px solid ${designTokens.cyanBorder}`,
+                        color: designTokens.text,
                         fontSize: "0.82rem",
                         mb: 2,
                         display: "flex",
@@ -189,7 +190,7 @@ export default function DatasetModelRunner({
                         gap: 1.5,
                     }}
                 >
-                    <IconComponent name="info" size={16} color="#38bdf8" />
+                    <IconComponent name="info" size={16} color={designTokens.cyan} />
                     <span>{actionMessage}</span>
                 </Box>
             )}

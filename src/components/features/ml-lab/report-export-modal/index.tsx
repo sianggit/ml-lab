@@ -284,13 +284,13 @@ export default function ReportExportModal({ open, onClose }: ReportExportModalPr
                                         onChange={(e) => setIncludeVisualOutput(e.target.checked)}
                                         size="small"
                                         sx={{
-                                            color: "rgba(255, 255, 255, 0.3)",
-                                            "&.Mui-checked": { color: "#38bdf8" },
+                                            color: "var(--ml-dim)",
+                                            "&.Mui-checked": { color: "var(--ml-acc)" },
                                         }}
                                     />
                                 }
                                 label={
-                                    <Typography sx={{ fontSize: "0.86rem", fontWeight: 650, color: "#f8fafc" }}>
+                                    <Typography sx={{ fontSize: "0.86rem", fontWeight: 650, color: "var(--ml-text)" }}>
                                         Sertakan Output Visual / Grafik Simulasi dalam PDF
                                     </Typography>
                                 }
@@ -302,7 +302,7 @@ export default function ReportExportModal({ open, onClose }: ReportExportModalPr
 
                         {includeVisualOutput && (
                             <Box sx={{ pl: 4, display: "flex", flexDirection: "column", gap: 1 }}>
-                                <Typography sx={{ fontSize: "0.78rem", color: "#94a3b8" }}>
+                                <Typography sx={{ fontSize: "0.78rem", color: "var(--ml-mute)" }}>
                                     Pilih 1 bab yang ingin dilampirkan grafik simulasinya pada lembar PDF:
                                 </Typography>
                                 <Select
@@ -312,11 +312,11 @@ export default function ReportExportModal({ open, onClose }: ReportExportModalPr
                                     sx={{
                                         maxWidth: 480,
                                         height: 36,
-                                        backgroundColor: "#090B0E",
-                                        color: "#38bdf8",
+                                        backgroundColor: "var(--ml-panel)",
+                                        color: "var(--ml-text)",
                                         fontSize: "0.82rem",
-                                        border: "1px solid rgba(255, 255, 255, 0.15)",
-                                        "& .MuiSvgIcon-root": { color: "#94a3b8" },
+                                        border: "1px solid var(--ml-line)",
+                                        "& .MuiSvgIcon-root": { color: "var(--ml-dim)" },
                                     }}
                                 >
                                     {selectedChapterObjects.map((ch) => {
@@ -325,7 +325,7 @@ export default function ReportExportModal({ open, onClose }: ReportExportModalPr
                                             <MenuItem key={ch.id} value={ch.number}>
                                                 <Box sx={{ display: "flex", justifyContent: "space-between", width: "100%", alignItems: "center" }}>
                                                     <span>Bab {padNumber(ch.number)}: {ch.title}</span>
-                                                    <span style={{ fontSize: "0.72rem", color: hasPlot ? "#4ade80" : "#94a3b8", marginLeft: 8 }}>
+                                                    <span style={{ fontSize: "0.72rem", color: hasPlot ? "var(--ml-acc)" : "var(--ml-dim)", marginLeft: 8 }}>
                                                         {hasPlot ? "● Plot Siap" : "○ Visual Twin"}
                                                     </span>
                                                 </Box>
@@ -354,16 +354,19 @@ export default function ReportExportModal({ open, onClose }: ReportExportModalPr
                         sx={{
                             p: "12px 14px",
                             borderRadius: "6px",
-                            backgroundColor: "rgba(10, 13, 18, 0.6)",
-                            border: "1px solid rgba(255, 255, 255, 0.08)",
+                            backgroundColor: "var(--ml-panel-alt)",
+                            border: "1px solid var(--ml-line)",
                             fontSize: "0.82rem",
-                            color: "#94a3b8",
+                            color: "var(--ml-mute)",
                             display: "flex",
                             flexDirection: "column",
                             gap: "4px",
+                            "& b": {
+                                color: "var(--ml-text)",
+                            },
                         }}
                     >
-                        <Typography sx={{ fontSize: "0.82rem", fontWeight: 600, color: "#e2e8f0" }}>
+                        <Typography sx={{ fontSize: "0.82rem", fontWeight: 600, color: "var(--ml-text)" }}>
                             Ringkasan Berkas PDF yang Akan Dicetak:
                         </Typography>
                         <div>

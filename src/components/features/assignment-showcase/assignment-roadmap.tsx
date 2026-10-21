@@ -54,7 +54,7 @@ export default function AssignmentRoadmap() {
                                                         fontWeight: 600,
                                                         letterSpacing: "0.1em",
                                                         textTransform: "uppercase",
-                                                        color: isDone ? designTokens.acc : "#FFB84D",
+                                                        color: isDone ? designTokens.acc : "#D97706",
                                                     }}
                                                 >
                                                     [{isDone ? "Showcase Aktif" : "UTS Target"}]

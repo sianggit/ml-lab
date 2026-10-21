@@ -38,7 +38,7 @@ export default function MathFormula({
                 overflowY: "hidden",
                 py: 0.5,
                 px: 1,
-                color: "#F5F7FA",
+                color: "var(--ml-text)",
                 "& .katex-display": {
                     margin: "0.2em 0",
                     overflowX: "auto",

@@ -28,11 +28,11 @@ export default function Bab04Showcase() {
                         <Box component="span" sx={assignmentStyles.sectionCode}>
                             {item.code}
                         </Box>
-                        <Box component="span" sx={{ width: "3px", height: "3px", borderRadius: "50%", bgcolor: "rgba(255,255,255,0.2)" }} />
+                        <Box component="span" sx={{ width: "3px", height: "3px", borderRadius: "50%", bgcolor: designTokens.dim }} />
                         <Box component="span" sx={assignmentStyles.tabBadge("completed")}>
                             Laporan Selesai
                         </Box>
-                        <Box component="span" sx={{ width: "3px", height: "3px", borderRadius: "50%", bgcolor: "rgba(255,255,255,0.2)" }} />
+                        <Box component="span" sx={{ width: "3px", height: "3px", borderRadius: "50%", bgcolor: designTokens.dim }} />
                         <Typography sx={assignmentStyles.sectionDate}>
                             Pelaksanaan: {item.executionDate}
                         </Typography>
@@ -53,7 +53,7 @@ export default function Bab04Showcase() {
                         download="LAPORAN_PRAKTIKUM_4_ANGGIT_ARISA_SIWI_PRATAMA_202343570045.pdf"
                         sx={assignmentStyles.downloadBtn}
                     >
-                        <IconComponent name="download" size={13} color="#0B0E12" />
+                        <IconComponent name="download" size={13} color="currentColor" />
                         <span>Unduh Laporan PDF (273 KB)</span>
                     </Box>
                 </Box>

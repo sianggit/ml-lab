@@ -76,7 +76,7 @@ export default function CodeCell({
 
     const effectiveIsRunning = isRunning || isOptimisticRunning;
 
-    const { compileStreak, avgExecTimeMs } = useMlLabStore();
+    const { compileStreak, avgExecTimeMs, themeMode } = useMlLabStore();
 
     useEffect(() => {
         setIsMounted(true);
@@ -221,7 +221,7 @@ export default function CodeCell({
                         )}
                     </Button>
 
-                    <Typography sx={{ fontSize: "0.72rem", color: "#8A94A6", display: { xs: "none", sm: "inline-block" } }}>
+                    <Typography sx={{ fontSize: "0.72rem", color: "var(--ml-mute)", display: { xs: "none", sm: "inline-block" } }}>
                         (Eksekusi client-side real-time)
                     </Typography>
                 </Box>
@@ -243,7 +243,7 @@ export default function CodeCell({
                         <Editor
                             height="340px"
                             language="python"
-                            theme="vs-dark"
+                            theme={themeMode === "light" ? "light" : "vs-dark"}
                             value={code}
                             onChange={handleCodeChange}
                             options={{
@@ -269,7 +269,7 @@ export default function CodeCell({
 
             {activeTab === "dataset" && (
                 <Box sx={codeCellStyles.fileViewerContainer}>
-                    <Box component="pre" sx={{ m: 0, color: "#EDEDED", whiteSpace: "pre-wrap" }}>
+                    <Box component="pre" sx={{ m: 0, color: "var(--ml-text)", whiteSpace: "pre-wrap" }}>
                         {SAMPLE_DATASET_CSV}
                     </Box>
                 </Box>
@@ -277,7 +277,7 @@ export default function CodeCell({
 
             {activeTab === "hyperparams" && (
                 <Box sx={codeCellStyles.fileViewerContainer}>
-                    <Box component="pre" sx={{ m: 0, color: "#38BDF8", whiteSpace: "pre-wrap" }}>
+                    <Box component="pre" sx={{ m: 0, color: "var(--ml-cyan)", whiteSpace: "pre-wrap" }}>
                         {SAMPLE_HYPERPARAMS_YAML}
                     </Box>
                 </Box>

@@ -30,11 +30,11 @@ export default function UtsTasksShowcase() {
                         <Box component="span" sx={assignmentStyles.sectionCode}>
                             {item.code}
                         </Box>
-                        <Box component="span" sx={{ width: "3px", height: "3px", borderRadius: "50%", bgcolor: "rgba(255,255,255,0.2)" }} />
+                        <Box component="span" sx={{ width: "3px", height: "3px", borderRadius: "50%", bgcolor: designTokens.dim }} />
                         <Box component="span" sx={assignmentStyles.tabBadge("active")}>
                             Aktif / Dalam Pengerjaan
                         </Box>
-                        <Box component="span" sx={{ width: "3px", height: "3px", borderRadius: "50%", bgcolor: "rgba(255,255,255,0.2)" }} />
+                        <Box component="span" sx={{ width: "3px", height: "3px", borderRadius: "50%", bgcolor: designTokens.dim }} />
                         <Typography sx={assignmentStyles.sectionDate}>
                             Batas Submit: {item.deadline}
                         </Typography>
@@ -89,7 +89,7 @@ export default function UtsTasksShowcase() {
                                 <Box component="span" sx={assignmentStyles.questionIndex}>
                                     {q.number}
                                 </Box>
-                                <Box component="span" sx={{ width: "3px", height: "3px", borderRadius: "50%", bgcolor: "rgba(255,255,255,0.2)" }} />
+                                <Box component="span" sx={{ width: "3px", height: "3px", borderRadius: "50%", bgcolor: designTokens.dim }} />
                                 <Typography sx={assignmentStyles.questionTopic}>
                                     Topik: {q.topic}
                                 </Typography>

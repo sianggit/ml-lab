@@ -232,7 +232,7 @@ export const curriculumPageStyles = defineStyles({
             fontFamily: designTokens.fontMono,
             fontSize: "11.5px",
             letterSpacing: "0.05em",
-            color: designTokens.dim,
+            color: designTokens.mute,
         },
     },
     status: (isDone: boolean) => ({
@@ -243,7 +243,7 @@ export const curriculumPageStyles = defineStyles({
         fontSize: "11px",
         letterSpacing: "0.1em",
         textTransform: "uppercase",
-        color: isDone ? designTokens.acc : designTokens.dim,
+        color: isDone ? designTokens.acc : designTokens.mute,
         "&::after": {
             content: '"\\2192"',
             fontSize: "15px",
@@ -268,15 +268,16 @@ export const curriculumPageStyles = defineStyles({
         padding: "15px 26px",
         border: `1px solid ${designTokens.line}`,
         borderRadius: "8px",
-        backgroundColor: "rgba(15, 19, 25, 0.6)",
+        backgroundColor: designTokens.panel,
         color: designTokens.text,
+        boxShadow: "var(--ml-card-shadow)",
         cursor: "pointer",
         textTransform: "none",
         transition: "border-color 0.2s, background-color 0.2s, color 0.2s",
         "&:hover": {
-            borderColor: "rgba(255, 255, 255, 0.2)",
-            backgroundColor: "#171D24",
-            color: "#FFFFFF",
+            borderColor: designTokens.acc,
+            backgroundColor: designTokens.panelAlt,
+            color: designTokens.text,
         },
     },
     loadMoreProgressText: {

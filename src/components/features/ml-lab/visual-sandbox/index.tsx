@@ -10,6 +10,7 @@ import Chip from "@mui/material/Chip";
 import Stack from "@mui/material/Stack";
 import IconComponent from "@/shared/components/icon";
 import { Chapter } from "@/models/ml-lab/chapter.model";
+import { designTokens } from "@/config/theme";
 import { visualSandboxStyles } from "./visual-sandbox.styles";
 
 export interface VisualSandboxProps {
@@ -126,7 +127,7 @@ function DataPipelineSandbox({ chapter }: { chapter: Chapter }) {
 
             {/* Visual Bars */}
             <Box sx={visualSandboxStyles.visualCanvasCard}>
-                <Typography sx={{ color: "#9CA3AF", fontSize: "0.8rem", mb: 2 }}>
+                <Typography sx={{ color: designTokens.mute, fontSize: "0.8rem", mb: 2 }}>
                     Diagram Sebaran Nilai Fitur Tabular
                 </Typography>
                 <Box sx={{ display: "flex", alignItems: "flex-end", gap: 2, height: 180, width: "100%", px: 4, justifyContent: "center" }}>
@@ -138,7 +139,7 @@ function DataPipelineSandbox({ chapter }: { chapter: Chapter }) {
 
                         return (
                             <Box key={idx} sx={{ display: "flex", flexDirection: "column", alignItems: "center", gap: 1 }}>
-                                <Typography sx={{ fontSize: "0.72rem", color: "#A5B4FC", fontFamily: "var(--font-mono), monospace" }}>
+                                <Typography sx={{ fontSize: "0.72rem", color: designTokens.text, fontFamily: designTokens.fontMono }}>
                                     {val.toFixed(2)}
                                 </Typography>
                                 <Box
@@ -150,7 +151,7 @@ function DataPipelineSandbox({ chapter }: { chapter: Chapter }) {
                                         transition: "height 0.25s ease",
                                     }}
                                 />
-                                <Typography sx={{ fontSize: "0.7rem", color: "#6B7280" }}>X_{idx + 1}</Typography>
+                                <Typography sx={{ fontSize: "0.7rem", color: designTokens.dim }}>X_{idx + 1}</Typography>
                             </Box>
                         );
                     })}
@@ -268,8 +269,8 @@ function RegressionAndTreesSandbox({ chapter }: { chapter: Chapter }) {
                     </Typography>
                     <svg width="100%" height="220" viewBox="0 0 360 200" style={{ overflow: "visible" }}>
                         {/* Axes */}
-                        <line x1="30" y1="20" x2="30" y2="180" stroke="rgba(255,255,255,0.15)" strokeWidth="1" />
-                        <line x1="30" y1="180" x2="340" y2="180" stroke="rgba(255,255,255,0.15)" strokeWidth="1" />
+                        <line x1="30" y1="20" x2="30" y2="180" stroke={designTokens.line} strokeWidth="1" />
+                        <line x1="30" y1="180" x2="340" y2="180" stroke={designTokens.line} strokeWidth="1" />
 
                         {/* Residual error dashed lines */}
                         {points.map((p, idx) => {
@@ -295,7 +296,7 @@ function RegressionAndTreesSandbox({ chapter }: { chapter: Chapter }) {
                         {points.map((p, idx) => {
                             const cx = 30 + (p.x / 100) * 300;
                             const cy = 180 - (p.y / 140) * 160;
-                            return <circle key={idx} cx={cx} cy={cy} r="4.5" fill="#38BDF8" stroke="#FFFFFF" strokeWidth="1" />;
+                            return <circle key={idx} cx={cx} cy={cy} r="4.5" fill="#38BDF8" stroke={designTokens.panel} strokeWidth="1" />;
                         })}
 
                         {/* Fitted Regression Line */}
@@ -341,7 +342,7 @@ function RegressionAndTreesSandbox({ chapter }: { chapter: Chapter }) {
                             return (
                                 <>
                                     <line x1="180" y1="100" x2={curX} y2={curY} stroke="rgba(255, 178, 36, 0.4)" strokeWidth="1" strokeDasharray="2 2" />
-                                    <circle cx={curX} cy={curY} r="7" fill="#FFB224" stroke="#FFFFFF" strokeWidth="2" />
+                                    <circle cx={curX} cy={curY} r="7" fill="#FFB224" stroke={designTokens.panel} strokeWidth="2" />
                                     <text x={curX + 10} y={curY - 6} fill="#FFB224" fontSize="10" fontWeight="700" fontFamily="var(--font-mono)">
                                         (w, b)
                                     </text>
@@ -448,7 +449,7 @@ function KnnSvmBoundarySandbox({ chapter }: { chapter: Chapter }) {
                                 sx={{
                                     textTransform: "none",
                                     backgroundColor: activeDropClass === 0 ? "#7C5CFC" : "transparent",
-                                    color: activeDropClass === 0 ? "#FFFFFF" : "#A5B4FC",
+                                    color: activeDropClass === 0 ? "#FFFFFF" : designTokens.text,
                                 }}
                             >
                                 <Box component="span" sx={{ display: "inline-flex", alignItems: "center", gap: 0.75 }}>
@@ -462,7 +463,7 @@ function KnnSvmBoundarySandbox({ chapter }: { chapter: Chapter }) {
                                 sx={{
                                     textTransform: "none",
                                     backgroundColor: activeDropClass === 1 ? "#00F59B" : "transparent",
-                                    color: activeDropClass === 1 ? "#0B0D11" : "#5CFFC1",
+                                    color: activeDropClass === 1 ? "#0B0D11" : designTokens.acc,
                                 }}
                             >
                                 <Box component="span" sx={{ display: "inline-flex", alignItems: "center", gap: 0.75 }}>
@@ -580,13 +581,13 @@ function KnnSvmBoundarySandbox({ chapter }: { chapter: Chapter }) {
                             cy={p.y}
                             r="6.5"
                             fill={p.cls === 0 ? "#7C5CFC" : "#00F59B"}
-                            stroke="#FFFFFF"
+                            stroke={designTokens.panel}
                             strokeWidth="1.2"
                         />
                     ))}
 
                     {/* Query point */}
-                    <circle cx="170" cy="100" r="7.5" fill="#FF4D6D" stroke="#FFFFFF" strokeWidth="2" />
+                    <circle cx="170" cy="100" r="7.5" fill="#FF4D6D" stroke={designTokens.panel} strokeWidth="2" />
                     <text x="178" y="104" fill="#FF4D6D" fontSize="10" fontWeight="700" fontFamily="var(--font-mono)">
                         Target
                     </text>
@@ -777,7 +778,7 @@ function ClusteringAndPcaSandbox({ chapter }: { chapter: Chapter }) {
                 <Box sx={visualSandboxStyles.sliderRow}>
                     <Box>
                         <Typography sx={visualSandboxStyles.sliderLabel}>Status Iterasi Clustering</Typography>
-                        <Typography sx={{ fontSize: "0.8rem", color: "#9CA3AF" }}>
+                        <Typography sx={{ fontSize: "0.8rem", color: designTokens.mute }}>
                             {step === 1 ? "Inisialisasi Titik Centroid Awal" : step === 2 ? "Partisi Anggota Klaster" : "Konvergensi Posisi Centroid Final"}
                         </Typography>
                     </Box>
@@ -801,13 +802,13 @@ function ClusteringAndPcaSandbox({ chapter }: { chapter: Chapter }) {
                     <circle cx="290" cy="160" r="6" fill="#10B981" opacity="0.8" />
 
                     {/* Centroid 1 marker */}
-                    <rect x={70 + step * 10} y={60 + step * 5} width="16" height="16" fill="#FBBF24" stroke="#FFFFFF" strokeWidth="2" />
+                    <rect x={70 + step * 10} y={60 + step * 5} width="16" height="16" fill="#FBBF24" stroke={designTokens.panel} strokeWidth="2" />
                     <text x={95 + step * 10} y={73 + step * 5} fill="#FBBF24" fontSize="12" fontWeight="bold">
                         C1 ({c1.x}, {c1.y})
                     </text>
 
                     {/* Centroid 2 marker */}
-                    <rect x={260 - step * 5} y={130 + step * 4} width="16" height="16" fill="#EF4444" stroke="#FFFFFF" strokeWidth="2" />
+                    <rect x={260 - step * 5} y={130 + step * 4} width="16" height="16" fill="#EF4444" stroke={designTokens.panel} strokeWidth="2" />
                     <text x={285 - step * 5} y={143 + step * 4} fill="#EF4444" fontSize="12" fontWeight="bold">
                         C2 ({c2.x}, {c2.y})
                     </text>
@@ -908,7 +909,7 @@ function EvaluationAndNeuralSandbox({ chapter }: { chapter: Chapter }) {
                         <text x="200" y="70" fill="#00F59B" fontSize="9" fontFamily="var(--font-mono)">Kelas 1 (Positif)</text>
 
                         {/* Base axis */}
-                        <line x1="15" y1="150" x2="305" y2="150" stroke="rgba(255,255,255,0.15)" strokeWidth="1" />
+                        <line x1="15" y1="150" x2="305" y2="150" stroke={designTokens.line} strokeWidth="1" />
 
                         {/* Dynamic threshold vertical bar */}
                         {(() => {
@@ -933,13 +934,13 @@ function EvaluationAndNeuralSandbox({ chapter }: { chapter: Chapter }) {
                     </Typography>
                     <svg width="100%" height="200" viewBox="0 0 320 180">
                         {/* Axes */}
-                        <line x1="40" y1="20" x2="40" y2="150" stroke="rgba(255,255,255,0.15)" strokeWidth="1" />
-                        <line x1="40" y1="150" x2="290" y2="150" stroke="rgba(255,255,255,0.15)" strokeWidth="1" />
-                        <text x="130" y="168" fill="#6B7280" fontSize="8.5" fontFamily="var(--font-mono)">FPR (False Positive)</text>
-                        <text x="8" y="24" fill="#6B7280" fontSize="8.5" fontFamily="var(--font-mono)">TPR</text>
+                        <line x1="40" y1="20" x2="40" y2="150" stroke={designTokens.line} strokeWidth="1" />
+                        <line x1="40" y1="150" x2="290" y2="150" stroke={designTokens.line} strokeWidth="1" />
+                        <text x="130" y="168" fill={designTokens.dim} fontSize="8.5" fontFamily="var(--font-mono)">FPR (False Positive)</text>
+                        <text x="8" y="24" fill={designTokens.dim} fontSize="8.5" fontFamily="var(--font-mono)">TPR</text>
 
                         {/* Diagonal baseline */}
-                        <line x1="40" y1="150" x2="280" y2="20" stroke="rgba(255,255,255,0.1)" strokeWidth="1" strokeDasharray="2 2" />
+                        <line x1="40" y1="150" x2="280" y2="20" stroke={designTokens.line} strokeWidth="1" strokeDasharray="2 2" />
 
                         {/* ROC curve */}
                         <path d="M 40 150 Q 55 35 280 20" fill="none" stroke="#7C5CFC" strokeWidth="2.5" />
@@ -950,7 +951,7 @@ function EvaluationAndNeuralSandbox({ chapter }: { chapter: Chapter }) {
                             const ptY = 150 - tpr * 130;
                             return (
                                 <>
-                                    <circle cx={ptX} cy={ptY} r="6" fill="#00F59B" stroke="#FFFFFF" strokeWidth="2" />
+                                    <circle cx={ptX} cy={ptY} r="6" fill="#00F59B" stroke={designTokens.panel} strokeWidth="2" />
                                     <text x={ptX + 8} y={ptY - 4} fill="#00F59B" fontSize="9" fontWeight="700" fontFamily="var(--font-mono)">
                                         ({fpr.toFixed(2)}, {tpr.toFixed(2)})
                                     </text>
@@ -962,26 +963,26 @@ function EvaluationAndNeuralSandbox({ chapter }: { chapter: Chapter }) {
             </Box>
 
             {/* Confusion Matrix Interactive Grid */}
-            <Box sx={{ p: 2, borderRadius: "8px", backgroundColor: "#0B0D11", border: "1px solid rgba(255, 255, 255, 0.08)" }}>
-                <Typography sx={{ fontSize: "0.75rem", fontWeight: 700, color: "#9CA3AF", textTransform: "uppercase", mb: 1.5, letterSpacing: "0.04em" }}>
+            <Box sx={{ p: 2, borderRadius: "8px", backgroundColor: designTokens.panelAlt, border: `1px solid ${designTokens.line}` }}>
+                <Typography sx={{ fontSize: "0.75rem", fontWeight: 700, color: designTokens.mute, textTransform: "uppercase", mb: 1.5, letterSpacing: "0.04em" }}>
                     Matriks Kebingungan (Confusion Matrix) — Total 120 Sampel Uji
                 </Typography>
                 <Box sx={{ display: "grid", gridTemplateColumns: { xs: "1fr 1fr", sm: "repeat(4, 1fr)" }, gap: 1.5 }}>
                     <Box sx={{ p: 1.5, borderRadius: "6px", backgroundColor: "rgba(0, 245, 155, 0.1)", border: "1px solid rgba(0, 245, 155, 0.3)", textAlign: "center" }}>
                         <Typography sx={{ fontSize: "0.7rem", color: "#00F59B", fontWeight: 600 }}>True Positive (TP)</Typography>
-                        <Typography sx={{ fontSize: "1.3rem", fontWeight: 800, color: "#FFFFFF", fontFamily: "var(--font-mono)" }}>{tp}</Typography>
+                        <Typography sx={{ fontSize: "1.3rem", fontWeight: 800, color: designTokens.text, fontFamily: "var(--font-mono)" }}>{tp}</Typography>
                     </Box>
                     <Box sx={{ p: 1.5, borderRadius: "6px", backgroundColor: "rgba(255, 77, 109, 0.1)", border: "1px solid rgba(255, 77, 109, 0.3)", textAlign: "center" }}>
                         <Typography sx={{ fontSize: "0.7rem", color: "#FF4D6D", fontWeight: 600 }}>False Positive (FP)</Typography>
-                        <Typography sx={{ fontSize: "1.3rem", fontWeight: 800, color: "#FFFFFF", fontFamily: "var(--font-mono)" }}>{fp}</Typography>
+                        <Typography sx={{ fontSize: "1.3rem", fontWeight: 800, color: designTokens.text, fontFamily: "var(--font-mono)" }}>{fp}</Typography>
                     </Box>
                     <Box sx={{ p: 1.5, borderRadius: "6px", backgroundColor: "rgba(255, 77, 109, 0.1)", border: "1px solid rgba(255, 77, 109, 0.3)", textAlign: "center" }}>
                         <Typography sx={{ fontSize: "0.7rem", color: "#FF4D6D", fontWeight: 600 }}>False Negative (FN)</Typography>
-                        <Typography sx={{ fontSize: "1.3rem", fontWeight: 800, color: "#FFFFFF", fontFamily: "var(--font-mono)" }}>{fn}</Typography>
+                        <Typography sx={{ fontSize: "1.3rem", fontWeight: 800, color: designTokens.text, fontFamily: "var(--font-mono)" }}>{fn}</Typography>
                     </Box>
                     <Box sx={{ p: 1.5, borderRadius: "6px", backgroundColor: "rgba(124, 92, 252, 0.1)", border: "1px solid rgba(124, 92, 252, 0.3)", textAlign: "center" }}>
                         <Typography sx={{ fontSize: "0.7rem", color: "#9B82FD", fontWeight: 600 }}>True Negative (TN)</Typography>
-                        <Typography sx={{ fontSize: "1.3rem", fontWeight: 800, color: "#FFFFFF", fontFamily: "var(--font-mono)" }}>{tn}</Typography>
+                        <Typography sx={{ fontSize: "1.3rem", fontWeight: 800, color: designTokens.text, fontFamily: "var(--font-mono)" }}>{tn}</Typography>
                     </Box>
                 </Box>
             </Box>

@@ -9,6 +9,7 @@ import Button from "@mui/material/Button";
 import IconComponent from "@/shared/components/icon";
 import { InferredColumnType } from "@/utils/csv-parser";
 import { useCustomDatasetStore } from "@/stores/use-custom-dataset-store";
+import { designTokens } from "@/config/theme";
 import { customDatasetStudioStyles } from "./custom-dataset-studio.styles";
 
 export default function DatasetOverviewPanel() {
@@ -48,7 +49,7 @@ export default function DatasetOverviewPanel() {
         <Box sx={customDatasetStudioStyles.panelCard}>
             <Box sx={customDatasetStudioStyles.cardHeader}>
                 <Box sx={customDatasetStudioStyles.cardTitle}>
-                    <IconComponent name="database" size={20} color="#38bdf8" />
+                    <IconComponent name="database" size={20} color={designTokens.cyan} />
                     <span>Profil & Ringkasan Dataset: {customDataset.filename}</span>
                 </Box>
                 <Button
@@ -110,7 +111,7 @@ export default function DatasetOverviewPanel() {
             ))}
 
             {/* Columns Schema & Type Override Table */}
-            <Typography sx={{ fontSize: "0.88rem", fontWeight: 600, color: "#e2e8f0", mb: 1.5 }}>
+            <Typography sx={{ fontSize: "0.88rem", fontWeight: 600, color: designTokens.text, mb: 1.5 }}>
                 Struktur Kolom & Penyesuaian Tipe Data:
             </Typography>
 
@@ -139,7 +140,7 @@ export default function DatasetOverviewPanel() {
                                                 component="span"
                                                 sx={{
                                                     fontWeight: 600,
-                                                    color: col.isSuggestedTarget ? "#38bdf8" : "#f1f5f9",
+                                                    color: col.isSuggestedTarget ? designTokens.cyan : designTokens.text,
                                                 }}
                                             >
                                                 {col.name}
@@ -152,8 +153,8 @@ export default function DatasetOverviewPanel() {
                                                         px: "6px",
                                                         py: "1px",
                                                         borderRadius: "4px",
-                                                        backgroundColor: "rgba(56, 189, 248, 0.15)",
-                                                        color: "#38bdf8",
+                                                        backgroundColor: designTokens.cyanBg,
+                                                        color: designTokens.cyan,
                                                     }}
                                                 >
                                                     Kandidat Target
@@ -168,7 +169,7 @@ export default function DatasetOverviewPanel() {
                                                         py: "1px",
                                                         borderRadius: "4px",
                                                         backgroundColor: "rgba(234, 179, 8, 0.15)",
-                                                        color: "#fde047",
+                                                        color: "#d97706",
                                                     }}
                                                 >
                                                     ID/Index
@@ -194,10 +195,10 @@ export default function DatasetOverviewPanel() {
                                             sx={{
                                                 height: 28,
                                                 fontSize: "0.75rem",
-                                                color: "#f1f5f9",
-                                                backgroundColor: "rgba(255, 255, 255, 0.05)",
-                                                border: "1px solid rgba(255, 255, 255, 0.1)",
-                                                "& .MuiSvgIcon-root": { color: "#94a3b8" },
+                                                color: designTokens.text,
+                                                backgroundColor: designTokens.panel,
+                                                border: `1px solid ${designTokens.line}`,
+                                                "& .MuiSvgIcon-root": { color: designTokens.dim },
                                             }}
                                         >
                                             <MenuItem value="numeric">numeric</MenuItem>
@@ -210,7 +211,7 @@ export default function DatasetOverviewPanel() {
                                         <Typography
                                             component="span"
                                             sx={{
-                                                color: col.missingCount > 0 ? "#f59e0b" : "#94a3b8",
+                                                color: col.missingCount > 0 ? "#f59e0b" : designTokens.dim,
                                             }}
                                         >
                                             {col.missingCount} ({col.missingPercent.toFixed(1)}%)
@@ -223,7 +224,7 @@ export default function DatasetOverviewPanel() {
                                         {col.stats && col.stats.min !== undefined && col.stats.max !== undefined && col.stats.mean !== undefined && col.stats.std !== undefined ? (
                                             <Typography
                                                 component="span"
-                                                sx={{ fontSize: "0.75rem", color: "#94a3b8" }}
+                                                sx={{ fontSize: "0.75rem", color: designTokens.mute }}
                                             >
                                                 Min: {col.stats.min.toFixed(2)} · Max:{" "}
                                                 {col.stats.max.toFixed(2)} · μ:{" "}
@@ -233,7 +234,7 @@ export default function DatasetOverviewPanel() {
                                         ) : (
                                             <Typography
                                                 component="span"
-                                                sx={{ fontSize: "0.75rem", color: "#64748b" }}
+                                                sx={{ fontSize: "0.75rem", color: designTokens.dim }}
                                             >
                                                 N/A (kategorikal)
                                             </Typography>

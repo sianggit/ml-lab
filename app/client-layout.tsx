@@ -12,6 +12,7 @@ export default function ClientLayout({ children }: { children: React.ReactNode }
     const [mounted, setMounted] = useState(false);
 
     useEffect(() => {
+        useMlLabStore.persist.rehydrate();
         setMounted(true);
     }, []);
 

@@ -11,6 +11,7 @@ import Button from "@mui/material/Button";
 import Slider from "@mui/material/Slider";
 import IconComponent from "@/shared/components/icon";
 import { useCustomDatasetStore } from "@/stores/use-custom-dataset-store";
+import { designTokens } from "@/config/theme";
 import { customDatasetStudioStyles } from "./custom-dataset-studio.styles";
 
 export default function DatasetPreprocessingPanel() {
@@ -35,10 +36,10 @@ export default function DatasetPreprocessingPanel() {
         <Box sx={customDatasetStudioStyles.panelCard}>
             <Box sx={customDatasetStudioStyles.cardHeader}>
                 <Box sx={customDatasetStudioStyles.cardTitle}>
-                    <IconComponent name="sliders" size={20} color="#38bdf8" />
+                    <IconComponent name="sliders" size={20} color={designTokens.cyan} />
                     <span>Konfigurasi Pra-pemrosesan Data</span>
                 </Box>
-                <Typography variant="caption" sx={{ color: "#94a3b8" }}>
+                <Typography variant="caption" sx={{ color: designTokens.mute }}>
                     Pipelines dipasang secara otomatis mencegah Data Leakage
                 </Typography>
             </Box>
@@ -48,7 +49,7 @@ export default function DatasetPreprocessingPanel() {
                 <Box>
                     {taskType !== "clustering" && (
                         <Box sx={{ mb: 3 }}>
-                            <Typography sx={{ fontSize: "0.85rem", fontWeight: 600, color: "#f1f5f9", mb: 1 }}>
+                            <Typography sx={{ fontSize: "0.85rem", fontWeight: 600, color: designTokens.text, mb: 1 }}>
                                 Kolom Target (Variabel Dependen / Label y):
                             </Typography>
                             <Select
@@ -57,25 +58,25 @@ export default function DatasetPreprocessingPanel() {
                                 value={targetColumn}
                                 onChange={(e) => setTargetColumn(e.target.value)}
                                 sx={{
-                                    backgroundColor: "rgba(255, 255, 255, 0.05)",
-                                    border: "1px solid rgba(255, 255, 255, 0.12)",
-                                    color: "#38bdf8",
+                                    backgroundColor: designTokens.panel,
+                                    border: `1px solid ${designTokens.line}`,
+                                    color: designTokens.cyan,
                                     fontWeight: 600,
-                                    "& .MuiSvgIcon-root": { color: "#94a3b8" },
+                                    "& .MuiSvgIcon-root": { color: designTokens.dim },
                                 }}
                             >
                                 {availableColumns.map((col) => (
                                     <MenuItem key={col.name} value={col.name}>
                                         <Box sx={{ display: "flex", justifyContent: "space-between", width: "100%", alignItems: "center" }}>
                                             <span>{col.name}</span>
-                                            <span style={{ fontSize: "0.75rem", color: "#94a3b8", marginLeft: 8 }}>
+                                            <span style={{ fontSize: "0.75rem", color: designTokens.dim, marginLeft: 8 }}>
                                                 ({col.inferredType})
                                             </span>
                                         </Box>
                                     </MenuItem>
                                 ))}
                             </Select>
-                            <Typography variant="caption" sx={{ color: "#94a3b8", mt: 0.5, display: "block" }}>
+                            <Typography variant="caption" sx={{ color: designTokens.dim, mt: 0.5, display: "block" }}>
                                 Target akan dieksklusikan dari fitur X dan tidak akan terkena skala normalisasi.
                             </Typography>
                         </Box>
@@ -84,18 +85,18 @@ export default function DatasetPreprocessingPanel() {
                     {/* Features Selection */}
                     <Box>
                         <Box sx={{ display: "flex", alignItems: "center", justifyContent: "space-between", mb: 1 }}>
-                            <Typography sx={{ fontSize: "0.85rem", fontWeight: 600, color: "#f1f5f9" }}>
+                            <Typography sx={{ fontSize: "0.85rem", fontWeight: 600, color: designTokens.text }}>
                                 Fitur Prediktor Terpilih (X) — ({selectedFeatures.length} dipilih):
                             </Typography>
                             <Box sx={{ display: "flex", gap: 1 }}>
                                 <Button
                                     size="small"
                                     onClick={selectAllFeatures}
-                                    sx={{ fontSize: "0.72rem", color: "#38bdf8", p: 0, textTransform: "none" }}
+                                    sx={{ fontSize: "0.72rem", color: designTokens.cyan, p: 0, textTransform: "none" }}
                                 >
                                     Pilih Semua
                                 </Button>
-                                <Typography sx={{ color: "#64748b" }}>·</Typography>
+                                <Typography sx={{ color: designTokens.dim }}>·</Typography>
                                 <Button
                                     size="small"
                                     onClick={deselectAllFeatures}
@@ -112,8 +113,8 @@ export default function DatasetPreprocessingPanel() {
                                 overflowY: "auto",
                                 p: 1.5,
                                 borderRadius: "6px",
-                                backgroundColor: "rgba(10, 13, 18, 0.7)",
-                                border: "1px solid rgba(255, 255, 255, 0.08)",
+                                backgroundColor: designTokens.panelAlt,
+                                border: `1px solid ${designTokens.line}`,
                                 display: "flex",
                                 flexDirection: "column",
                                 gap: 0.5,
@@ -135,9 +136,9 @@ export default function DatasetPreprocessingPanel() {
                                                 py: 0.5,
                                                 borderRadius: "4px",
                                                 cursor: "pointer",
-                                                backgroundColor: isChecked ? "rgba(56, 189, 248, 0.08)" : "transparent",
+                                                backgroundColor: isChecked ? designTokens.cyanBg : "transparent",
                                                 "&:hover": {
-                                                    backgroundColor: "rgba(255, 255, 255, 0.04)",
+                                                    backgroundColor: designTokens.boxSubtleBg,
                                                 },
                                             }}
                                         >
@@ -145,9 +146,9 @@ export default function DatasetPreprocessingPanel() {
                                                 <Checkbox
                                                     size="small"
                                                     checked={isChecked}
-                                                    sx={{ p: 0, color: "rgba(255, 255, 255, 0.3)", "&.Mui-checked": { color: "#38bdf8" } }}
+                                                    sx={{ p: 0, color: designTokens.dim, "&.Mui-checked": { color: designTokens.cyan } }}
                                                 />
-                                                <Typography sx={{ fontSize: "0.82rem", color: isChecked ? "#f1f5f9" : "#94a3b8" }}>
+                                                <Typography sx={{ fontSize: "0.82rem", color: isChecked ? designTokens.text : designTokens.mute }}>
                                                     {col.name}
                                                 </Typography>
                                             </Box>
@@ -165,7 +166,7 @@ export default function DatasetPreprocessingPanel() {
                 <Box sx={{ display: "flex", flexDirection: "column", gap: 2.5 }}>
                     {/* Missing Value Strategy */}
                     <Box>
-                        <Typography sx={{ fontSize: "0.85rem", fontWeight: 600, color: "#f1f5f9", mb: 0.8 }}>
+                        <Typography sx={{ fontSize: "0.85rem", fontWeight: 600, color: designTokens.text, mb: 0.8 }}>
                             Penanganan Nilai Hilang (Missing Values):
                         </Typography>
                         <Select
@@ -178,11 +179,11 @@ export default function DatasetPreprocessingPanel() {
                                 })
                             }
                             sx={{
-                                backgroundColor: "rgba(255, 255, 255, 0.05)",
-                                border: "1px solid rgba(255, 255, 255, 0.12)",
-                                color: "#f1f5f9",
+                                backgroundColor: designTokens.panel,
+                                border: `1px solid ${designTokens.line}`,
+                                color: designTokens.text,
                                 fontSize: "0.82rem",
-                                "& .MuiSvgIcon-root": { color: "#94a3b8" },
+                                "& .MuiSvgIcon-root": { color: designTokens.dim },
                             }}
                         >
                             <MenuItem value="impute_mean_mode">Imputasi Mean (Numerik) & Modus (Kategorikal)</MenuItem>
@@ -194,7 +195,7 @@ export default function DatasetPreprocessingPanel() {
 
                     {/* Scaling Method */}
                     <Box>
-                        <Typography sx={{ fontSize: "0.85rem", fontWeight: 600, color: "#f1f5f9", mb: 0.8 }}>
+                        <Typography sx={{ fontSize: "0.85rem", fontWeight: 600, color: designTokens.text, mb: 0.8 }}>
                             Skalisasi Fitur Numerik (Feature Scaling):
                         </Typography>
                         <Select
@@ -207,11 +208,11 @@ export default function DatasetPreprocessingPanel() {
                                 })
                             }
                             sx={{
-                                backgroundColor: "rgba(255, 255, 255, 0.05)",
-                                border: "1px solid rgba(255, 255, 255, 0.12)",
-                                color: "#f1f5f9",
+                                backgroundColor: designTokens.panel,
+                                border: `1px solid ${designTokens.line}`,
+                                color: designTokens.text,
                                 fontSize: "0.82rem",
-                                "& .MuiSvgIcon-root": { color: "#94a3b8" },
+                                "& .MuiSvgIcon-root": { color: designTokens.dim },
                             }}
                         >
                             <MenuItem value="standard">StandardScaler (Rata-rata 0, Variansi 1)</MenuItem>
@@ -228,11 +229,11 @@ export default function DatasetPreprocessingPanel() {
                                     size="small"
                                     checked={preprocessing.encodeCategorical}
                                     onChange={(e) => updatePreprocessing({ encodeCategorical: e.target.checked })}
-                                    sx={{ color: "rgba(255, 255, 255, 0.3)", "&.Mui-checked": { color: "#38bdf8" } }}
+                                    sx={{ color: designTokens.dim, "&.Mui-checked": { color: designTokens.cyan } }}
                                 />
                             }
                             label={
-                                <Typography sx={{ fontSize: "0.82rem", color: "#e2e8f0" }}>
+                                <Typography sx={{ fontSize: "0.82rem", color: designTokens.text }}>
                                     Encode fitur kategorikal teks (One-Hot Encoding via pd.get_dummies)
                                 </Typography>
                             }
@@ -243,11 +244,11 @@ export default function DatasetPreprocessingPanel() {
                                     size="small"
                                     checked={preprocessing.removeDuplicates}
                                     onChange={(e) => updatePreprocessing({ removeDuplicates: e.target.checked })}
-                                    sx={{ color: "rgba(255, 255, 255, 0.3)", "&.Mui-checked": { color: "#38bdf8" } }}
+                                    sx={{ color: designTokens.dim, "&.Mui-checked": { color: designTokens.cyan } }}
                                 />
                             }
                             label={
-                                <Typography sx={{ fontSize: "0.82rem", color: "#e2e8f0" }}>
+                                <Typography sx={{ fontSize: "0.82rem", color: designTokens.text }}>
                                     Hapus duplikasi baris data (Drop duplicate rows)
                                 </Typography>
                             }
@@ -258,10 +259,10 @@ export default function DatasetPreprocessingPanel() {
                     {taskType !== "clustering" && (
                         <Box>
                             <Box sx={{ display: "flex", justifyContent: "space-between", mb: 0.5 }}>
-                                <Typography sx={{ fontSize: "0.82rem", color: "#e2e8f0" }}>
+                                <Typography sx={{ fontSize: "0.82rem", color: designTokens.text }}>
                                     Porsi Pembagian Data Uji (Test Split):
                                 </Typography>
-                                <Typography sx={{ fontSize: "0.82rem", color: "#38bdf8", fontWeight: 600 }}>
+                                <Typography sx={{ fontSize: "0.82rem", color: designTokens.cyan, fontWeight: 600 }}>
                                     {Math.round(preprocessing.testSize * 100)}% Data Uji /{" "}
                                     {Math.round((1 - preprocessing.testSize) * 100)}% Data Latih
                                 </Typography>
@@ -273,7 +274,7 @@ export default function DatasetPreprocessingPanel() {
                                 step={0.05}
                                 value={preprocessing.testSize}
                                 onChange={(_, val) => updatePreprocessing({ testSize: val as number })}
-                                sx={{ color: "#38bdf8" }}
+                                sx={{ color: designTokens.cyan }}
                             />
                         </Box>
                     )}

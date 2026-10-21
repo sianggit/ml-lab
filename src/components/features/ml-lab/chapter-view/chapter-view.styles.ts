@@ -55,7 +55,7 @@ export const chapterViewStyles = defineStyles({
         margin: 0,
     },
     titleGradient: {
-        background: "linear-gradient(180deg, #C9D1DC 0%, #7C8696 100%)",
+        background: "var(--ml-hero-headline-l3)",
         WebkitBackgroundClip: "text",
         WebkitTextFillColor: "transparent",
     },
@@ -79,7 +79,7 @@ export const chapterViewStyles = defineStyles({
         borderTop: `1px solid ${designTokens.line}`,
         borderBottom: `1px solid ${designTokens.line}`,
         my: "28px",
-        backgroundColor: "rgba(255,255,255,0.01)",
+        backgroundColor: designTokens.boxSubtleBg,
     },
     plateCell: (isLast?: boolean) => ({
         padding: "16px 20px",
@@ -180,7 +180,8 @@ export const chapterViewStyles = defineStyles({
     panel: {
         border: `1px solid ${designTokens.line}`,
         borderRadius: "8px",
-        background: `linear-gradient(180deg, ${designTokens.panel}, #0C1015)`,
+        background: designTokens.panelGrad,
+        boxShadow: "var(--ml-card-shadow)",
         padding: "clamp(20px, 3.5vw, 32px)",
         mb: "32px",
     },
@@ -207,7 +208,7 @@ export const chapterViewStyles = defineStyles({
         padding: "16px 20px",
         borderRadius: "8px",
         border: `1px solid ${designTokens.line}`,
-        backgroundColor: "rgba(255, 255, 255, 0.015)",
+        backgroundColor: designTokens.boxSubtleBg,
         mb: "24px",
     },
     variantHeaderRow: {
@@ -230,7 +231,7 @@ export const chapterViewStyles = defineStyles({
         border: `1px solid ${designTokens.line}`,
         borderRadius: "6px",
         padding: "3px",
-        backgroundColor: "#07090C",
+        backgroundColor: designTokens.panelAlt,
     },
     variantBtn: (isActive: boolean) => ({
         display: "inline-flex",
@@ -239,7 +240,8 @@ export const chapterViewStyles = defineStyles({
         padding: "6px 14px",
         borderRadius: "4px",
         border: 0,
-        backgroundColor: isActive ? "rgba(255, 255, 255, 0.08)" : "transparent",
+        backgroundColor: isActive ? designTokens.panel : "transparent",
+        boxShadow: isActive ? "var(--ml-card-shadow)" : "none",
         color: isActive ? designTokens.text : designTokens.mute,
         fontFamily: designTokens.fontMono,
         fontWeight: isActive ? 600 : 400,
@@ -266,7 +268,7 @@ export const chapterViewStyles = defineStyles({
     datasetCard: {
         border: `1px solid ${designTokens.line}`,
         borderRadius: "8px",
-        backgroundColor: "rgba(255, 255, 255, 0.015)",
+        backgroundColor: designTokens.boxSubtleBg,
         padding: "18px 22px",
         mb: "24px",
     },
@@ -303,7 +305,7 @@ export const chapterViewStyles = defineStyles({
         padding: "6px 12px",
         borderRadius: "6px",
         border: `1px solid ${designTokens.line}`,
-        backgroundColor: "rgba(255, 255, 255, 0.03)",
+        backgroundColor: designTokens.panel,
         color: designTokens.text,
         fontSize: "11.5px",
         fontFamily: designTokens.fontMono,
@@ -311,8 +313,8 @@ export const chapterViewStyles = defineStyles({
         cursor: "pointer",
         transition: "all 0.15s ease",
         "&:hover": {
-            backgroundColor: "rgba(255, 255, 255, 0.08)",
-            borderColor: "rgba(255, 255, 255, 0.2)",
+            backgroundColor: designTokens.panelAlt,
+            borderColor: designTokens.dim,
         },
     },
     actionLinkAcc: {
@@ -339,7 +341,7 @@ export const chapterViewStyles = defineStyles({
         borderRadius: "6px",
         border: `1px solid ${designTokens.line}`,
         overflowX: "auto",
-        backgroundColor: "#07090C",
+        backgroundColor: designTokens.panel,
     },
     previewTable: {
         width: "100%",
@@ -349,7 +351,7 @@ export const chapterViewStyles = defineStyles({
         "& th": {
             padding: "8px 14px",
             textAlign: "left",
-            backgroundColor: "rgba(255, 255, 255, 0.02)",
+            backgroundColor: designTokens.panelAlt,
             color: designTokens.dim,
             borderBottom: `1px solid ${designTokens.line}`,
             whiteSpace: "nowrap",
@@ -360,12 +362,12 @@ export const chapterViewStyles = defineStyles({
         "& td": {
             padding: "8px 14px",
             color: designTokens.mute,
-            borderBottom: `1px solid rgba(255, 255, 255, 0.03)`,
+            borderBottom: `1px solid ${designTokens.line}`,
             whiteSpace: "nowrap",
             fontVariantNumeric: "tabular-nums",
         },
         "& tr:hover td": {
-            backgroundColor: "rgba(255, 255, 255, 0.02)",
+            backgroundColor: designTokens.boxSubtleBg,
             color: designTokens.text,
         },
     },
@@ -381,17 +383,18 @@ export const chapterViewStyles = defineStyles({
         border: `1px solid ${designTokens.line}`,
         borderRadius: "6px",
         margin: "18px 0",
-        backgroundColor: "rgba(255, 255, 255, 0.015)",
+        backgroundColor: designTokens.boxSubtleBg,
     },
     seg: {
         display: "inline-flex",
         border: `1px solid ${designTokens.line}`,
         borderRadius: "4px",
         overflow: "hidden",
-        backgroundColor: "#07090C",
+        backgroundColor: designTokens.panelAlt,
     },
     segBtn: (isPressed: boolean) => ({
-        background: isPressed ? "rgba(255, 255, 255, 0.1)" : "none",
+        background: isPressed ? designTokens.panel : "none",
+        boxShadow: isPressed ? "var(--ml-card-shadow)" : "none",
         color: isPressed ? designTokens.text : designTokens.mute,
         fontFamily: designTokens.fontMono,
         fontWeight: isPressed ? 600 : 400,
@@ -418,7 +421,8 @@ export const chapterViewStyles = defineStyles({
         padding: "14px 18px",
         border: `1px solid ${designTokens.line}`,
         borderRadius: "6px",
-        backgroundColor: "rgba(255, 255, 255, 0.015)",
+        backgroundColor: designTokens.panel,
+        boxShadow: "var(--ml-card-shadow)",
         "& span": {
             display: "block",
             fontFamily: designTokens.fontMono,
@@ -471,11 +475,11 @@ export const chapterViewStyles = defineStyles({
         border: `1px solid ${designTokens.line}`,
         borderRadius: "6px",
         margin: "10px 0",
-        backgroundColor: "rgba(255, 255, 255, 0.015)",
+        backgroundColor: designTokens.boxSubtleBg,
         overflowX: "auto",
         transition: "border-color 0.2s ease",
         "&:hover": {
-            borderColor: "rgba(255, 255, 255, 0.16)",
+            borderColor: designTokens.dim,
         },
     },
 

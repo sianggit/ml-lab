@@ -12,6 +12,7 @@ import {
     AssignmentSimulationPreset,
 } from "@/consts/ml-assignment-simulations.const";
 import { assignmentStyles } from "./assignment-showcase.styles";
+import { designTokens } from "@/config/theme";
 
 export interface AssignmentSimulationRunnerProps {
     assignmentId: "tugas-bab-04-titanic" | "tugas-uts-pertemuan-1-6";
@@ -137,11 +138,11 @@ export default function AssignmentSimulationRunner({
                         size="small"
                         onClick={onClose}
                         sx={{
-                            color: "#8E99A8",
+                            color: designTokens.dim,
                             fontSize: "0.75rem",
                             textTransform: "none",
-                            fontFamily: "var(--font-mono), monospace",
-                            "&:hover": { color: "#F5F7FA" },
+                            fontFamily: designTokens.fontMono,
+                            "&:hover": { color: designTokens.text },
                         }}
                     >
                         Tutup Simulator
@@ -152,7 +153,7 @@ export default function AssignmentSimulationRunner({
             {/* ─── Preset Switcher (if multiple available) ────────────── */}
             {availablePresets.length > 1 && (
                 <Box sx={assignmentStyles.simPresetRow}>
-                    <Typography sx={{ fontSize: "0.76rem", color: "#64748B", fontWeight: 650, mr: "4px" }}>
+                    <Typography sx={{ fontSize: "0.76rem", color: designTokens.dim, fontWeight: 650, mr: "4px" }}>
                         Pilih Studi Kasus:
                     </Typography>
                     {availablePresets.map((preset) => (
@@ -179,7 +180,7 @@ export default function AssignmentSimulationRunner({
                     >
                         {isExecuting ? (
                             <>
-                                <CircularProgress size={14} sx={{ color: "#FFFFFF" }} />
+                                <CircularProgress size={14} sx={{ color: "currentColor" }} />
                                 <span>Menjalankan Engine...</span>
                             </>
                         ) : (
@@ -205,8 +206,8 @@ export default function AssignmentSimulationRunner({
                         <Typography
                             sx={{
                                 fontSize: "0.74rem",
-                                color: output.status === "success" ? "#43D9A3" : "#FF5C5C",
-                                fontFamily: "var(--font-mono), monospace",
+                                color: output.status === "success" ? designTokens.acc : "#FF5C5C",
+                                fontFamily: designTokens.fontMono,
                                 fontWeight: 600,
                             }}
                         >
@@ -225,12 +226,12 @@ export default function AssignmentSimulationRunner({
                                 borderRadius: "50%",
                                 bgcolor:
                                     status === "ready"
-                                        ? "#43D9A3"
+                                        ? designTokens.acc
                                         : status === "executing"
-                                        ? "#67D9FF"
+                                        ? designTokens.cyan
                                         : status === "error"
                                         ? "#FF5C5C"
-                                        : "#64748B",
+                                        : designTokens.dim,
                                 animation: isExecuting ? "pulse 1.2s infinite" : "none",
                             }}
                         />
@@ -273,10 +274,10 @@ export default function AssignmentSimulationRunner({
                             size="small"
                             onClick={handleCopyOutput}
                             sx={{
-                                color: copied ? "#43D9A3" : "#8E99A8",
+                                color: copied ? designTokens.acc : designTokens.mute,
                                 fontSize: "0.72rem",
                                 textTransform: "none",
-                                fontFamily: "var(--font-mono), monospace",
+                                fontFamily: designTokens.fontMono,
                             }}
                         >
                             {copied ? "Tersalin" : "Salin Output"}
@@ -290,8 +291,8 @@ export default function AssignmentSimulationRunner({
                 <Box sx={assignmentStyles.simTerminal}>
                     {isExecuting ? (
                         <Box sx={{ display: "flex", alignItems: "center", gap: "10px", py: "20px" }}>
-                            <CircularProgress size={18} sx={{ color: "#67D9FF" }} />
-                            <Typography sx={{ fontSize: "0.80rem", color: "#67D9FF", fontFamily: "var(--font-mono), monospace" }}>
+                            <CircularProgress size={18} sx={{ color: designTokens.cyan }} />
+                            <Typography sx={{ fontSize: "0.80rem", color: designTokens.cyan, fontFamily: designTokens.fontMono }}>
                                 Menjalankan komputasi numerik Python di WebAssembly...
                             </Typography>
                         </Box>
@@ -317,8 +318,8 @@ export default function AssignmentSimulationRunner({
                             )}
                         </>
                     ) : (
-                        <Box sx={{ py: "24px", textAlign: "center", color: "#64748B" }}>
-                            <Typography sx={{ fontSize: "0.82rem", fontFamily: "var(--font-mono), monospace" }}>
+                        <Box sx={{ py: "24px", textAlign: "center", color: designTokens.dim }}>
+                            <Typography sx={{ fontSize: "0.82rem", fontFamily: designTokens.fontMono }}>
                                 Klik &quot;Jalankan Simulasi (WASM)&quot; untuk mengeksekusi kode Python dan melihat output numerik real-time.
                             </Typography>
                         </Box>
@@ -340,8 +341,8 @@ export default function AssignmentSimulationRunner({
                                             maxWidth: "100%",
                                             height: "auto",
                                             borderRadius: "6px",
-                                            border: "1px solid rgba(255, 255, 255, 0.10)",
-                                            boxShadow: "0 4px 16px rgba(0, 0, 0, 0.4)",
+                                            border: `1px solid ${designTokens.line}`,
+                                            boxShadow: "var(--ml-card-shadow)",
                                         }}
                                     />
                                     <Box sx={{ mt: "10px", display: "flex", justifyContent: "center" }}>
@@ -349,14 +350,14 @@ export default function AssignmentSimulationRunner({
                                             size="small"
                                             onClick={() => handleExportPlot(plotSrc, idx)}
                                             sx={{
-                                                bgcolor: "rgba(103, 217, 255, 0.12)",
-                                                color: "#67D9FF",
-                                                border: "1px solid rgba(103, 217, 255, 0.25)",
+                                                bgcolor: designTokens.cyanBg,
+                                                color: designTokens.cyan,
+                                                border: `1px solid ${designTokens.cyanBorder}`,
                                                 fontSize: "0.72rem",
                                                 textTransform: "none",
-                                                fontFamily: "var(--font-mono), monospace",
+                                                fontFamily: designTokens.fontMono,
                                                 "&:hover": {
-                                                    bgcolor: "rgba(103, 217, 255, 0.20)",
+                                                    opacity: 0.85,
                                                 },
                                             }}
                                         >
@@ -367,8 +368,8 @@ export default function AssignmentSimulationRunner({
                             ))}
                         </Box>
                     ) : (
-                        <Box sx={{ py: "32px", color: "#64748B" }}>
-                            <Typography sx={{ fontSize: "0.82rem", fontFamily: "var(--font-mono), monospace" }}>
+                        <Box sx={{ py: "32px", color: designTokens.dim }}>
+                            <Typography sx={{ fontSize: "0.82rem", fontFamily: designTokens.fontMono }}>
                                 Belum ada plot visual yang dihasilkan. Jalankan simulasi untuk me-render grafik Matplotlib.
                             </Typography>
                         </Box>
@@ -382,11 +383,11 @@ export default function AssignmentSimulationRunner({
                     sx={{
                         p: "14px",
                         borderRadius: "8px",
-                        bgcolor: "#070A0E",
-                        border: "1px solid rgba(255, 255, 255, 0.08)",
-                        fontFamily: "var(--font-mono), monospace",
+                        bgcolor: designTokens.panelAlt,
+                        border: `1px solid ${designTokens.line}`,
+                        fontFamily: designTokens.fontMono,
                         fontSize: "0.78rem",
-                        color: "#CBD5E1",
+                        color: designTokens.text,
                         lineHeight: 1.5,
                         maxHeight: "360px",
                         overflowY: "auto",

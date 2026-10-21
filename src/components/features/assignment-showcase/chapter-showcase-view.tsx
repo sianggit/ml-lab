@@ -69,9 +69,9 @@ export default function ChapterShowcaseView({ assignment }: ChapterShowcaseViewP
                                 gap: "6px",
                                 padding: "8px 14px",
                                 borderRadius: "8px",
-                                border: "1px solid rgba(255,255,255,0.12)",
-                                backgroundColor: "rgba(255,255,255,0.03)",
-                                color: "#F3F5F7",
+                                border: `1px solid ${designTokens.line}`,
+                                backgroundColor: designTokens.boxSubtleBg,
+                                color: designTokens.text,
                                 textDecoration: "none",
                                 fontFamily: designTokens.fontMono,
                                 fontSize: "12px",
@@ -127,9 +127,9 @@ export default function ChapterShowcaseView({ assignment }: ChapterShowcaseViewP
                 <Box
                     sx={{
                         p: "18px 22px",
-                        border: "1px solid rgba(255,255,255,0.08)",
+                        border: `1px solid ${designTokens.boxSubtleBorder}`,
                         borderRadius: "8px",
-                        bgcolor: "rgba(255,255,255,0.02)",
+                        bgcolor: designTokens.boxSubtleBg,
                         mb: "24px",
                         display: "flex",
                         justifyContent: "space-between",
@@ -158,14 +158,14 @@ export default function ChapterShowcaseView({ assignment }: ChapterShowcaseViewP
                                     gap: "6px",
                                     padding: "6px 12px",
                                     borderRadius: "6px",
-                                    border: "1px solid rgba(255,255,255,0.12)",
-                                    color: "#F3F5F7",
+                                    border: `1px solid ${designTokens.line}`,
+                                    color: designTokens.text,
                                     textDecoration: "none",
                                     fontFamily: designTokens.fontMono,
                                     fontSize: "11.5px",
                                 }}
                             >
-                                <IconComponent name="download" size={12} color="#8B93A1" />
+                                <IconComponent name="download" size={12} color={designTokens.dim} />
                                 <span>Unduh CSV</span>
                             </Box>
                         )}

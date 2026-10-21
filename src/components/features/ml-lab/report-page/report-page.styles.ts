@@ -1,4 +1,5 @@
 import defineStyles from "@/utils/define-styles";
+import { designTokens } from "@/config/theme";
 
 export const reportPageStyles = defineStyles({
     wrap: {
@@ -19,37 +20,38 @@ export const reportPageStyles = defineStyles({
         display: "inline-flex",
         alignItems: "center",
         gap: "8px",
-        padding: "5px 10px",
-        border: "1px solid rgba(255, 255, 255, 0.10)",
+        padding: "5px 12px",
+        border: `1px solid ${designTokens.line}`,
         borderRadius: "4px",
-        fontFamily: "var(--font-mono), monospace",
+        backgroundColor: designTokens.panelAlt,
+        fontFamily: designTokens.fontMono,
         fontSize: "0.72rem",
         lineHeight: 1,
-        color: "#A3ADB9",
+        color: designTokens.mute,
         mb: "14px",
     },
     dot: {
         width: 7,
         height: 7,
         borderRadius: "50%",
-        backgroundColor: "#43D9A3",
+        backgroundColor: designTokens.acc,
     },
     title: {
         fontSize: "clamp(2rem, 4.6vw, 3.4rem)",
         fontWeight: 740,
         lineHeight: 1.05,
         letterSpacing: "-0.035em",
-        color: "#F5F7FA",
+        color: designTokens.text,
         maxWidth: "20ch",
         mb: "12px",
     },
     lead: {
-        color: "#A3ADB9",
+        color: designTokens.mute,
         maxWidth: "60ch",
         fontSize: "1rem",
         lineHeight: 1.6,
         "& b": {
-            color: "#F5F7FA",
+            color: designTokens.text,
             fontWeight: 600,
         },
     },
@@ -61,17 +63,17 @@ export const reportPageStyles = defineStyles({
         minHeight: "44px",
         padding: "0 20px",
         borderRadius: "6px",
-        border: "1px solid #43D9A3",
-        backgroundColor: "#43D9A3",
+        border: `1px solid ${designTokens.acc}`,
+        backgroundColor: designTokens.acc,
         color: "#04120C",
         fontWeight: 600,
         fontSize: "0.92rem",
         cursor: "pointer",
         textTransform: "none",
-        transition: "background 0.18s, border-color 0.18s, transform 0.18s",
+        transition: "all 0.18s ease",
         "&:hover": {
-            backgroundColor: "#6CE6B9",
-            borderColor: "#6CE6B9",
+            filter: "brightness(1.08)",
+            boxShadow: `0 4px 14px ${designTokens.accGlow}`,
         },
         "&:active": {
             transform: "translateY(1px)",
@@ -83,19 +85,20 @@ export const reportPageStyles = defineStyles({
         margin: "0 0 48px",
         padding: 0,
         listStyle: "none",
-        border: "1px solid rgba(255, 255, 255, 0.10)",
+        border: `1px solid ${designTokens.line}`,
         borderRadius: "8px",
-        background: "linear-gradient(180deg, #11151A, #0e1217)",
+        background: designTokens.panelGrad,
+        boxShadow: "var(--ml-card-shadow)",
     },
     teleItem: (borderLeft: boolean) => ({
         padding: "20px 24px",
         position: "relative",
         borderLeft: {
             xs: "none",
-            sm: borderLeft ? "1px solid rgba(255, 255, 255, 0.10)" : "none",
+            sm: borderLeft ? `1px solid ${designTokens.line}` : "none",
         },
         borderTop: {
-            xs: borderLeft ? "1px solid rgba(255, 255, 255, 0.10)" : "none",
+            xs: borderLeft ? `1px solid ${designTokens.line}` : "none",
             sm: "none",
         },
     }),
@@ -106,21 +109,22 @@ export const reportPageStyles = defineStyles({
         lineHeight: 1,
         letterSpacing: "-0.03em",
         fontVariantNumeric: "tabular-nums",
-        color: "#F5F7FA",
+        color: designTokens.text,
     },
     teleKey: {
         display: "block",
         marginTop: "8px",
-        fontFamily: "var(--font-mono), monospace",
+        fontFamily: designTokens.fontMono,
         fontSize: "0.72rem",
         fontWeight: 500,
-        color: "#A3ADB9",
+        color: designTokens.dim,
     },
     rowsPanel: {
         overflow: "hidden",
-        border: "1px solid rgba(255, 255, 255, 0.10)",
+        border: `1px solid ${designTokens.line}`,
         borderRadius: "8px",
-        background: "linear-gradient(180deg, #11151A, #0e1217)",
+        background: designTokens.panelGrad,
+        boxShadow: "var(--ml-card-shadow)",
     },
     row: (isFirst: boolean) => ({
         display: "grid",
@@ -128,19 +132,19 @@ export const reportPageStyles = defineStyles({
         gap: { xs: "12px", sm: "16px" },
         alignItems: "center",
         padding: "16px 20px",
-        borderTop: isFirst ? "none" : "1px solid rgba(255, 255, 255, 0.10)",
+        borderTop: isFirst ? "none" : `1px solid ${designTokens.line}`,
         textDecoration: "none",
         color: "inherit",
         transition: "background-color 0.18s ease",
         "&:hover": {
-            backgroundColor: "#171D24",
+            backgroundColor: designTokens.boxSubtleBg,
         },
     }),
     rowNumber: {
-        fontFamily: "var(--font-mono), monospace",
+        fontFamily: designTokens.fontMono,
         fontWeight: 600,
         fontSize: "0.82rem",
-        color: "#67D9FF",
+        color: "var(--ml-cyan, #0284C7)",
     },
     rowContent: {
         minWidth: 0,
@@ -148,26 +152,26 @@ export const reportPageStyles = defineStyles({
             margin: 0,
             fontSize: "1.02rem",
             fontWeight: 600,
-            color: "#F5F7FA",
+            color: designTokens.text,
             lineHeight: 1.3,
         },
         "& small": {
             display: "block",
-            color: "#8592A1",
+            color: designTokens.mute,
             fontSize: "0.82rem",
             marginTop: "3px",
         },
     },
     status: (type: "ok" | "on" | "muted") => ({
-        fontFamily: "var(--font-mono), monospace",
+        fontFamily: designTokens.fontMono,
         fontSize: "0.72rem",
         fontWeight: 500,
         whiteSpace: "nowrap",
         color:
             type === "ok"
-                ? "#43D9A3"
+                ? designTokens.acc
                 : type === "on"
-                ? "#F5B84B"
-                : "#8592A1",
+                ? "#D97706"
+                : designTokens.dim,
     }),
 });

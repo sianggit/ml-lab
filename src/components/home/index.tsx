@@ -50,9 +50,9 @@ function SvgMotif1() {
                         width={cw - 4}
                         height={ch - 4}
                         fill="none"
-                        stroke="#43D9A3"
+                        stroke="var(--ml-acc, #43D9A3)"
                         strokeDasharray="2 3"
-                        strokeOpacity={0.8}
+                        strokeOpacity={0.85}
                     />
                 ) : (
                     <rect
@@ -61,7 +61,7 @@ function SvgMotif1() {
                         y={rc.y}
                         width={cw - 4}
                         height={ch - 4}
-                        fill="#67D9FF"
+                        fill="var(--ml-cyan, #67D9FF)"
                         fillOpacity={rc.opacity}
                     />
                 )
@@ -83,15 +83,15 @@ function SvgMotif2() {
 
     return (
         <svg viewBox="0 0 300 190" preserveAspectRatio="xMidYMid slice" aria-hidden="true">
-            <line x1={40} y1={165} x2={265} y2={25} stroke="#43D9A3" strokeWidth={1.2} strokeDasharray="5 4" />
+            <line x1={40} y1={165} x2={265} y2={25} stroke="var(--ml-acc, #43D9A3)" strokeWidth={1.5} strokeDasharray="5 4" />
             {points.map((pt, idx) => (
                 <circle
                     key={idx}
                     cx={pt.cx}
                     cy={pt.cy}
                     r={3}
-                    fill={pt.side ? "#67D9FF" : "none"}
-                    stroke={pt.side ? "none" : "#A3ADB9"}
+                    fill={pt.side ? "var(--ml-cyan, #67D9FF)" : "none"}
+                    stroke={pt.side ? "none" : "var(--ml-dim, #A3ADB9)"}
                     strokeWidth={1.2}
                     opacity={0.9}
                 />
@@ -107,7 +107,7 @@ function SvgMotif3() {
         [210, 80],
         [130, 145],
     ];
-    const O = ["#67D9FF", "#F5F7FA", "#A3ADB9"];
+    const O = ["var(--ml-cyan, #67D9FF)", "var(--ml-text, #F5F7FA)", "var(--ml-dim, #A3ADB9)"];
 
     const clusters = C.map((c, k) => {
         const pts: [number, number][] = [];
@@ -131,15 +131,15 @@ function SvgMotif3() {
                         r={46}
                         fill="none"
                         stroke={cl.color}
-                        strokeOpacity={0.18}
+                        strokeOpacity={0.25}
                         strokeDasharray="2 4"
                     />
                     {cl.pts.map((pt, pIdx) => (
-                        <circle key={pIdx} cx={pt[0]} cy={pt[1]} r={2.2} fill={cl.color} opacity={0.8} />
+                        <circle key={pIdx} cx={pt[0]} cy={pt[1]} r={2.4} fill={cl.color} opacity={0.85} />
                     ))}
                     <path
                         d={`M${cl.c[0] - 5} ${cl.c[1]}H${cl.c[0] + 5}M${cl.c[0]} ${cl.c[1] - 5}V${cl.c[1] + 5}`}
-                        stroke="#43D9A3"
+                        stroke="var(--ml-acc, #43D9A3)"
                         strokeWidth={1.6}
                     />
                 </g>
@@ -171,7 +171,7 @@ function SvgMotif4() {
     return (
         <svg viewBox="0 0 420 190" preserveAspectRatio="xMidYMid slice" aria-hidden="true">
             {lines.map((ln, idx) => (
-                <line key={idx} x1={ln.x1} y1={ln.y1} x2={ln.x2} y2={ln.y2} stroke="#67D9FF" strokeOpacity={0.16} />
+                <line key={idx} x1={ln.x1} y1={ln.y1} x2={ln.x2} y2={ln.y2} stroke="var(--ml-cyan, #67D9FF)" strokeOpacity={0.28} />
             ))}
             {pts.map((layer, k) =>
                 layer.map((p, pIdx) => (
@@ -180,8 +180,8 @@ function SvgMotif4() {
                         cx={p[0]}
                         cy={p[1]}
                         r={4}
-                        fill={k === 3 ? "#43D9A3" : "var(--ml-bg, #090B0E)"}
-                        stroke={k === 3 ? "#43D9A3" : "#67D9FF"}
+                        fill={k === 3 ? "var(--ml-acc, #43D9A3)" : "var(--ml-panel, #090B0E)"}
+                        stroke={k === 3 ? "var(--ml-acc, #43D9A3)" : "var(--ml-cyan, #67D9FF)"}
                         strokeWidth={1.3}
                     />
                 ))
@@ -309,14 +309,17 @@ export default function Home() {
                 ctx.stroke();
             }
 
-            for (let i = 0; i <= N; i++) line(P[i], "103,217,255");
+            const isLight = typeof document !== "undefined" && document.documentElement.getAttribute("data-theme") === "light";
+            const gridColor = isLight ? "2,132,199" : "103,217,255";
+
+            for (let i = 0; i <= N; i++) line(P[i], gridColor);
             for (let j = 0; j <= M; j++) {
                 const row: number[][] = [];
                 for (let i = 0; i <= N; i++) row.push(P[i][j]);
-                line(row, "103,217,255");
+                line(row, gridColor);
             }
 
-            ctx.fillStyle = "rgba(245,247,250,.55)";
+            ctx.fillStyle = isLight ? "rgba(15,23,42,.35)" : "rgba(245,247,250,.55)";
             for (let i = 0; i <= N; i += 4) {
                 for (let j = 0; j <= M; j += 4) {
                     const q = P[i][j];
@@ -325,7 +328,7 @@ export default function Home() {
             }
 
             // Emerald telemetry nodes on highest crests
-            ctx.fillStyle = "rgba(67,217,163,.95)";
+            ctx.fillStyle = isLight ? "rgba(5,150,105,.95)" : "rgba(67,217,163,.95)";
             for (let i = 2; i < N; i += 6) {
                 for (let j = 2; j < M; j += 6) {
                     const q = P[i][j];
@@ -338,11 +341,12 @@ export default function Home() {
             }
 
             // Particle field (depth -1)
+            const partCol = isLight ? "15,23,42," : "245,247,250,";
             for (let n = 0; n < parts.length; n++) {
                 const p = parts[n];
                 const dx = p.x * W + px * 40 * p.z + Math.sin(T * 0.0002 + p.p) * 8 * p.z;
                 const dy = p.y * H + py * 30 * p.z + Math.cos(T * 0.00017 + p.p) * 8 * p.z;
-                ctx.fillStyle = "rgba(245,247,250," + (0.12 + p.z * 0.4).toFixed(2) + ")";
+                ctx.fillStyle = "rgba(" + partCol + (isLight ? (0.06 + p.z * 0.22).toFixed(2) : (0.12 + p.z * 0.4).toFixed(2)) + ")";
                 ctx.fillRect(dx, dy, p.z * 1.8, p.z * 1.8);
             }
         }

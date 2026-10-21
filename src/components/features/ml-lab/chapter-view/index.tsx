@@ -503,13 +503,13 @@ export default function ChapterView({ chapter }: ChapterViewProps) {
                         padding: "10px 20px",
                         borderRadius: "8px",
                         border: isDone ? `1px solid ${designTokens.line}` : "0",
-                        backgroundColor: isDone ? "rgba(255, 255, 255, 0.05)" : "#FFFFFF",
-                        color: isDone ? designTokens.text : "#090B0E",
+                        backgroundColor: isDone ? designTokens.boxSubtleBg : designTokens.acc,
+                        color: isDone ? designTokens.text : designTokens.accContrast,
                         fontFamily: designTokens.fontSans,
                         fontSize: "13.5px",
                         fontWeight: 600,
                         cursor: "pointer",
-                        boxShadow: isDone ? "none" : "0 2px 8px rgba(255, 255, 255, 0.15)",
+                        boxShadow: isDone ? "none" : "0 2px 8px rgba(0, 0, 0, 0.15)",
                         transition: "all 0.2s ease",
                     }}
                 >

@@ -1,13 +1,22 @@
 "use client";
 
+import { useState, useEffect } from "react";
 import Box from "@mui/material/Box";
 import Typography from "@mui/material/Typography";
 import Chip from "@mui/material/Chip";
 import Link from "next/link";
 import IconComponent from "@/shared/components/icon";
+import { useMlLabStore } from "@/stores/use-ml-lab-store";
 import { footerStyles } from "./footer.styles";
 
 export default function Footer() {
+    const { themeMode } = useMlLabStore();
+    const [isMounted, setIsMounted] = useState(false);
+
+    useEffect(() => {
+        setIsMounted(true);
+    }, []);
+
     return (
         <Box component="footer" sx={footerStyles.footer}>
             <Box sx={footerStyles.container}>
@@ -25,6 +34,11 @@ export default function Footer() {
                                     maxWidth: 36,
                                     objectFit: "contain",
                                     display: "inline-block",
+                                    filter:
+                                        isMounted && themeMode === "light"
+                                            ? "invert(0.9) drop-shadow(0 2px 6px rgba(2, 132, 199, 0.2))"
+                                            : "drop-shadow(0 2px 6px rgba(103, 217, 255, 0.2))",
+                                    transition: "filter 0.25s ease",
                                 }}
                             />
                             <span>ML Lab Simulator</span>
@@ -114,19 +128,19 @@ export default function Footer() {
                             size="small"
                             variant="outlined"
                             label="Next.js 16 App Router"
-                            sx={{ fontSize: "0.72rem", color: "#9CA3AF", borderColor: "rgba(255,255,255,0.1)" }}
+                            sx={{ fontSize: "0.72rem", color: "var(--ml-mute)", borderColor: "var(--ml-line)" }}
                         />
                         <Chip
                             size="small"
                             variant="outlined"
                             label="MUI + Emotion SSR"
-                            sx={{ fontSize: "0.72rem", color: "#9CA3AF", borderColor: "rgba(255,255,255,0.1)" }}
+                            sx={{ fontSize: "0.72rem", color: "var(--ml-mute)", borderColor: "var(--ml-line)" }}
                         />
                         <Chip
                             size="small"
                             variant="outlined"
                             label="Pyodide WASM Engine"
-                            sx={{ fontSize: "0.72rem", color: "#10B981", borderColor: "rgba(16,185,129,0.3)" }}
+                            sx={{ fontSize: "0.72rem", color: "var(--ml-acc)", borderColor: "rgba(52, 211, 153, 0.3)" }}
                         />
                     </Box>
                 </Box>

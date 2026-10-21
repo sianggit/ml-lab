@@ -6,6 +6,7 @@ import Typography from "@mui/material/Typography";
 import Button from "@mui/material/Button";
 import IconComponent from "@/shared/components/icon";
 import { useCustomDatasetStore } from "@/stores/use-custom-dataset-store";
+import { designTokens } from "@/config/theme";
 import { customDatasetStudioStyles } from "./custom-dataset-studio.styles";
 
 const PAGE_SIZE = 10;
@@ -26,7 +27,7 @@ export default function DatasetPreviewTable() {
         <Box sx={customDatasetStudioStyles.panelCard}>
             <Box sx={customDatasetStudioStyles.cardHeader}>
                 <Box sx={customDatasetStudioStyles.cardTitle}>
-                    <IconComponent name="table" size={20} color="#38bdf8" />
+                    <IconComponent name="table" size={20} color={designTokens.cyan} />
                     <span>Pratinjau Data Sampel ({customDataset.rows.length} baris dimuat di memori)</span>
                 </Box>
                 <Box sx={{ display: "flex", alignItems: "center", gap: 1 }}>
@@ -47,7 +48,7 @@ export default function DatasetPreviewTable() {
                     </Button>
                     <Typography
                         variant="caption"
-                        sx={{ color: "#94a3b8", fontFamily: "var(--font-mono)" }}
+                        sx={{ color: designTokens.mute, fontFamily: designTokens.fontMono }}
                     >
                         Hal {page + 1} dari {totalPages}
                     </Typography>
@@ -73,7 +74,7 @@ export default function DatasetPreviewTable() {
                 <Box component="table" sx={customDatasetStudioStyles.table}>
                     <Box component="thead">
                         <Box component="tr">
-                            <Box component="th" sx={{ width: 40, color: "#64748b" }}>
+                            <Box component="th" sx={{ width: 40, color: designTokens.dim }}>
                                 #
                             </Box>
                             {customDataset.columns.map((col) => (
@@ -90,7 +91,7 @@ export default function DatasetPreviewTable() {
                                 <Box component="tr" key={globalRowNumber}>
                                     <Box
                                         component="td"
-                                        sx={{ color: "#64748b", fontWeight: 600 }}
+                                        sx={{ color: designTokens.dim, fontWeight: 600 }}
                                     >
                                         {globalRowNumber}
                                     </Box>
