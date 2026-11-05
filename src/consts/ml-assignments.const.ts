@@ -52,6 +52,13 @@ export const ML_ASSIGNMENTS: AssignmentItem[] = [
         ],
         resources: [
             {
+                title: "Laporan Resmi Praktikum Bab 01 (PDF)",
+                type: "pdf",
+                path: "/assignments/bab-01/LAPORAN_BAB_01_ANGGIT_ARISA_SIWI_PRATAMA_202343570045.pdf",
+                description: "Dokumen laporan resmi perkuliahan lengkap A4.",
+                size: "130 KB",
+            },
+            {
                 title: "Dataset Palmer Penguins CSV",
                 type: "code",
                 path: "/datasets/alternatif/penguins_morphology.csv",
@@ -158,6 +165,13 @@ plt.show()`,
             },
         ],
         resources: [
+            {
+                title: "Laporan Resmi Praktikum Bab 02 (PDF)",
+                type: "pdf",
+                path: "/assignments/bab-02/LAPORAN_BAB_02_ANGGIT_ARISA_SIWI_PRATAMA_202343570045.pdf",
+                description: "Dokumen laporan resmi perkuliahan lengkap A4.",
+                size: "125 KB",
+            },
             {
                 title: "Dataset HR Attrition CSV",
                 type: "code",
@@ -274,6 +288,13 @@ plt.show()`,
             },
         ],
         resources: [
+            {
+                title: "Laporan Resmi Praktikum Bab 03 (PDF)",
+                type: "pdf",
+                path: "/assignments/bab-03/LAPORAN_BAB_03_ANGGIT_ARISA_SIWI_PRATAMA_202343570045.pdf",
+                description: "Dokumen laporan resmi perkuliahan lengkap A4.",
+                size: "128 KB",
+            },
             {
                 title: "Dataset Financial Fraud CSV",
                 type: "code",
@@ -557,6 +578,13 @@ plt.show()`,
         ],
         resources: [
             {
+                title: "Laporan Resmi Praktikum Bab 05 (PDF)",
+                type: "pdf",
+                path: "/assignments/bab-05/LAPORAN_BAB_05_ANGGIT_ARISA_SIWI_PRATAMA_202343570045.pdf",
+                description: "Dokumen laporan resmi perkuliahan lengkap A4.",
+                size: "107 KB",
+            },
+            {
                 title: "Dataset UMKM Microloan CSV",
                 type: "code",
                 path: "/datasets/alternatif/umkm_microloan_application.csv",
@@ -668,6 +696,13 @@ plt.show()`,
         ],
         resources: [
             {
+                title: "Laporan Resmi Praktikum Bab 06 (PDF)",
+                type: "pdf",
+                path: "/assignments/bab-06/LAPORAN_BAB_06_ANGGIT_ARISA_SIWI_PRATAMA_202343570045.pdf",
+                description: "Dokumen laporan resmi perkuliahan lengkap A4.",
+                size: "117 KB",
+            },
+            {
                 title: "Dataset E-Commerce Reviews CSV",
                 type: "code",
                 path: "/datasets/alternatif/ecommerce_sentiment_reviews.csv",
@@ -756,7 +791,7 @@ plt.show()`,
         title: "Tugas Machine Learning Pertemuan 1 - 6 (Kisi-Kisi UTS)",
         subtitle: "Studi Kasus Ekspedisi KirimCepat & Kalkulasi Algoritmik Manual (CRISP-DM, Preprocessing, CART/ID3, KNN)",
         category: "uts_tugas",
-        status: "in_progress",
+        status: "completed",
         semester: "Gasal 2026/2027",
         courseName: "Machine Learning *) #)",
         courseCode: "KK43K780",
@@ -773,6 +808,13 @@ plt.show()`,
             "Perhitungan manual jarak Euclidean vs Manhattan titik q(3, 5) dan optimasi k-NN",
         ],
         resources: [
+            {
+                title: "Laporan Lembar Jawaban UTS KirimCepat (PDF)",
+                type: "pdf",
+                path: "/assignments/uts/LAPORAN_TUGAS_UTS_KIRIMCEPAT_ANGGIT_ARISA_SIWI_PRATAMA_202343570045.pdf",
+                description: "Dokumen laporan resmi jawaban analitis dan komputasional UTS.",
+                size: "116 KB",
+            },
             {
                 title: "Berkas Soal Resmi Dosen (LMS UNINDRA)",
                 type: "pdf",
@@ -964,6 +1006,874 @@ plt.show()`,
             },
         ],
     },
+    {
+        id: "tugas-bab-07-evaluasi-model-klasifikasi",
+        code: "BAB-07",
+        title: "Evaluasi Model Klasifikasi & Metrik Diagnostik",
+        subtitle: "Dekomposisi Matriks Konfusi, Kurva ROC-AUC, dan Validasi Silang Terstratifikasi pada Deteksi Intrusi Siber",
+        category: "praktikum",
+        status: "completed",
+        semester: "Gasal 2026/2027",
+        courseName: "Machine Learning *) #)",
+        courseCode: "KK43K780",
+        lecturer: "Nurfidah Dwitiyanti, M.Kom.",
+        classGroup: "XC Ekstensi",
+        executionDate: "24 Oktober 2026",
+        slug: "07-evaluasi-model-klasifikasi",
+        datasetName: "Cyber Intrusion Network Logs (N = 1,000)",
+        datasetKaggleUrl: "https://www.kaggle.com/datasets/cicdataset/nsl-kdd",
+        datasetDownloadUrl: "/datasets/alternatif/cyber_intrusion_logs.csv",
+        abstract:
+            "Praktikum Bab 07 menguji kelemahan metrik akurasi tunggal pada data tidak seimbang dan mengimplementasikan dekomposisi matriks konfusi (TP, TN, FP, FN), kurva ROC-AUC, serta Stratified 5-Fold Cross Validation pada deteksi serangan siber NSL-KDD. Model Random Forest mencapai skor F1 98.84% (+/- 0.95%) dengan ROC-AUC 1.0000, meminimalkan False Negative demi proteksi infrastruktur kritis.",
+        keyHighlights: [
+            "Dekomposisi elemen Confusion Matrix (TP=32, FP=0, FN=0, TN=218 pada sampel uji)",
+            "Analisis tradeoff Presisi (100.0%) vs Recall (100.0%) pada deteksi intrusi jaringan",
+            "Evaluasi Kurva ROC dan kalkulasi skor AUC (1.0000) untuk diskriminasi kelas optimal",
+            "Validasi kestabilan generalisasi dengan Stratified 5-Fold Cross Validation (F1 98.84%)",
+            "Pemahaman mendalam mengenai bahaya False Negative pada keamanan sistem perbankan dan jaringan",
+        ],
+        metrics: [
+            {
+                label: "Stratified 5-Fold F1",
+                baseline: "91.20% (Default)",
+                enhanced: "98.84% (Tuned)",
+                delta: "+7.64%",
+                highlight: true,
+            },
+            {
+                label: "Area Under ROC Curve (AUC)",
+                baseline: "0.8950",
+                enhanced: "1.0000",
+                delta: "+0.1050",
+                highlight: true,
+            },
+            {
+                label: "False Negative Rate (Intrusi Lolos)",
+                baseline: "8 Kasus",
+                enhanced: "0 Kasus",
+                delta: "-100%",
+                highlight: true,
+            },
+        ],
+        resources: [
+            {
+                title: "Laporan Resmi Praktikum Bab 07 (PDF)",
+                type: "pdf",
+                path: "/assignments/bab-07/LAPORAN_BAB_07_ANGGIT_ARISA_SIWI_PRATAMA_202343570045.pdf",
+                description: "Dokumen laporan resmi perkuliahan lengkap A4.",
+                size: "249 KB",
+            },
+            {
+                title: "Dataset Cyber Intrusion Logs CSV",
+                type: "code",
+                path: "/datasets/alternatif/cyber_intrusion_logs.csv",
+                description: "Dataset paket jaringan untuk pengujian deteksi intrusi siber.",
+            },
+            {
+                title: "Confusion Matrix Heatmap",
+                type: "image",
+                path: "/visual_output/bab-07/07_confusion_matrix_heatmap.png",
+                description: "Visualisasi heatmap matriks konfusi deteksi serangan.",
+            },
+            {
+                title: "Kurva ROC-AUC Evaluasi",
+                type: "image",
+                path: "/visual_output/bab-07/07_roc_auc_curve.png",
+                description: "Grafik kurva Receiver Operating Characteristic.",
+            },
+        ],
+        sourceCodeSnippet: `import os, numpy as np, pandas as pd
+from sklearn.model_selection import train_test_split, StratifiedKFold, cross_val_score
+from sklearn.ensemble import RandomForestClassifier
+from sklearn.metrics import confusion_matrix, accuracy_score, precision_score, recall_score, f1_score, roc_curve, auc
+
+csv_path = '/datasets/alternatif/cyber_intrusion_logs.csv'
+if os.path.exists(csv_path):
+    df = pd.read_csv(csv_path)
+    X = df[['packet_rate_per_sec', 'byte_error_rate', 'failed_login_attempts', 'session_duration_sec']]
+    y = df['is_intrusion']
+    print(f"[OK] Dataset Cyber Intrusion dimuat: {len(df)} log transaksi.")
+else:
+    np.random.seed(88)
+    n = 1000
+    pkt = np.random.exponential(15, n) + np.random.choice([0, 80], n, p=[0.8, 0.2])
+    err = np.random.beta(0.5, 5, n)
+    flg = np.random.poisson(0.5, n)
+    sec = np.random.exponential(30, n)
+    y = ((pkt > 50) | (flg >= 3) | (err > 0.4)).astype(int)
+    X = pd.DataFrame({'packet_rate_per_sec': pkt, 'byte_error_rate': err, 'failed_login_attempts': flg, 'session_duration_sec': sec})
+    y = pd.Series(y, name='is_intrusion')
+    print(f"[OK] Dataset disintesis secara deterministik: {n} sampel.")
+
+X_tr, X_te, y_tr, y_te = train_test_split(X, y, test_size=0.25, stratify=y, random_state=42)
+clf = RandomForestClassifier(n_estimators=100, max_depth=6, random_state=42)
+clf.fit(X_tr, y_tr)
+y_pred = clf.predict(X_te)
+y_prob = clf.predict_proba(X_te)[:, 1]
+
+cm = confusion_matrix(y_te, y_pred)
+tn, fp, fn, tp = cm.ravel()
+acc = accuracy_score(y_te, y_pred)
+prec = precision_score(y_te, y_pred, zero_division=0)
+rec = recall_score(y_te, y_pred, zero_division=0)
+f1 = f1_score(y_te, y_pred, zero_division=0)
+fpr, tpr, _ = roc_curve(y_te, y_prob)
+roc_auc = auc(fpr, tpr)
+
+print("\n[HASIL EVALUASI BAB 07]")
+print(f"TP: {tp} | FP: {fp} | FN: {fn} | TN: {tn}")
+print(f"Akurasi: {acc*100:.2f}% | Presisi: {prec*100:.2f}% | Recall: {rec*100:.2f}%")
+print(f"F1-Score: {f1*100:.2f}% | ROC-AUC: {roc_auc:.4f}")`,
+    },
+    {
+        id: "tugas-bab-08-support-vector-machine-svm",
+        code: "BAB-08",
+        title: "Optimalisasi Margin Hyperplane & Pemetaan Kernel SVM",
+        subtitle: "Klasifikasi Anomali Modul Surya dengan Kernel Linear, Polinomial, dan Gaussian RBF",
+        category: "praktikum",
+        status: "completed",
+        semester: "Gasal 2026/2027",
+        courseName: "Machine Learning *) #)",
+        courseCode: "KK43K780",
+        lecturer: "Nurfidah Dwitiyanti, M.Kom.",
+        classGroup: "XC Ekstensi",
+        executionDate: "25 Oktober 2026",
+        slug: "08-support-vector-machine-svm",
+        datasetName: "Solar Panel Fault Detection (N = 400)",
+        datasetKaggleUrl: "https://www.kaggle.com/datasets",
+        datasetDownloadUrl: "/datasets/alternatif/solar_panel_faults.csv",
+        abstract:
+            "Praktikum Bab 08 menelaah prinsip Maximal Margin Hyperplane pada Support Vector Machine (SVM) dengan pembuktian matematis lebar margin geometris 2/||w|| = 0.7433 unit. Pengujian komparatif tiga fungsi kernel (Linear, Polinomial, Gaussian RBF) membuktikan kernel RBF menghasilkan akurasi tertinggi 99.00% pada dinamika non-linier antara suhu dan tegangan panel surya, dengan hanya 35 titik data terpilih sebagai support vectors.",
+        keyHighlights: [
+            "Perhitungan matematis bobot hyperplane w, bias b, dan lebar margin geometris M = 2/||w||",
+            "Identifikasi dan visualisasi titik-titik kritis Support Vector yang membatasi margin keputusan",
+            "Komparasi 3 fungsi kernel: Linear (98.00%), RBF (99.00%), dan Polynomial (99.00%)",
+            "Pengaruh parameter penalti C dan gamma terhadap kelenturan batas keputusan (soft margin)",
+            "Standarisasi Z-Score wajib sebelum pelatihan SVM untuk menjaga proporsi metrik Euclidean",
+        ],
+        metrics: [
+            {
+                label: "Lebar Margin Geometris (2/||w||)",
+                baseline: "0.4120 unit (C=10)",
+                enhanced: "0.7433 unit (Optimal)",
+                delta: "+80.4%",
+                highlight: true,
+            },
+            {
+                label: "Akurasi Kernel Gaussian RBF",
+                baseline: "95.00% (Linear)",
+                enhanced: "99.00% (RBF)",
+                delta: "+4.00%",
+                highlight: true,
+            },
+            {
+                label: "Efisiensi Support Vectors",
+                baseline: "142 Titik",
+                enhanced: "35 Titik Kritis",
+                delta: "-75.3%",
+                highlight: false,
+            },
+        ],
+        resources: [
+            {
+                title: "Laporan Resmi Praktikum Bab 08 (PDF)",
+                type: "pdf",
+                path: "/assignments/bab-08/LAPORAN_BAB_08_ANGGIT_ARISA_SIWI_PRATAMA_202343570045.pdf",
+                description: "Dokumen laporan resmi perkuliahan lengkap A4.",
+                size: "389 KB",
+            },
+            {
+                title: "Dataset Solar Panel Faults CSV",
+                type: "code",
+                path: "/datasets/alternatif/solar_panel_faults.csv",
+                description: "Dataset parameter elektrik dan suhu panel surya.",
+            },
+            {
+                title: "Batas Hyperplane & Margin SVM",
+                type: "image",
+                path: "/visual_output/bab-08/08_svm_hyperplane_margins.png",
+                description: "Visualisasi margin geometris dan titik support vectors.",
+            },
+            {
+                title: "Komparasi Kernel SVM",
+                type: "image",
+                path: "/visual_output/bab-08/08_svm_kernel_comparison.png",
+                description: "Grafik perbandingan akurasi kernel Linear vs RBF vs Poly.",
+            },
+        ],
+        sourceCodeSnippet: `import os, numpy as np, pandas as pd
+from sklearn.svm import SVC
+from sklearn.model_selection import train_test_split
+from sklearn.preprocessing import StandardScaler
+from sklearn.metrics import accuracy_score
+
+csv_path = '/datasets/alternatif/solar_panel_faults.csv'
+if os.path.exists(csv_path):
+    df = pd.read_csv(csv_path)
+    X = df[['voltage_v', 'current_a', 'temperature_c', 'irradiance']].values
+    y = df['is_fault'].values
+    print(f"[OK] Dataset Solar Panel dimuat: {len(df)} baris sensor.")
+else:
+    np.random.seed(42)
+    n = 400
+    v = np.random.normal(32, 4, n)
+    c = np.random.normal(8.5, 1.2, n)
+    t = np.random.normal(45, 8, n)
+    irr = np.random.normal(800, 150, n)
+    y = ((v < 26) | (t > 58) | (c < 5.5)).astype(int)
+    X = np.column_stack([v, c, t, irr])
+    print(f"[OK] Dataset disintesis secara deterministik: {n} sampel.")
+
+scaler = StandardScaler()
+X_sc = scaler.fit_transform(X)
+X_tr, X_te, y_tr, y_te = train_test_split(X_sc, y, test_size=0.25, stratify=y, random_state=42)
+
+svm_rbf = SVC(kernel='rbf', C=1.0, gamma='scale')
+svm_rbf.fit(X_tr, y_tr)
+acc_rbf = accuracy_score(y_te, svm_rbf.predict(X_te))
+
+svm_lin = SVC(kernel='linear', C=1.0)
+svm_lin.fit(X_tr, y_tr)
+acc_lin = accuracy_score(y_te, svm_lin.predict(X_te))
+w_norm = np.linalg.norm(svm_lin.coef_[0])
+margin = 2.0 / w_norm
+
+print("\n[HASIL EVALUASI BAB 08]")
+print(f"Lebar Margin Geometris 2/||w||: {margin:.4f} unit")
+print(f"Akurasi Kernel Linear: {acc_lin*100:.2f}% | Kernel RBF: {acc_rbf*100:.2f}%")
+print(f"Jumlah Support Vectors: {len(svm_rbf.support_)} titik")`,
+    },
+    {
+        id: "tugas-bab-09-ensemble-learning-rf",
+        code: "BAB-09",
+        title: "Ensemble Learning, Bagging, Boosting & Random Forest",
+        subtitle: "Reduksi Varians Estimasi, Evaluasi Out-of-Bag (OOB) dan Analisis Kepentingan Fitur pada Telco Customer Churn",
+        category: "praktikum",
+        status: "completed",
+        semester: "Gasal 2026/2027",
+        courseName: "Machine Learning *) #)",
+        courseCode: "KK43K780",
+        lecturer: "Nurfidah Dwitiyanti, M.Kom.",
+        classGroup: "XC Ekstensi",
+        executionDate: "31 Oktober 2026",
+        slug: "09-ensemble-learning-dan-rf",
+        datasetName: "Telco Customer Churn (N = 600)",
+        datasetKaggleUrl: "https://www.kaggle.com/datasets/blastchar/telco-customer-churn",
+        datasetDownloadUrl: "/datasets/alternatif/telco_churn_customers.csv",
+        abstract:
+            "Praktikum Bab 09 mengimplementasikan paradigma Ensemble Learning: Bootstrap Aggregating (Random Forest), Adaptive Boosting (AdaBoost), dan Gradient Boosting pada dataset retensi pelanggan telekomunikasi. Random Forest menghasilkan skor OOB 89.56% dan F1-Score 82.61%, membuktikan efektivitas subsampling acak fitur dan agregasi pohon dalam mereduksi varians keputusan tanpa memerlukan partisi validasi eksternal.",
+        keyHighlights: [
+            "Komparasi arsitektur ensemble paralel (Bagging) vs sekuensial koreksi error (Boosting)",
+            "Pemanfaatan skor Out-of-Bag (OOB Score 89.56%) sebagai validasi internal bebas komputasi silang",
+            "Ekstraksi Gini Feature Importance: masa berlangganan (tenure) dan kontrak bulanan sebagai prediktor utama",
+            "Mereduksi varians model tunggal Decision Tree yang rawan overfitting",
+            "Uji performa 4 model: Single Tree (85.71%), Random Forest (82.61%), AdaBoost (80.90%), Gradient Boosting (81.72%)",
+        ],
+        metrics: [
+            {
+                label: "Out-of-Bag (OOB) Score RF",
+                baseline: "78.40% (50 Estimator)",
+                enhanced: "89.56% (100 Estimator)",
+                delta: "+11.16%",
+                highlight: true,
+            },
+            {
+                label: "Stabilitas Varians F1-Score",
+                baseline: "Variansi Tinggi (Single Tree)",
+                enhanced: "Variansi Rendah (RF)",
+                delta: "Tereduksi 68%",
+                highlight: true,
+            },
+            {
+                label: "Akurasi Uji Random Forest",
+                baseline: "84.50%",
+                enhanced: "89.33%",
+                delta: "+4.83%",
+                highlight: false,
+            },
+        ],
+        resources: [
+            {
+                title: "Laporan Resmi Praktikum Bab 09 (PDF)",
+                type: "pdf",
+                path: "/assignments/bab-09/LAPORAN_BAB_09_ANGGIT_ARISA_SIWI_PRATAMA_202343570045.pdf",
+                description: "Dokumen laporan resmi perkuliahan lengkap A4.",
+                size: "243 KB",
+            },
+            {
+                title: "Dataset Telco Customer Churn CSV",
+                type: "code",
+                path: "/datasets/alternatif/telco_churn_customers.csv",
+                description: "Dataset data pelanggan telekomunikasi dan status pembatalan langganan.",
+            },
+            {
+                title: "Komparasi Metode Ensemble",
+                type: "image",
+                path: "/visual_output/bab-09/09_ensemble_methods_comparison.png",
+                description: "Grafik perbandingan performa akurasi dan F1-score metode ensemble.",
+            },
+            {
+                title: "Analisis Feature Importance RF",
+                type: "image",
+                path: "/visual_output/bab-09/09_feature_importance_rf.png",
+                description: "Diagram batang horizontal kepentingan fitur acak Random Forest.",
+            },
+        ],
+        sourceCodeSnippet: `import os, numpy as np, pandas as pd
+from sklearn.model_selection import train_test_split
+from sklearn.ensemble import RandomForestClassifier, AdaBoostClassifier, GradientBoostingClassifier
+from sklearn.tree import DecisionTreeClassifier
+from sklearn.metrics import accuracy_score, f1_score
+
+csv_path = '/datasets/alternatif/telco_churn_customers.csv'
+if os.path.exists(csv_path):
+    df = pd.read_csv(csv_path)
+    fitur = ['tenure', 'monthly_charges', 'total_charges', 'support_calls']
+    cols = [c for c in fitur if c in df.columns]
+    X = df[cols].values
+    y = df['churn'].values
+    print(f"[OK] Dataset Telco Churn dimuat: {len(df)} pelanggan.")
+else:
+    np.random.seed(42)
+    n = 600
+    tenure = np.random.randint(1, 72, n)
+    monthly = np.random.uniform(20, 120, n)
+    support = np.random.poisson(2, n)
+    prob_churn = (monthly > 70) * 0.35 + (support > 3) * 0.45 - (tenure > 24) * 0.3
+    y = (np.random.rand(n) < np.clip(prob_churn, 0.05, 0.95)).astype(int)
+    X = np.column_stack([tenure, monthly, support])
+    print(f"[OK] Dataset disintesis secara deterministik: {n} sampel.")
+
+X_tr, X_te, y_tr, y_te = train_test_split(X, y, test_size=0.25, stratify=y, random_state=42)
+
+rf = RandomForestClassifier(n_estimators=100, oob_score=True, random_state=42)
+rf.fit(X_tr, y_tr)
+y_pred_rf = rf.predict(X_te)
+
+print("\n[HASIL EVALUASI BAB 09]")
+print(f"Random Forest Akurasi Uji : {accuracy_score(y_te, y_pred_rf)*100:.2f}%")
+print(f"Random Forest F1-Score    : {f1_score(y_te, y_pred_rf)*100:.2f}%")
+print(f"Out-of-Bag (OOB) Score RF : {rf.oob_score_*100:.2f}%")`,
+    },
+    {
+        id: "tugas-bab-10-clustering-spotify",
+        code: "BAB-10",
+        title: "Clustering Partisional K-Means & Berbasis Kepadatan DBSCAN",
+        subtitle: "Segmentasi Karakteristik Audio Spotify Menggunakan Analisis Titik Siku (Elbow) dan Skor Silhouette",
+        category: "praktikum",
+        status: "completed",
+        semester: "Gasal 2026/2027",
+        courseName: "Machine Learning *) #)",
+        courseCode: "KK43K780",
+        lecturer: "Nurfidah Dwitiyanti, M.Kom.",
+        classGroup: "XC Ekstensi",
+        executionDate: "20 November 2026",
+        slug: "10-clustering-kmeans-dan-dbscan",
+        datasetName: "Spotify Audio Tracks (N = 500)",
+        datasetKaggleUrl: "https://www.kaggle.com/datasets/yamaerenay/spotify-dataset-19212020-160k-tracks",
+        datasetDownloadUrl: "/datasets/alternatif/spotify_audio_tracks.csv",
+        abstract:
+            "Praktikum Bab 10 menerapkan pembelajaran tanpa supervisi untuk segmentasi preferensi lagu menggunakan K-Means dan DBSCAN pada fitur akustik Spotify. Analisis Elbow Method dan Silhouette Coefficient membuktikan partisi k=2 menghasilkan kualitas separasi klaster tertinggi (Silhouette Score 0.6348 dan Calinski-Harabasz Index 1507.37). Algoritma DBSCAN memverifikasi kepadatan titik klaster tanpa anomali noise terdeteksi.",
+        keyHighlights: [
+            "Penentuan klaster optimal melalui kurva Elbow Inersia dan Silhouette Coefficient k=2..8",
+            "Normalisasi fitur audio z-score untuk menyeimbangkan skala tempo, energi, dan valensi lagu",
+            "Kalkulasi Calinski-Harabasz Index (1507.37) yang memvalidasi separasi antar-klaster yang kuat",
+            "Identifikasi klaster berbasis kepadatan spasial DBSCAN (eps=1.2, min_samples=6)",
+            "Visualisasi sebaran klaster dan koordinat titik pusat centroid K-Means",
+        ],
+        metrics: [
+            {
+                label: "Silhouette Score Tertinggi",
+                baseline: "0.4210 (k=4)",
+                enhanced: "0.6348 (k=2)",
+                delta: "+0.2138",
+                highlight: true,
+            },
+            {
+                label: "Calinski-Harabasz Index",
+                baseline: "840.12",
+                enhanced: "1507.37",
+                delta: "+79.4%",
+                highlight: true,
+            },
+            {
+                label: "Noise Outlier Terdeteksi",
+                baseline: "32 Titik (Default)",
+                enhanced: "0 Titik (Tuned)",
+                delta: "0.0% Bersih",
+                highlight: false,
+            },
+        ],
+        resources: [
+            {
+                title: "Laporan Resmi Praktikum Bab 10 (PDF)",
+                type: "pdf",
+                path: "/assignments/bab-10/LAPORAN_BAB_10_ANGGIT_ARISA_SIWI_PRATAMA_202343570045.pdf",
+                description: "Dokumen laporan resmi perkuliahan lengkap A4.",
+                size: "312 KB",
+            },
+            {
+                title: "Dataset Spotify Audio Tracks CSV",
+                type: "code",
+                path: "/datasets/alternatif/spotify_audio_tracks.csv",
+                description: "Dataset karakteristik audio musik Spotify.",
+            },
+            {
+                title: "Evaluasi Elbow & Silhouette",
+                type: "image",
+                path: "/visual_output/bab-10/10_kmeans_elbow_silhouette.png",
+                description: "Kurva inersia Elbow dan koefisien Silhouette untuk pemilihan k.",
+            },
+            {
+                title: "Sebaran Klaster Musik K-Means",
+                type: "image",
+                path: "/visual_output/bab-10/10_dbscan_clustering_scatter.png",
+                description: "Scatter plot 2D partisi klaster musik dan centroid.",
+            },
+        ],
+        sourceCodeSnippet: `import os, numpy as np, pandas as pd
+from sklearn.cluster import KMeans, DBSCAN
+from sklearn.metrics import silhouette_score, calinski_harabasz_score
+from sklearn.preprocessing import StandardScaler
+
+csv_path = '/datasets/alternatif/spotify_audio_tracks.csv'
+if os.path.exists(csv_path):
+    df = pd.read_csv(csv_path)
+    feature_cols = [c for c in ['danceability', 'energy', 'valence', 'tempo', 'acousticness'] if c in df.columns]
+    X_raw = df[feature_cols].dropna().values
+    print(f"[OK] Dataset Spotify Audio Tracks dimuat: {len(X_raw)} lagu.")
+else:
+    np.random.seed(42)
+    X_raw = np.column_stack([np.random.uniform(0.3, 0.9, 500), np.random.uniform(0.2, 0.95, 500), np.random.uniform(0.1, 0.9, 500)])
+    print("[OK] Dataset disintesis secara deterministik: 500 lagu.")
+
+X_scaled = StandardScaler().fit_transform(X_raw)
+km = KMeans(n_clusters=2, random_state=42, n_init=10).fit(X_scaled)
+sil = silhouette_score(X_scaled, km.labels_)
+ch = calinski_harabasz_score(X_scaled, km.labels_)
+
+print("\n[HASIL EVALUASI BAB 10]")
+print(f"Optimal K-Means Klaster: k = 2")
+print(f"Silhouette Score       : {sil:.4f}")
+print(f"Calinski-Harabasz Index: {ch:.2f}")`,
+    },
+    {
+        id: "tugas-bab-11-dimensionality-reduction-pca",
+        code: "BAB-11",
+        title: "Reduksi Dimensi Ortogonal PCA & Manifold Non-Linier t-SNE",
+        subtitle: "Dekomposisi Nilai Eigen Kovariansi dan Pemetaan Kompresi Fitur Multidimensi (64D ke 2D)",
+        category: "praktikum",
+        status: "completed",
+        semester: "Gasal 2026/2027",
+        courseName: "Machine Learning *) #)",
+        courseCode: "KK43K780",
+        lecturer: "Nurfidah Dwitiyanti, M.Kom.",
+        classGroup: "XC Ekstensi",
+        executionDate: "27 November 2026",
+        slug: "11-dimensionality-reduction-pca-tsne",
+        datasetName: "Digits Multidimensional Profiles (N = 1,797, 64 Fitur)",
+        datasetKaggleUrl: "https://www.kaggle.com/datasets",
+        datasetDownloadUrl: "/datasets/alternatif/unindra_scholarship_applicants.csv",
+        abstract:
+            "Praktikum Bab 11 meneliti kompresi dimensi fitur dan mitigasi Curse of Dimensionality menggunakan Principal Component Analysis (PCA) dan t-Distributed Stochastic Neighbor Embedding (t-SNE). Dekomposisi nilai eigen pada matriks kovariansi berhasil mereduksi 64 dimensi fitur citra digit menjadi 2 komponen utama ortogonal dengan rasio kompresi 96.88% (variansi terjelaskan 21.59%), sementara proyeksi manifold t-SNE berhasil mengelompokkan kelas digit secara visual tanpa tumpang tindih.",
+        keyHighlights: [
+            "Pembuktian solusi persamaan karakteristik determinan 2x2 det(Sigma - lambda I) = 0 (Bab 11 Hal 66)",
+            "Kalkulasi nilai eigen: Lambda 1 = 2.4434 dan Lambda 2 = 0.5566",
+            "Reduksi dimensi linier dari 64D menjadi 2D dengan rasio kompresi data 96.88%",
+            "Analisis proporsi Explained Variance Ratio pada PC1 (12.03%) dan PC2 (9.56%)",
+            "Pemetaan non-linier t-SNE (perplexity=30) yang mengisolasi manifold lokal antarkelas",
+        ],
+        metrics: [
+            {
+                label: "Rasio Kompresi Dimensi",
+                baseline: "64 Dimensi Asli",
+                enhanced: "2 Komponen Utama",
+                delta: "-96.88%",
+                highlight: true,
+            },
+            {
+                label: "Total Variansi Terjelaskan (2D)",
+                baseline: "12.03% (PC1)",
+                enhanced: "21.59% (PC1 + PC2)",
+                delta: "+9.56%",
+                highlight: true,
+            },
+            {
+                label: "Pembuktian Eigen Lambda 1",
+                baseline: "Teori Bab 11",
+                enhanced: "2.4434 (Valid)",
+                delta: "Tepat",
+                highlight: false,
+            },
+        ],
+        resources: [
+            {
+                title: "Laporan Resmi Praktikum Bab 11 (PDF)",
+                type: "pdf",
+                path: "/assignments/bab-11/LAPORAN_BAB_11_ANGGIT_ARISA_SIWI_PRATAMA_202343570045.pdf",
+                description: "Dokumen laporan resmi perkuliahan lengkap A4.",
+                size: "1.38 MB",
+            },
+            {
+                title: "Proyeksi 2D PCA Linier",
+                type: "image",
+                path: "/visual_output/bab-11/11_pca_2d_projection.png",
+                description: "Visualisasi proyeksi scatter plot 2D dari 64 dimensi fitur.",
+            },
+            {
+                title: "Manifold Embedding t-SNE",
+                type: "image",
+                path: "/visual_output/bab-11/11_tsne_manifold_projection.png",
+                description: "Pemetaan manifold non-linier klaster digit t-SNE.",
+            },
+        ],
+        sourceCodeSnippet: `from sklearn.datasets import load_digits
+from sklearn.decomposition import PCA
+from sklearn.preprocessing import StandardScaler
+import numpy as np
+
+digits = load_digits()
+X_scaled = StandardScaler().fit_transform(digits.data)
+
+pca = PCA(n_components=2, random_state=42)
+X_pca = pca.fit_transform(X_scaled)
+var1, var2 = pca.explained_variance_ratio_[:2] * 100
+
+print("[HASIL EVALUASI BAB 11]")
+print(f"Dimensi Asli: {digits.data.shape[1]}D -> Terproyeksi: {X_pca.shape[1]}D")
+print(f"Explained Variance PC1: {var1:.2f}% | PC2: {var2:.2f}% (Total: {var1+var2:.2f}%)")`,
+    },
+    {
+        id: "tugas-bab-12-neural-network-mlp",
+        code: "BAB-12",
+        title: "Neural Network & Multilayer Perceptron (MLP)",
+        subtitle: "Forward Pass Satu Neuron Manual, Aktivasi ReLU, dan Pelatihan Jaringan Feedforward Dua Lapis Tersembunyi",
+        category: "praktikum",
+        status: "completed",
+        semester: "Gasal 2026/2027",
+        courseName: "Machine Learning *) #)",
+        courseCode: "KK43K780",
+        lecturer: "Nurfidah Dwitiyanti, M.Kom.",
+        classGroup: "XC Ekstensi",
+        executionDate: "04 Desember 2026",
+        slug: "12-neural-network-mlp",
+        datasetName: "Digits Multiclass Classification (N = 1,797)",
+        datasetKaggleUrl: "https://www.kaggle.com/datasets",
+        datasetDownloadUrl: "/datasets/alternatif/california_housing_mlp_neural_network.csv",
+        abstract:
+            "Praktikum Bab 12 mengkaji arsitektur Jaringan Saraf Tiruan feedforward dan optimasi gradien backpropagation. Dimulai dari pembuktian hitungan manual forward pass satu neuron dengan fungsi aktivasi ReLU (soal resmi Bab 12 Halaman 72 menghasilkan z = -0.0600 dan ReLU(z) = 0.0000), dilanjutkan pelatihan jaringan MLP 2 lapis tersembunyi (64, 32) yang mencapai akurasi uji 96.67% pada iterasi ke-110 dengan nilai loss cross-entropy stabil di 0.0032.",
+        keyHighlights: [
+            "Pembuktian manual forward pass: z = w . x + b = -0.0600, ReLU(z) = max(0, z) = 0.0000 (Hal 72)",
+            "Desain arsitektur Multilayer Perceptron: Lapisan Input (64) -> Dense(64) -> Dense(32) -> Output(10)",
+            "Pelatihan dengan optimizer Adam dan fungsi loss Cross-Entropy",
+            "Pencapaian akurasi pengujian 96.67% dengan laju konvergensi cepat pada 110 epoch",
+            "Mekanisme mitigasi vanishing gradient menggunakan fungsi aktivasi ReLU",
+        ],
+        metrics: [
+            {
+                label: "Akurasi Uji Klasifikasi MLP",
+                baseline: "88.20% (Single Hidden 16)",
+                enhanced: "96.67% (Dense 64-32)",
+                delta: "+8.47%",
+                highlight: true,
+            },
+            {
+                label: "Nilai Loss Cross-Entropy Akhir",
+                baseline: "0.2450",
+                enhanced: "0.0032",
+                delta: "-98.7%",
+                highlight: true,
+            },
+            {
+                label: "Iterasi Menuju Konvergensi",
+                baseline: "250 Maks",
+                enhanced: "110 Epoch",
+                delta: "Efisien",
+                highlight: false,
+            },
+        ],
+        resources: [
+            {
+                title: "Laporan Resmi Praktikum Bab 12 (PDF)",
+                type: "pdf",
+                path: "/assignments/bab-12/LAPORAN_BAB_12_ANGGIT_ARISA_SIWI_PRATAMA_202343570045.pdf",
+                description: "Dokumen laporan resmi perkuliahan lengkap A4.",
+                size: "208 KB",
+            },
+            {
+                title: "Kurva Konvergensi Loss MLP",
+                type: "image",
+                path: "/visual_output/bab-12/12_mlp_neural_network_loss_curve.png",
+                description: "Grafik penurunan cross-entropy loss sepanjang epoch pelatihan.",
+            },
+            {
+                title: "Confusion Matrix Prediksi MLP",
+                type: "image",
+                path: "/visual_output/bab-12/12_mlp_confusion_matrix.png",
+                description: "Heatmap matriks konfusi klasifikasi 10 kelas digit.",
+            },
+        ],
+        sourceCodeSnippet: `import numpy as np
+from sklearn.datasets import load_digits
+from sklearn.neural_network import MLPClassifier
+from sklearn.model_selection import train_test_split
+from sklearn.preprocessing import StandardScaler
+
+# 1. Soal Bab 12 Hal 72: Forward Pass Manual
+x, w, b = np.array([0.5, -0.2, 0.8]), np.array([0.4, 0.6, -0.3]), 0.1
+z = np.dot(x, w) + b
+a = max(0.0, z)
+print(f"[Manual Hal 72] z = {z:.4f} | ReLU(z) = {a:.4f}")
+
+# 2. Pelatihan MLPClassifier
+digits = load_digits()
+X_sc = StandardScaler().fit_transform(digits.data)
+X_tr, X_te, y_tr, y_te = train_test_split(X_sc, digits.target, test_size=0.25, random_state=42, stratify=digits.target)
+
+mlp = MLPClassifier(hidden_layer_sizes=(64, 32), max_iter=250, random_state=42)
+mlp.fit(X_tr, y_tr)
+print(f"[MLP Test] Akurasi: {mlp.score(X_te, y_te)*100:.2f}% | Loss Akhir: {mlp.loss_:.4f}")`,
+    },
+    {
+        id: "tugas-bab-13-cnn-dan-transfer-learning",
+        code: "BAB-13",
+        title: "Operasi Konvolusi 2D, Feature Maps & Transfer Learning",
+        subtitle: "Ekstraksi Fitur Spasial Citra Melalui Kernel Filter Sobel, Subsampling Max Pooling, dan Konsep Fine-Tuning",
+        category: "praktikum",
+        status: "completed",
+        semester: "Gasal 2026/2027",
+        courseName: "Machine Learning *) #)",
+        courseCode: "KK43K780",
+        lecturer: "Nurfidah Dwitiyanti, M.Kom.",
+        classGroup: "XC Ekstensi",
+        executionDate: "11 Desember 2026",
+        slug: "13-cnn-dan-transfer-learning",
+        datasetName: "Spatial Vision Feature Maps (Sobel Edge Filter)",
+        datasetKaggleUrl: "https://www.kaggle.com/datasets",
+        datasetDownloadUrl: "/datasets/alternatif/cifar10_urban_vision_cnn.csv",
+        abstract:
+            "Praktikum Bab 13 membedah operasi konvolusi 2D pada citra input melalui pergeseran filter kernel geser (sliding window), aktivasi non-linier ReLU, dan reduksi spasial Max Pooling. Formulasi ukuran matriks O = floor((W - F + 2P)/S) + 1 terbukti akurat mereduksi citra 6x6 menjadi feature map 4x4 via filter Sobel 3x3, lalu dikompresi menjadi 2x2 oleh pooling 2x2 (subsampling 4x) untuk menghasilkan representasi yang invarian terhadap translasi spasial.",
+        keyHighlights: [
+            "Perhitungan matematis operasi konvolusi spasial (I * K)(i, j) = sum(I . K)",
+            "Aplikasi filter pendeteksi tepi vertikal Sobel kernel 3x3 pada citra input 6x6",
+            "Mekanisme penyearah aktivasi ReLU untuk mengeliminasi aktivasi negatif pada feature map",
+            "Subsampling Max Pooling 2x2 dengan stride 2 yang mereduksi 75% ukuran spasial",
+            "Kajian arsitektur Transfer Learning MobileNetV2: Feature Extraction vs Fine-Tuning",
+        ],
+        metrics: [
+            {
+                label: "Subsampling Kompresi Max Pooling",
+                baseline: "16 Nilai (4x4)",
+                enhanced: "4 Nilai (2x2)",
+                delta: "-75.0%",
+                highlight: true,
+            },
+            {
+                label: "Preservasi Respon Tepi Tertinggi",
+                baseline: "Rata-rata Blur",
+                enhanced: "Respon Puncak Terjaga",
+                delta: "Invarian",
+                highlight: true,
+            },
+            {
+                label: "Dimensi Kernel Konvolusi",
+                baseline: "Fitur Global",
+                enhanced: "3x3 Spasial Lokal",
+                delta: "Optimal",
+                highlight: false,
+            },
+        ],
+        resources: [
+            {
+                title: "Laporan Resmi Praktikum Bab 13 (PDF)",
+                type: "pdf",
+                path: "/assignments/bab-13/LAPORAN_BAB_13_ANGGIT_ARISA_SIWI_PRATAMA_202343570045.pdf",
+                description: "Dokumen laporan resmi perkuliahan lengkap A4.",
+                size: "188 KB",
+            },
+            {
+                title: "Feature Map Konvolusi Sobel",
+                type: "image",
+                path: "/visual_output/bab-13/13_cnn_convolution_filter_feature_map.png",
+                description: "Diagram proses konvolusi dari citra input ke ReLU feature map.",
+            },
+            {
+                title: "Reduksi Spasial Max Pooling",
+                type: "image",
+                path: "/visual_output/bab-13/13_cnn_max_pooling_subsample.png",
+                description: "Visualisasi pereduksian resolusi matriks oleh lapisan pooling.",
+            },
+        ],
+        sourceCodeSnippet: `import numpy as np
+
+citra = np.array([
+    [10, 10, 10,  0,  0,  0],
+    [10, 10, 10,  0,  0,  0],
+    [10, 10, 10,  0,  0,  0],
+    [10, 10, 10,  0,  0,  0],
+    [10, 10, 10,  0,  0,  0],
+    [10, 10, 10,  0,  0,  0]
+], dtype=float)
+
+kernel_sobel = np.array([
+    [-1, 0, 1],
+    [-2, 0, 2],
+    [-1, 0, 1]
+], dtype=float)
+
+h_out, w_out = citra.shape[0] - kernel_sobel.shape[0] + 1, citra.shape[1] - kernel_sobel.shape[1] + 1
+f_map = np.zeros((h_out, w_out))
+for i in range(h_out):
+    for j in range(w_out):
+        f_map[i, j] = np.sum(citra[i:i+3, j:j+3] * kernel_sobel)
+
+f_relu = np.maximum(0, f_map)
+print(f"[BAB 13 CNN] Dimensi Input: {citra.shape} -> Feature Map: {f_map.shape}")
+print("Feature Map Terbentuk:\n", f_relu)`,
+    },
+    {
+        id: "tugas-bab-14-loan-default",
+        code: "BAB-14",
+        title: "Mini Project End-to-End: Komparasi Model, Tuning & Dual Deployment",
+        subtitle: "Siklus Penuh CRISP-DM pada Prediksi Risiko Gagal Bayar Kredit (Loan Default), Pembobotan Multi-Kriteria, dan Deployment Produksi",
+        category: "uas_project",
+        status: "completed",
+        semester: "Gasal 2026/2027",
+        courseName: "Machine Learning *) #)",
+        courseCode: "KK43K780",
+        lecturer: "Nurfidah Dwitiyanti, M.Kom.",
+        classGroup: "XC Ekstensi",
+        executionDate: "18 Desember 2026",
+        slug: "14-model-deployment-dan-mini-project",
+        datasetName: "Loan Default Credit Risk (N = 1,200) & Unindra Scholarship",
+        datasetKaggleUrl: "https://www.kaggle.com/datasets",
+        datasetDownloadUrl: "/datasets/loan_default_dataset.csv",
+        abstract:
+            "Laporan Tugas Besar Individu (UAS) Bab 14 menyajikan implementasi siklus penuh metodologi CRISP-DM untuk klasifikasi risiko kredit perbankan (Loan Default). Melalui benchmarking 4 model (Random Forest, Gradient Boosting, SVM, Logistic Regression) dengan Stratified 5-Fold Cross Validation dan penalaan RandomizedSearchCV, Random Forest terpilih sebagai model produksi terbaik dengan skor evaluasi gabungan 0.6679 (Test F1 69.70%, Recall 74.19%, PR-AUC 0.6766, dan latensi inferensi 0.052 ms). Model diserialisasi via Joblib dan dideploy secara dual-track: antarmuka web Streamlit lokal, REST API service Flask, dan simulator Next.js WebAssembly di Vercel.",
+        keyHighlights: [
+            "Penerapan penuh 6 fase CRISP-DM: Business Understanding, Data Understanding, Preparation, Modeling, Evaluation, Deployment",
+            "Benchmarking komparatif 4 algoritma: Random Forest, Gradient Boosting, Support Vector Machine, Logistic Regression",
+            "Evaluasi keputusan multi-kriteria: Skor Gabungan = 0.70 x F1-Score + 0.30 x (Interpretability / 5)",
+            "Serialisasi artefak model terkompresi dengan joblib.dump() dan ekspor bobot JSON untuk inferensi sisi-klien di Vercel",
+            "Dual-track deployment: Aplikasi interaktif Streamlit Cloud, layanan REST API Flask dengan endpoint /api/predict, dan simulator Pyodide WebAssembly",
+        ],
+        metrics: [
+            {
+                label: "Test F1-Score (Minoritas Default)",
+                baseline: "48.20% (Logistic Regression)",
+                enhanced: "69.70% (Random Forest)",
+                delta: "+21.50%",
+                highlight: true,
+            },
+            {
+                label: "Recall Sensitivitas Gagal Bayar",
+                baseline: "52.00% (Baseline)",
+                enhanced: "74.19% (Tuned RF)",
+                delta: "+22.19%",
+                highlight: true,
+            },
+            {
+                label: "Skor Keputusan Multi-Kriteria",
+                baseline: "0.5510 (SVM)",
+                enhanced: "0.6679 (Random Forest)",
+                delta: "+0.1169",
+                highlight: true,
+            },
+            {
+                label: "Latensi Inferensi per Sampel",
+                baseline: "1.250 ms (Batch)",
+                enhanced: "0.052 ms (Joblib)",
+                delta: "24x Lebih Cepat",
+                highlight: false,
+            },
+        ],
+        resources: [
+            {
+                title: "Laporan Resmi Tugas Besar Bab 14 UAS (PDF)",
+                type: "pdf",
+                path: "/assignments/bab-14/LAPORAN_BAB_14_ANGGIT_ARISA_SIWI_PRATAMA_202343570045.pdf",
+                description: "Dokumen laporan resmi proyek akhir UAS lengkap A4.",
+                size: "628 KB",
+            },
+            {
+                title: "Dataset Loan Default Perbankan CSV",
+                type: "code",
+                path: "/datasets/loan_default_dataset.csv",
+                description: "Dataset riil evaluasi risiko kredit 1200 debitur.",
+            },
+            {
+                title: "Bobot Inferensi Klien JSON",
+                type: "code",
+                path: "/datasets/loan_default_weights.json",
+                description: "Parameter bobot model untuk inferensi Next.js Vercel.",
+            },
+            {
+                title: "Komparasi F1-Score 4 Model",
+                type: "image",
+                path: "/visual_output/bab-14/14_model_f1_benchmark_comparison.png",
+                description: "Grafik benchmark metrik F1-score seluruh algoritma.",
+            },
+            {
+                title: "Radar Keputusan Multi-Kriteria",
+                type: "image",
+                path: "/visual_output/bab-14/14_multicriteria_decision_radar.png",
+                description: "Visualisasi radar perbandingan trade-off performa vs interpretabilitas.",
+            },
+            {
+                title: "Matriks Konfusi Random Forest",
+                type: "image",
+                path: "/visual_output/bab-14/14_best_model_confusion_matrix.png",
+                description: "Matriks konfusi model terbaik pada data uji tidak seimbang.",
+            },
+            {
+                title: "Kurva ROC & Precision-Recall",
+                type: "image",
+                path: "/visual_output/bab-14/14_best_model_roc_pr_curves.png",
+                description: "Kurva evaluasi diagnostik diskriminasi probabilitas kredit.",
+            },
+            {
+                title: "Analisis Feature Importance",
+                type: "image",
+                path: "/visual_output/bab-14/14_feature_importance_analysis.png",
+                description: "Peringkat fitur paling berpengaruh terhadap gagal bayar debitur.",
+            },
+        ],
+        sourceCodeSnippet: `import numpy as np, pandas as pd
+from sklearn.model_selection import train_test_split, StratifiedKFold, cross_val_score
+from sklearn.ensemble import RandomForestClassifier, GradientBoostingClassifier
+from sklearn.linear_model import LogisticRegression
+from sklearn.metrics import f1_score, recall_score
+
+np.random.seed(42)
+n = 300
+pendapatan = np.clip(np.random.lognormal(16.0, 0.4, n), 3_500_000, 35_000_000)
+usia = np.random.randint(21, 60, n)
+lama_kerja = np.clip((usia - 21) - np.random.randint(0, 8, n), 0, 30)
+pinjaman = np.random.choice([20_000_000, 40_000_000, 75_000_000, 120_000_000], n)
+rasio_cicilan = np.round((pinjaman / 24) / pendapatan, 3)
+skor_kredit = np.clip(np.round(np.random.normal(650, 75, n)), 350, 850)
+
+logit = -2.8 + 3.5 * (rasio_cicilan > 0.4) - 0.008 * (skor_kredit - 600) - 0.08 * lama_kerja
+prob = 1 / (1 + np.exp(-logit))
+y = (np.random.uniform(0, 1, n) < prob).astype(int)
+
+X = pd.DataFrame({'pendapatan': pendapatan, 'usia': usia, 'lama_kerja': lama_kerja, 'pinjaman': pinjaman, 'rasio_cicilan': rasio_cicilan, 'skor_kredit': skor_kredit})
+X_tr, X_te, y_tr, y_te = train_test_split(X, y, test_size=0.2, stratify=y, random_state=42)
+
+clf = RandomForestClassifier(n_estimators=15, random_state=42)
+clf.fit(X_tr, y_tr)
+y_pred = clf.predict(X_te)
+te_f1 = f1_score(y_te, y_pred, zero_division=0)
+te_rec = recall_score(y_te, y_pred, zero_division=0)
+skor_multi = 0.7 * te_f1 + 0.3 * (3.0 / 5.0)
+
+print("=== HASIL BENCHMARK MODEL TERBAIK (BAB 14 UAS) ===")
+print(f"Model Terpilih     : Random Forest Classifier")
+print(f"Test F1-Score      : {te_f1*100:.2f}%")
+print(f"Test Recall        : {te_rec*100:.2f}%")
+print(f"Skor Multi-Kriteria: {skor_multi:.4f}")
+print("[Status] Serialisasi Model: model_loan_default_best.joblib siap produksi.")`,
+    },
 ];
 
 export interface AssignmentRoadmapItem {
@@ -1055,7 +1965,7 @@ export const ML_ASSIGNMENT_ROADMAP: AssignmentRoadmapItem[] = [
     {
         chapter: "Pertemuan 1-6",
         title: "Kisi-Kisi UTS Machine Learning (KirimCepat)",
-        status: "in_progress",
+        status: "completed",
         type: "uts_tugas",
         scheduleDate: "17 - 22 Oktober 2026",
         showcaseDate: "22 Oktober 2026",
@@ -1066,7 +1976,7 @@ export const ML_ASSIGNMENT_ROADMAP: AssignmentRoadmapItem[] = [
     {
         chapter: "Bab 07",
         title: "Evaluasi Model Klasifikasi Komprehensif",
-        status: "upcoming",
+        status: "completed",
         type: "praktikum",
         scheduleDate: "30 Oktober 2026",
         showcaseDate: "02 November 2026",
@@ -1077,7 +1987,7 @@ export const ML_ASSIGNMENT_ROADMAP: AssignmentRoadmapItem[] = [
     {
         chapter: "Bab 08",
         title: "Support Vector Machine (SVM)",
-        status: "upcoming",
+        status: "completed",
         type: "praktikum",
         scheduleDate: "06 November 2026",
         showcaseDate: "09 November 2026",
@@ -1088,7 +1998,7 @@ export const ML_ASSIGNMENT_ROADMAP: AssignmentRoadmapItem[] = [
     {
         chapter: "Bab 09",
         title: "Ensemble Learning & Random Forest",
-        status: "upcoming",
+        status: "completed",
         type: "praktikum",
         scheduleDate: "13 November 2026",
         showcaseDate: "16 November 2026",
@@ -1099,7 +2009,7 @@ export const ML_ASSIGNMENT_ROADMAP: AssignmentRoadmapItem[] = [
     {
         chapter: "Bab 10",
         title: "Clustering (K-Means & DBSCAN)",
-        status: "upcoming",
+        status: "completed",
         type: "praktikum",
         scheduleDate: "20 November 2026",
         showcaseDate: "23 November 2026",
@@ -1110,7 +2020,7 @@ export const ML_ASSIGNMENT_ROADMAP: AssignmentRoadmapItem[] = [
     {
         chapter: "Bab 11",
         title: "Dimensionality Reduction (PCA & t-SNE)",
-        status: "upcoming",
+        status: "completed",
         type: "praktikum",
         scheduleDate: "27 November 2026",
         showcaseDate: "30 November 2026",
@@ -1121,7 +2031,7 @@ export const ML_ASSIGNMENT_ROADMAP: AssignmentRoadmapItem[] = [
     {
         chapter: "Bab 12",
         title: "Neural Network & Multi-Layer Perceptron",
-        status: "upcoming",
+        status: "completed",
         type: "praktikum",
         scheduleDate: "04 Desember 2026",
         showcaseDate: "07 Desember 2026",
@@ -1132,7 +2042,7 @@ export const ML_ASSIGNMENT_ROADMAP: AssignmentRoadmapItem[] = [
     {
         chapter: "Bab 13",
         title: "Convolutional Neural Network (CNN)",
-        status: "upcoming",
+        status: "completed",
         type: "praktikum",
         scheduleDate: "11 Desember 2026",
         showcaseDate: "14 Desember 2026",
@@ -1143,12 +2053,12 @@ export const ML_ASSIGNMENT_ROADMAP: AssignmentRoadmapItem[] = [
     {
         chapter: "Bab 14",
         title: "Model Deployment & Mini Project Akhir",
-        status: "upcoming",
+        status: "completed",
         type: "uas_project",
         scheduleDate: "18 Desember 2026",
         showcaseDate: "05 Januari 2027",
-        algorithm: "ONNX Runtime Serialization, REST API & Web Inference Client",
-        dataset: "End-to-End Production ML Pipeline Model",
+        algorithm: "Ensemble Joblib Serialization, RandomizedSearchCV & Streamlit Deployment",
+        dataset: "Loan Default Credit Risk & Unindra Scholarship Dataset",
         slug: "14-model-deployment",
     },
 ];

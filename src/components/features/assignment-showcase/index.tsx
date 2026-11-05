@@ -11,10 +11,26 @@ import UtsTasksShowcase from "./uts-tasks-showcase";
 import AssignmentRoadmap from "./assignment-roadmap";
 import { assignmentStyles } from "./assignment-showcase.styles";
 
-type TabKey = "bab01" | "bab02" | "bab03" | "bab04" | "bab05" | "bab06" | "uts" | "roadmap";
+type TabKey =
+    | "bab01"
+    | "bab02"
+    | "bab03"
+    | "bab04"
+    | "bab05"
+    | "bab06"
+    | "uts"
+    | "bab07"
+    | "bab08"
+    | "bab09"
+    | "bab10"
+    | "bab11"
+    | "bab12"
+    | "bab13"
+    | "bab14"
+    | "roadmap";
 
 export default function AssignmentShowcase() {
-    const [activeTab, setActiveTab] = useState<TabKey>("bab04");
+    const [activeTab, setActiveTab] = useState<TabKey>("bab14");
 
     const getAssignment = (id: string) => ML_ASSIGNMENTS.find((a) => a.id === id);
 
@@ -77,7 +93,7 @@ export default function AssignmentShowcase() {
                     >
                         <sup>04</sup>
                         <span>Bab 04: Titanic Pipeline</span>
-                        <small>Selesai (Resmi)</small>
+                        <small>Selesai</small>
                     </Box>
 
                     <Box
@@ -113,7 +129,103 @@ export default function AssignmentShowcase() {
                     >
                         <sup>07</sup>
                         <span>Tugas Kisi-Kisi UTS</span>
-                        <small>Aktif</small>
+                        <small>Selesai</small>
+                    </Box>
+
+                    <Box
+                        component="button"
+                        onClick={() => setActiveTab("bab07")}
+                        sx={assignmentStyles.tabButton(activeTab === "bab07")}
+                        role="tab"
+                        aria-selected={activeTab === "bab07"}
+                    >
+                        <sup>08</sup>
+                        <span>Bab 07: Evaluasi Klasifikasi</span>
+                        <small>Selesai</small>
+                    </Box>
+
+                    <Box
+                        component="button"
+                        onClick={() => setActiveTab("bab08")}
+                        sx={assignmentStyles.tabButton(activeTab === "bab08")}
+                        role="tab"
+                        aria-selected={activeTab === "bab08"}
+                    >
+                        <sup>09</sup>
+                        <span>Bab 08: SVM Fault Detection</span>
+                        <small>Selesai</small>
+                    </Box>
+
+                    <Box
+                        component="button"
+                        onClick={() => setActiveTab("bab09")}
+                        sx={assignmentStyles.tabButton(activeTab === "bab09")}
+                        role="tab"
+                        aria-selected={activeTab === "bab09"}
+                    >
+                        <sup>10</sup>
+                        <span>Bab 09: Ensemble &amp; RF</span>
+                        <small>Selesai</small>
+                    </Box>
+
+                    <Box
+                        component="button"
+                        onClick={() => setActiveTab("bab10")}
+                        sx={assignmentStyles.tabButton(activeTab === "bab10")}
+                        role="tab"
+                        aria-selected={activeTab === "bab10"}
+                    >
+                        <sup>11</sup>
+                        <span>Bab 10: Clustering K-Means</span>
+                        <small>Selesai</small>
+                    </Box>
+
+                    <Box
+                        component="button"
+                        onClick={() => setActiveTab("bab11")}
+                        sx={assignmentStyles.tabButton(activeTab === "bab11")}
+                        role="tab"
+                        aria-selected={activeTab === "bab11"}
+                    >
+                        <sup>12</sup>
+                        <span>Bab 11: Reduksi Dimensi PCA</span>
+                        <small>Selesai</small>
+                    </Box>
+
+                    <Box
+                        component="button"
+                        onClick={() => setActiveTab("bab12")}
+                        sx={assignmentStyles.tabButton(activeTab === "bab12")}
+                        role="tab"
+                        aria-selected={activeTab === "bab12"}
+                    >
+                        <sup>13</sup>
+                        <span>Bab 12: Neural Network MLP</span>
+                        <small>Selesai</small>
+                    </Box>
+
+                    <Box
+                        component="button"
+                        onClick={() => setActiveTab("bab13")}
+                        sx={assignmentStyles.tabButton(activeTab === "bab13")}
+                        role="tab"
+                        aria-selected={activeTab === "bab13"}
+                    >
+                        <sup>14</sup>
+                        <span>Bab 13: CNN &amp; Vision</span>
+                        <small>Selesai</small>
+                    </Box>
+
+                    <Box
+                        component="button"
+                        onClick={() => setActiveTab("bab14")}
+                        sx={assignmentStyles.tabButton(activeTab === "bab14")}
+                        role="tab"
+                        aria-selected={activeTab === "bab14"}
+                    >
+                        <sup>15</sup>
+                        <span>Bab 14: Loan Default (UAS)</span>
+                        <small>Tugas Besar</small>
                     </Box>
 
                     <Box
@@ -123,7 +235,7 @@ export default function AssignmentShowcase() {
                         role="tab"
                         aria-selected={activeTab === "roadmap"}
                     >
-                        <sup>08</sup>
+                        <sup>16</sup>
                         <span>Jadwal &amp; Roadmap (Bab 01-14)</span>
                         <small>14 Modul</small>
                     </Box>
@@ -148,6 +260,30 @@ export default function AssignmentShowcase() {
                         <ChapterShowcaseView assignment={getAssignment("tugas-bab-06-knn-bayes-sentiment")!} />
                     )}
                     {activeTab === "uts" && <UtsTasksShowcase />}
+                    {activeTab === "bab07" && (
+                        <ChapterShowcaseView assignment={getAssignment("tugas-bab-07-evaluasi-model-klasifikasi")!} />
+                    )}
+                    {activeTab === "bab08" && (
+                        <ChapterShowcaseView assignment={getAssignment("tugas-bab-08-support-vector-machine-svm")!} />
+                    )}
+                    {activeTab === "bab09" && (
+                        <ChapterShowcaseView assignment={getAssignment("tugas-bab-09-ensemble-learning-rf")!} />
+                    )}
+                    {activeTab === "bab10" && (
+                        <ChapterShowcaseView assignment={getAssignment("tugas-bab-10-clustering-spotify")!} />
+                    )}
+                    {activeTab === "bab11" && (
+                        <ChapterShowcaseView assignment={getAssignment("tugas-bab-11-dimensionality-reduction-pca")!} />
+                    )}
+                    {activeTab === "bab12" && (
+                        <ChapterShowcaseView assignment={getAssignment("tugas-bab-12-neural-network-mlp")!} />
+                    )}
+                    {activeTab === "bab13" && (
+                        <ChapterShowcaseView assignment={getAssignment("tugas-bab-13-cnn-dan-transfer-learning")!} />
+                    )}
+                    {activeTab === "bab14" && (
+                        <ChapterShowcaseView assignment={getAssignment("tugas-bab-14-loan-default")!} />
+                    )}
                     {activeTab === "roadmap" && <AssignmentRoadmap />}
                 </Box>
             </Box>
