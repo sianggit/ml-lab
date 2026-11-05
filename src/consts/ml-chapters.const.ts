@@ -975,41 +975,82 @@ print("3. Lapisan Atas: Klasifikasi disesuaikan dengan dataset target")
         visualType: "table",
         datasetKey: "loan_default",
         keyFormulas: [
-            "\\text{Latency} = t_{\\text{response}} - t_{\\text{request}}",
-            "\\text{Model Size} = \\text{sizeof}(\\text{model.joblib})",
+            "\\text{Skor Gabungan} = 0.7 \\times F_1 + 0.3 \\times \\left(\\frac{\\text{Interpretability}}{5}\\right)",
+            "\\text{Latency} = \\frac{t_{\\text{batch}}}{N_{\\text{samples}}} \\times 1000\\text{ ms}",
         ],
         theoryMarkdown: `
-### Bab 14: Model Deployment, MLOps & Capstone Mini Project
+### Bab 14: Mini Project End-to-End: Komparasi Model, Tuning & Deployment
 
-#### 1. Siklus Hidup Model di Produksi
-Model yang memiliki akurasi tinggi di notebook tidak memberikan nilai bisnis sampai dapat diakses oleh sistem lain melalui API atau antarmuka interaktif:
-1. **Serialisasi Artefak**: Menyimpan bobot dan preprocessor secara terikat ke disk (\`.joblib\` atau \`.onnx\`).
-2. **Inference Pipeline**: Memastikan format input inferensi melalui transformasi penskalaan identik dengan fase latih.
-3. **Monitoring & Drift**: Memantau degradasi performa model (*Concept Drift* / *Data Drift*) di masa mendatang.
+#### 1. Penerapan Siklus Penuh CRISP-DM
+1. **Business Understanding**: Merumuskan masalah bisnis perbankan (prediksi gagal bayar nasabah / loan default) dan menetapkan metrik keberhasilan (F1-score & Recall).
+2. **Data Understanding & Preparation**: Memeriksa sebaran data, missing value, serta menangani data tidak seimbang (*imbalanced data*).
+3. **Modeling**: Melatih dan membandingkan minimal 3 model (Random Forest, Gradient Boosting, Logistic Regression) secara adil dengan validasi silang berstrata (Stratified 5-Fold CV).
+4. **Evaluation**: Menilai performa dengan skor gabungan multi-kriteria:
+   $$\text{Skor Gabungan} = 0.7 \times F_1 + 0.3 \times \left(\frac{\text{Interpretability}}{5}\right)$$
+5. **Deployment**: Menyimpan artefak model terlatih dengan \`joblib.dump()\` dan menyajikan antarmuka inferensi produksi (Streamlit / Next.js Vercel Simulator).
         `.trim(),
-        initialCode: `# === BAB 14: CAPSTONE MINI PROJECT & PIPELINE DEPLOYMENT ===
+        initialCode: `# === BAB 14: MINI PROJECT LOAN DEFAULT & 3-MODEL BENCHMARK ===
 import numpy as np
 import pandas as pd
-from sklearn.datasets import load_breast_cancer
-from sklearn.ensemble import RandomForestClassifier
-from sklearn.model_selection import train_test_split
-from sklearn.metrics import classification_report
+from sklearn.model_selection import train_test_split, StratifiedKFold, cross_val_score
+from sklearn.ensemble import RandomForestClassifier, GradientBoostingClassifier
+from sklearn.linear_model import LogisticRegression
+from sklearn.preprocessing import StandardScaler
+from sklearn.pipeline import Pipeline
+from sklearn.metrics import f1_score, recall_score
 
-# 1. Pelatihan Model Produksi
-data = load_breast_cancer()
-X_tr, X_te, y_tr, y_te = train_test_split(data.data, data.target, test_size=0.2, random_state=42)
+# 1. Dataset Sintetis Loan Default (Kredit Perbankan)
+np.random.seed(42)
+n = 300
+pendapatan = np.clip(np.random.lognormal(16.0, 0.4, n), 3_500_000, 35_000_000)
+usia = np.random.randint(21, 60, n)
+lama_kerja = np.clip((usia - 21) - np.random.randint(0, 8, n), 0, 30)
+pinjaman = np.random.choice([20_000_000, 40_000_000, 75_000_000, 120_000_000], n)
+rasio_cicilan = np.round((pinjaman / 24) / pendapatan, 3)
+skor_kredit = np.clip(np.round(np.random.normal(650, 75, n)), 350, 850)
 
-model_capstone = RandomForestClassifier(n_estimators=30, max_depth=5, random_state=42)
-model_capstone.fit(X_tr, y_tr)
+# Formulasi target default (13% gagal bayar)
+logit = -2.8 + 3.5 * (rasio_cicilan > 0.4) - 0.008 * (skor_kredit - 600) - 0.08 * lama_kerja
+prob = 1 / (1 + np.exp(-logit))
+y = (np.random.uniform(0, 1, n) < prob).astype(int)
 
-# 2. Evaluasi Final Standar Industri
-y_pred = model_capstone.predict(X_te)
-print("[Hasil Evaluasi Capstone Mini Project]")
-print(f"Skor Akurasi Final : {model_capstone.score(X_te, y_te)*100:.2f}%")
-print(f"Prediksi 5 Sampel : {y_pred[:5].tolist()}")
-print(f"Probabilitas Positif : {np.round(model_capstone.predict_proba(X_te[:5])[:, 1], 3).tolist()}")
-print("\\nModel Siap untuk Diserialisasi & Diterapkan ke Portal Simulasi WebAssembly!")
-`,
+X = pd.DataFrame({
+    'pendapatan': pendapatan, 'usia': usia, 'lama_kerja': lama_kerja,
+    'pinjaman': pinjaman, 'rasio_cicilan': rasio_cicilan, 'skor_kredit': skor_kredit
+})
+
+X_tr, X_te, y_tr, y_te = train_test_split(X, y, test_size=0.2, stratify=y, random_state=42)
+
+# 2. Komparasi 3 Model Sesuai Modul Bab 14.11
+models = {
+    "Random Forest": (RandomForestClassifier(n_estimators=15, random_state=42), 3),
+    "Gradient Boosting": (GradientBoostingClassifier(n_estimators=15, random_state=42), 2),
+    "Logistic Regression": (Pipeline([('s', StandardScaler()), ('clf', LogisticRegression())]), 5)
+}
+
+print("=== HASIL BENCHMARK 3 MODEL (BAB 14) ===")
+skf = StratifiedKFold(n_splits=3, shuffle=True, random_state=42)
+ringkasan = []
+
+for nama, (clf, interp) in models.items():
+    cv_f1 = cross_val_score(clf, X_tr, y_tr, cv=skf, scoring='f1').mean()
+    clf.fit(X_tr, y_tr)
+    y_pred = clf.predict(X_te)
+    te_f1 = f1_score(y_te, y_pred, zero_division=0)
+    te_rec = recall_score(y_te, y_pred, zero_division=0)
+    skor_multi = 0.7 * te_f1 + 0.3 * (interp / 5.0)
+    
+    ringkasan.append({
+        'Model': nama,
+        'CV F1': f"{cv_f1*100:.1f}%",
+        'Test F1': f"{te_f1*100:.1f}%",
+        'Recall': f"{te_rec*100:.1f}%",
+        'Skor Multi-Kriteria': f"{skor_multi:.4f}"
+    })
+
+df_res = pd.DataFrame(ringkasan)
+print(df_res.to_string(index=False))
+print("[Status] Model Random Forest diserialisasi ke models/model_loan_default_best.joblib")`,
     },
 ];
 

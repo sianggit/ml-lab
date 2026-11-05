@@ -31,6 +31,8 @@ export default function VisualSandbox({ chapter }: VisualSandboxProps) {
         return <DecisionTreeEnsembleSandbox chapter={chapter} />;
     } else if (chapterNum <= 11) {
         return <ClusteringAndPcaSandbox chapter={chapter} />;
+    } else if (chapterNum === 14) {
+        return <ModelDeploymentSandbox chapter={chapter} />;
     } else {
         return <EvaluationAndNeuralSandbox chapter={chapter} />;
     }
@@ -965,7 +967,7 @@ function EvaluationAndNeuralSandbox({ chapter }: { chapter: Chapter }) {
             {/* Confusion Matrix Interactive Grid */}
             <Box sx={{ p: 2, borderRadius: "8px", backgroundColor: designTokens.panelAlt, border: `1px solid ${designTokens.line}` }}>
                 <Typography sx={{ fontSize: "0.75rem", fontWeight: 700, color: designTokens.mute, textTransform: "uppercase", mb: 1.5, letterSpacing: "0.04em" }}>
-                    Matriks Kebingungan (Confusion Matrix) — Total 120 Sampel Uji
+                    Matriks Kebingungan (Confusion Matrix) - Total 120 Sampel Uji
                 </Typography>
                 <Box sx={{ display: "grid", gridTemplateColumns: { xs: "1fr 1fr", sm: "repeat(4, 1fr)" }, gap: 1.5 }}>
                     <Box sx={{ p: 1.5, borderRadius: "6px", backgroundColor: "rgba(0, 245, 155, 0.1)", border: "1px solid rgba(0, 245, 155, 0.3)", textAlign: "center" }}>
@@ -1000,6 +1002,363 @@ function EvaluationAndNeuralSandbox({ chapter }: { chapter: Chapter }) {
                     <Typography sx={visualSandboxStyles.metricLabel}>F1-Score Harmonik</Typography>
                     <Typography sx={{ ...visualSandboxStyles.metricValue, color: "#7C5CFC" }}>{f1.toFixed(3)}</Typography>
                 </Box>
+            </Box>
+        </Box>
+    );
+}
+
+// ─── 7. Bab 14: Interactive Web Deployment & Credit Risk Simulator ──────────
+function ModelDeploymentSandbox({ chapter }: { chapter: Chapter }) {
+    const [pendapatanJt, setPendapatanJt] = useState<number>(8.5);
+    const [usia, setUsia] = useState<number>(29);
+    const [lamaKerja, setLamaKerja] = useState<number>(4);
+    const [plafonJt, setPlafonJt] = useState<number>(35);
+    const [tenorBulan, setTenorBulan] = useState<number>(24);
+    const [skorKredit, setSkorKredit] = useState<number>(675);
+    const [selectedModel, setSelectedModel] = useState<"rf" | "gb" | "svm">("rf");
+    const [showStreamlitGuide, setShowStreamlitGuide] = useState<boolean>(false);
+
+    const pendapatanRp = pendapatanJt * 1_000_000;
+    const cicilanPerBulan = (plafonJt * 1_000_000) / tenorBulan;
+    const rasioCicilan = cicilanPerBulan / (pendapatanRp || 1);
+
+    const { probDefault, isDefault, modelStats } = useMemo(() => {
+        let logit =
+            -2.8 +
+            3.5 * (rasioCicilan > 0.4 ? 1 : 0) +
+            1.8 * (rasioCicilan > 0.3 ? 1 : 0) -
+            0.008 * (skorKredit - 600) -
+            0.08 * lamaKerja +
+            0.6 * (usia < 25 ? 1 : 0);
+
+        let stats = {
+            name: "Random Forest (Ensemble)",
+            cvF1: "72.35%",
+            testF1: "69.70%",
+            recall: "74.19%",
+            rocAuc: "0.9379",
+            latency: "0.052 ms",
+            interp: "3/5",
+            combinedScore: "0.6679",
+            badge: "Model Terpilih (Skor Gabungan Tertinggi)",
+        };
+
+        if (selectedModel === "gb") {
+            logit += 0.12;
+            stats = {
+                name: "Gradient Boosting",
+                cvF1: "70.92%",
+                testF1: "66.67%",
+                recall: "64.52%",
+                rocAuc: "0.8924",
+                latency: "0.005 ms",
+                interp: "2/5",
+                combinedScore: "0.5867",
+                badge: "Latensi Terendah (0.005 ms)",
+            };
+        } else if (selectedModel === "svm") {
+            logit -= 0.08;
+            stats = {
+                name: "Support Vector Machine (RBF Kernel)",
+                cvF1: "67.90%",
+                testF1: "65.75%",
+                recall: "77.42%",
+                rocAuc: "0.8835",
+                latency: "0.037 ms",
+                interp: "2/5",
+                combinedScore: "0.5803",
+                badge: "Sensitivitas Tertinggi (Recall 77.4%)",
+            };
+        }
+
+        const prob = Math.min(0.98, Math.max(0.02, 1 / (1 + Math.exp(-logit))));
+        const def = prob >= 0.38;
+
+        return {
+            probDefault: prob,
+            isDefault: def,
+            modelStats: stats,
+        };
+    }, [rasioCicilan, skorKredit, lamaKerja, usia, selectedModel]);
+
+    return (
+        <Box sx={visualSandboxStyles.container}>
+            <Box sx={visualSandboxStyles.sandboxHeader}>
+                <Box sx={visualSandboxStyles.titleWrapper}>
+                    <Box sx={visualSandboxStyles.headerIcon}>
+                        <IconComponent name="settings" size={20} color="#38BDF8" />
+                    </Box>
+                    <Box>
+                        <Typography sx={visualSandboxStyles.titleText}>
+                            Visual Twin: Simulator Inferensi Produksi Web & Credit Risk (Bab 14)
+                        </Typography>
+                        <Typography sx={visualSandboxStyles.subtitleText}>
+                            Simulasi real-time deployment model machine learning (CRISP-DM Deployment Phase) yang berjalan native di Vercel.
+                        </Typography>
+                    </Box>
+                </Box>
+                <Chip size="small" label={`Bab ${chapter.number} Deployment Twin`} color="primary" />
+            </Box>
+
+            {/* Model Selector Bar */}
+            <Box sx={{ p: 2, borderRadius: "6px", backgroundColor: designTokens.panelAlt, border: `1px solid ${designTokens.line}` }}>
+                <Box sx={{ display: "flex", flexWrap: "wrap", alignItems: "center", justifyContent: "space-between", gap: 1.5 }}>
+                    <Box>
+                        <Typography sx={{ fontSize: "0.8rem", fontWeight: 600, color: designTokens.mute, textTransform: "uppercase", letterSpacing: "0.04em" }}>
+                            Pilih Model Komparasi (Bab 14.11)
+                        </Typography>
+                        <Typography sx={{ fontSize: "0.9rem", fontWeight: 700, color: designTokens.text }}>
+                            {modelStats.name}: <span style={{ color: "#38BDF8" }}>{modelStats.badge}</span>
+                        </Typography>
+                    </Box>
+                    <ButtonGroup size="small" variant="outlined">
+                        <Button
+                            variant={selectedModel === "rf" ? "contained" : "outlined"}
+                            onClick={() => setSelectedModel("rf")}
+                            sx={{ textTransform: "none" }}
+                        >
+                            Random Forest
+                        </Button>
+                        <Button
+                            variant={selectedModel === "gb" ? "contained" : "outlined"}
+                            onClick={() => setSelectedModel("gb")}
+                            sx={{ textTransform: "none" }}
+                        >
+                            Gradient Boosting
+                        </Button>
+                        <Button
+                            variant={selectedModel === "svm" ? "contained" : "outlined"}
+                            onClick={() => setSelectedModel("svm")}
+                            sx={{ textTransform: "none" }}
+                        >
+                            SVM (RBF)
+                        </Button>
+                    </ButtonGroup>
+                </Box>
+            </Box>
+
+            {/* Main Interactive Controls & Live Inference Cards */}
+            <Box sx={visualSandboxStyles.controlPanel}>
+                <Box sx={visualSandboxStyles.sliderRow}>
+                    <Box sx={visualSandboxStyles.sliderLabelWrapper}>
+                        <Typography sx={visualSandboxStyles.sliderLabel}>Pendapatan Bulanan (Rp)</Typography>
+                        <Typography component="span" sx={visualSandboxStyles.sliderValueBadge}>
+                            Rp {pendapatanJt.toFixed(1)} Juta
+                        </Typography>
+                    </Box>
+                    <Slider
+                        value={pendapatanJt}
+                        min={3.5}
+                        max={30.0}
+                        step={0.5}
+                        onChange={(_, v) => setPendapatanJt(v as number)}
+                        sx={{ maxWidth: 360, color: "#38BDF8" }}
+                    />
+                </Box>
+
+                <Box sx={visualSandboxStyles.sliderRow}>
+                    <Box sx={visualSandboxStyles.sliderLabelWrapper}>
+                        <Typography sx={visualSandboxStyles.sliderLabel}>Plafon Pinjaman Diajukan</Typography>
+                        <Typography component="span" sx={visualSandboxStyles.sliderValueBadge}>
+                            Rp {plafonJt} Juta ({tenorBulan} Bln)
+                        </Typography>
+                    </Box>
+                    <Slider
+                        value={plafonJt}
+                        min={10}
+                        max={150}
+                        step={5}
+                        onChange={(_, v) => setPlafonJt(v as number)}
+                        sx={{ maxWidth: 360, color: "#10B981" }}
+                    />
+                </Box>
+
+                <Box sx={visualSandboxStyles.sliderRow}>
+                    <Box sx={visualSandboxStyles.sliderLabelWrapper}>
+                        <Typography sx={visualSandboxStyles.sliderLabel}>Skor Kredit SLIK / OJK</Typography>
+                        <Typography component="span" sx={visualSandboxStyles.sliderValueBadge}>
+                            {skorKredit} (350 - 850)
+                        </Typography>
+                    </Box>
+                    <Slider
+                        value={skorKredit}
+                        min={350}
+                        max={850}
+                        step={10}
+                        onChange={(_, v) => setSkorKredit(v as number)}
+                        sx={{ maxWidth: 360, color: "#818CF8" }}
+                    />
+                </Box>
+
+                <Box sx={{ display: "grid", gridTemplateColumns: { xs: "1fr", sm: "1fr 1fr" }, gap: 2, pt: 1 }}>
+                    <Box sx={visualSandboxStyles.sliderRow}>
+                        <Box sx={visualSandboxStyles.sliderLabelWrapper}>
+                            <Typography sx={visualSandboxStyles.sliderLabel}>Usia Peminjam: {usia} Thn</Typography>
+                        </Box>
+                        <Slider
+                            value={usia}
+                            min={21}
+                            max={65}
+                            step={1}
+                            onChange={(_, v) => setUsia(v as number)}
+                            sx={{ maxWidth: 220, color: "#F59E0B" }}
+                        />
+                    </Box>
+                    <Box sx={visualSandboxStyles.sliderRow}>
+                        <Box sx={visualSandboxStyles.sliderLabelWrapper}>
+                            <Typography sx={visualSandboxStyles.sliderLabel}>Masa Kerja: {lamaKerja} Thn</Typography>
+                        </Box>
+                        <Slider
+                            value={lamaKerja}
+                            min={0}
+                            max={30}
+                            step={1}
+                            onChange={(_, v) => setLamaKerja(v as number)}
+                            sx={{ maxWidth: 220, color: "#F59E0B" }}
+                        />
+                    </Box>
+                </Box>
+            </Box>
+
+            {/* Inference Result Viewports */}
+            <Box sx={visualSandboxStyles.dualViewportGrid}>
+                {/* Viewport 1: Decision Outcome Card */}
+                <Box
+                    sx={{
+                        p: 2.5,
+                        borderRadius: "8px",
+                        backgroundColor: isDefault ? "rgba(239, 68, 68, 0.08)" : "rgba(16, 185, 129, 0.08)",
+                        border: isDefault ? "1px solid rgba(239, 68, 68, 0.35)" : "1px solid rgba(16, 185, 129, 0.35)",
+                        display: "flex",
+                        flexDirection: "column",
+                        justifyContent: "space-between",
+                        gap: 2,
+                    }}
+                >
+                    <Box>
+                        <Typography sx={{ fontSize: "0.75rem", fontWeight: 700, color: designTokens.mute, textTransform: "uppercase" }}>
+                            Hasil Keputusan Model Inferensi
+                        </Typography>
+                        <Typography
+                            sx={{
+                                fontSize: "1.4rem",
+                                fontWeight: 800,
+                                color: isDefault ? "#EF4444" : "#10B981",
+                                mt: 0.5,
+                            }}
+                        >
+                            {isDefault ? "Risiko Tinggi (Default)" : "Risiko Rendah (Lolos)"}
+                        </Typography>
+                        <Typography sx={{ fontSize: "0.85rem", color: designTokens.text, mt: 1 }}>
+                            {isDefault
+                                ? "Kombinasi rasio beban cicilan bulanan yang tinggi atau riwayat skor kredit rendah mengindikasikan potensi risiko gagal bayar."
+                                : "Profil keuangan dan kapasitas pelunasan nasabah dinilai stabil sesuai kriteria manajemen risiko perbankan."}
+                        </Typography>
+                    </Box>
+
+                    <Box>
+                        <Box sx={{ display: "flex", justifyContent: "space-between", mb: 0.5 }}>
+                            <Typography sx={{ fontSize: "0.8rem", color: designTokens.mute }}>Estimasi Probabilitas Gagal Bayar:</Typography>
+                            <Typography sx={{ fontSize: "0.85rem", fontWeight: 700, color: isDefault ? "#EF4444" : "#10B981" }}>
+                                {(probDefault * 100).toFixed(1)}%
+                            </Typography>
+                        </Box>
+                        <Box sx={{ width: "100%", height: 10, borderRadius: 5, backgroundColor: "rgba(255, 255, 255, 0.1)", overflow: "hidden" }}>
+                            <Box
+                                sx={{
+                                    width: `${probDefault * 100}%`,
+                                    height: "100%",
+                                    backgroundColor: isDefault ? "#EF4444" : "#10B981",
+                                    transition: "width 0.3s ease",
+                                }}
+                            />
+                        </Box>
+                    </Box>
+                </Box>
+
+                {/* Viewport 2: Financial Metrics & Recommendation */}
+                <Box sx={visualSandboxStyles.viewportCard}>
+                    <Typography sx={visualSandboxStyles.viewportHeader}>
+                        Parameter Analitis Portofolio Kredit
+                    </Typography>
+                    <Stack spacing={1.5} sx={{ mt: 1 }}>
+                        <Box sx={{ display: "flex", justifyContent: "space-between", pb: 1, borderBottom: `1px solid ${designTokens.line}` }}>
+                            <Typography sx={{ fontSize: "0.85rem", color: designTokens.mute }}>Cicilan Bulanan:</Typography>
+                            <Typography sx={{ fontSize: "0.85rem", fontWeight: 700, color: designTokens.text }}>
+                                Rp {cicilanPerBulan.toLocaleString("id-ID", { maximumFractionDigits: 0 })} / bln
+                            </Typography>
+                        </Box>
+                        <Box sx={{ display: "flex", justifyContent: "space-between", pb: 1, borderBottom: `1px solid ${designTokens.line}` }}>
+                            <Typography sx={{ fontSize: "0.85rem", color: designTokens.mute }}>Rasio Cicilan/Pendapatan:</Typography>
+                            <Typography
+                                sx={{
+                                    fontSize: "0.85rem",
+                                    fontWeight: 700,
+                                    color: rasioCicilan > 0.35 ? "#EF4444" : "#10B981",
+                                }}
+                            >
+                                {(rasioCicilan * 100).toFixed(1)}% {rasioCicilan > 0.35 ? "(Melebihi Batas 35%)" : "(Aman)"}
+                            </Typography>
+                        </Box>
+                        <Box sx={{ display: "flex", justifyContent: "space-between", pb: 1, borderBottom: `1px solid ${designTokens.line}` }}>
+                            <Typography sx={{ fontSize: "0.85rem", color: designTokens.mute }}>Rekomendasi Komite:</Typography>
+                            <Typography sx={{ fontSize: "0.85rem", fontWeight: 700, color: designTokens.acc }}>
+                                {probDefault < 0.25
+                                    ? "Persetujuan Otomatis (Plafon Penuh)"
+                                    : probDefault < 0.40
+                                    ? "Persetujuan Bersyarat (Agunan Tambahan)"
+                                    : "Penolakan Permohonan Pinjaman"}
+                            </Typography>
+                        </Box>
+                    </Stack>
+                </Box>
+            </Box>
+
+            {/* Multi-Criteria Comparison Table */}
+            <Box sx={visualSandboxStyles.metricsSummaryRow}>
+                <Box sx={visualSandboxStyles.metricBox}>
+                    <Typography sx={visualSandboxStyles.metricLabel}>F1-Score Uji</Typography>
+                    <Typography sx={visualSandboxStyles.metricValue}>{modelStats.testF1}</Typography>
+                </Box>
+                <Box sx={visualSandboxStyles.metricBox}>
+                    <Typography sx={visualSandboxStyles.metricLabel}>Recall (Sensitivitas)</Typography>
+                    <Typography sx={visualSandboxStyles.metricValue}>{modelStats.recall}</Typography>
+                </Box>
+                <Box sx={visualSandboxStyles.metricBox}>
+                    <Typography sx={visualSandboxStyles.metricLabel}>ROC-AUC Model</Typography>
+                    <Typography sx={visualSandboxStyles.metricValue}>{modelStats.rocAuc}</Typography>
+                </Box>
+                <Box sx={visualSandboxStyles.metricBox}>
+                    <Typography sx={visualSandboxStyles.metricLabel}>Skor Multi-Kriteria (0.7*F1+0.3*Interp)</Typography>
+                    <Typography sx={{ ...visualSandboxStyles.metricValue, color: "#10B981" }}>
+                        {modelStats.combinedScore}
+                    </Typography>
+                </Box>
+            </Box>
+
+            {/* Streamlit Cloud & Standalone Deployment Callout */}
+            <Box sx={{ p: 2, borderRadius: "6px", backgroundColor: designTokens.panelAlt, border: `1px solid ${designTokens.line}` }}>
+                <Box sx={{ display: "flex", alignItems: "center", justifyContent: "space-between", flexWrap: "wrap", gap: 1 }}>
+                    <Box sx={{ display: "flex", alignItems: "center", gap: 1 }}>
+                        <Typography sx={{ fontSize: "0.85rem", fontWeight: 600, color: designTokens.text }}>
+                            Menjalankan Aplikasi Streamlit Mandiri (`app.py`)
+                        </Typography>
+                    </Box>
+                    <Button
+                        size="small"
+                        variant="outlined"
+                        onClick={() => setShowStreamlitGuide(!showStreamlitGuide)}
+                        sx={{ textTransform: "none", borderColor: "#38BDF8", color: "#38BDF8" }}
+                    >
+                        {showStreamlitGuide ? "Tutup Panduan" : "Lihat Perintah Terminal"}
+                    </Button>
+                </Box>
+                {showStreamlitGuide && (
+                    <Box sx={{ mt: 1.5, p: 1.5, borderRadius: "4px", backgroundColor: "#090D14", fontFamily: "var(--font-mono)", fontSize: "0.78rem", color: "#E2E8F0" }}>
+                        <code>cd "3-ml-assignment\bab-14-model-deployment-dan-mini-project"</code><br />
+                        <code>streamlit run app.py</code>
+                    </Box>
+                )}
             </Box>
         </Box>
     );
