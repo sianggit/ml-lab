@@ -49,6 +49,37 @@ export default function ChapterShowcaseView({ assignment }: ChapterShowcaseViewP
 
                 {/* Action Buttons: PDF Download + Link to Lab */}
                 <Box sx={{ display: "flex", gap: "10px", flexWrap: "wrap", alignItems: "flex-start" }}>
+                    {assignment.demoUrl && (
+                        <Box
+                            component="a"
+                            href={assignment.demoUrl}
+                            target="_blank"
+                            rel="noopener noreferrer"
+                            sx={{
+                                display: "inline-flex",
+                                alignItems: "center",
+                                gap: "6px",
+                                padding: "8px 14px",
+                                borderRadius: "8px",
+                                border: "1px solid rgba(255, 75, 75, 0.45)",
+                                backgroundColor: "rgba(255, 75, 75, 0.12)",
+                                color: "#FF4B4B",
+                                textDecoration: "none",
+                                fontFamily: designTokens.fontMono,
+                                fontSize: "12px",
+                                fontWeight: 600,
+                                transition: "all 0.2s ease",
+                                "&:hover": {
+                                    backgroundColor: "rgba(255, 75, 75, 0.22)",
+                                    borderColor: "#FF4B4B",
+                                    color: "#FF6B6B",
+                                },
+                            }}
+                        >
+                            <IconComponent name="play" size={13} color="#FF4B4B" />
+                            <span>Buka {assignment.demoPlatform || "Live App"} ↗</span>
+                        </Box>
+                    )}
                     {pdfResource && (
                         <Box
                             component="a"
@@ -230,6 +261,94 @@ export default function ChapterShowcaseView({ assignment }: ChapterShowcaseViewP
                     ))}
                 </ul>
             </Box>
+
+            {/* ─── Live Cloud Deployment Preview (Streamlit) ─────────── */}
+            {assignment.demoUrl && (
+                <Box
+                    sx={{
+                        mt: "32px",
+                        p: "20px",
+                        border: "1px solid rgba(255, 75, 75, 0.3)",
+                        borderRadius: "10px",
+                        bgcolor: "rgba(255, 75, 75, 0.02)",
+                    }}
+                >
+                    <Box
+                        sx={{
+                            display: "flex",
+                            justifyContent: "space-between",
+                            alignItems: "center",
+                            flexWrap: "wrap",
+                            gap: "12px",
+                            mb: "16px",
+                        }}
+                    >
+                        <Box>
+                            <Box sx={{ fontFamily: designTokens.fontMono, fontSize: "10.5px", letterSpacing: "0.15em", textTransform: "uppercase", color: "#FF4B4B", mb: "4px" }}>
+                                LIVE PRODUCTION DEPLOYMENT
+                            </Box>
+                            <Typography sx={{ color: designTokens.text, fontSize: "15px", fontWeight: 600 }}>
+                                {assignment.demoPlatform || "Streamlit"} Cloud: Evaluasi Risiko Kredit Real-Time
+                            </Typography>
+                            <Typography sx={{ color: designTokens.dim, fontSize: "12.5px", mt: "2px" }}>
+                                Aplikasi inferensi web aktif di cloud publik, terintegrasi langsung dengan artefak model Random Forest terlatih.
+                            </Typography>
+                        </Box>
+                        <Box
+                            component="a"
+                            href={assignment.demoUrl}
+                            target="_blank"
+                            rel="noopener noreferrer"
+                            sx={{
+                                display: "inline-flex",
+                                alignItems: "center",
+                                gap: "6px",
+                                padding: "7px 14px",
+                                borderRadius: "6px",
+                                border: "1px solid #FF4B4B",
+                                backgroundColor: "rgba(255, 75, 75, 0.15)",
+                                color: "#FF4B4B",
+                                textDecoration: "none",
+                                fontFamily: designTokens.fontMono,
+                                fontSize: "12px",
+                                fontWeight: 600,
+                                transition: "all 0.2s ease",
+                                "&:hover": {
+                                    backgroundColor: "rgba(255, 75, 75, 0.25)",
+                                },
+                            }}
+                        >
+                            <IconComponent name="play" size={12} color="#FF4B4B" />
+                            <span>Buka di Tab Penuh ↗</span>
+                        </Box>
+                    </Box>
+
+                    {/* Streamlit Embedded Iframe */}
+                    <Box
+                        sx={{
+                            width: "100%",
+                            height: "680px",
+                            borderRadius: "8px",
+                            overflow: "hidden",
+                            border: `1px solid ${designTokens.boxSubtleBorder}`,
+                            backgroundColor: "#0E1117",
+                        }}
+                    >
+                        <Box
+                            component="iframe"
+                            src={`${assignment.demoUrl}?embed=true`}
+                            title={`${assignment.title} Live Streamlit Preview`}
+                            sx={{
+                                width: "100%",
+                                height: "100%",
+                                border: "none",
+                                display: "block",
+                            }}
+                            loading="lazy"
+                        />
+                    </Box>
+                </Box>
+            )}
 
             {/* ─── Live In-Browser Python Notebook Cell ──────────────── */}
             {cellCode && (

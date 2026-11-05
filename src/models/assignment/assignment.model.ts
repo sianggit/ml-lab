@@ -11,7 +11,7 @@ export interface AssignmentMetric {
 
 export interface AssignmentResource {
     title: string;
-    type: "pdf" | "image" | "code" | "notebook";
+    type: "pdf" | "image" | "code" | "notebook" | "demo";
     path: string;
     description: string;
     size?: string;
@@ -54,4 +54,6 @@ export interface AssignmentItem {
     datasetName?: string;
     datasetKaggleUrl?: string;
     datasetDownloadUrl?: string;
+    demoUrl?: string;
+    demoPlatform?: string;
 }

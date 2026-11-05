@@ -1341,17 +1341,37 @@ function ModelDeploymentSandbox({ chapter }: { chapter: Chapter }) {
                 <Box sx={{ display: "flex", alignItems: "center", justifyContent: "space-between", flexWrap: "wrap", gap: 1 }}>
                     <Box sx={{ display: "flex", alignItems: "center", gap: 1 }}>
                         <Typography sx={{ fontSize: "0.85rem", fontWeight: 600, color: designTokens.text }}>
-                            Menjalankan Aplikasi Streamlit Mandiri (`app.py`)
+                            Aplikasi Produksi Streamlit (`app.py`)
                         </Typography>
                     </Box>
-                    <Button
-                        size="small"
-                        variant="outlined"
-                        onClick={() => setShowStreamlitGuide(!showStreamlitGuide)}
-                        sx={{ textTransform: "none", borderColor: "#38BDF8", color: "#38BDF8" }}
-                    >
-                        {showStreamlitGuide ? "Tutup Panduan" : "Lihat Perintah Terminal"}
-                    </Button>
+                    <Box sx={{ display: "flex", gap: 1, alignItems: "center", flexWrap: "wrap" }}>
+                        <Button
+                            size="small"
+                            variant="contained"
+                            component="a"
+                            href="https://unindra-machine-learning-anggitp.streamlit.app/"
+                            target="_blank"
+                            rel="noopener noreferrer"
+                            sx={{
+                                textTransform: "none",
+                                backgroundColor: "#FF4B4B",
+                                color: "#FFFFFF",
+                                fontWeight: 600,
+                                fontSize: "0.78rem",
+                                "&:hover": { backgroundColor: "#E03838" },
+                            }}
+                        >
+                            Buka Streamlit Cloud ↗
+                        </Button>
+                        <Button
+                            size="small"
+                            variant="outlined"
+                            onClick={() => setShowStreamlitGuide(!showStreamlitGuide)}
+                            sx={{ textTransform: "none", borderColor: "#38BDF8", color: "#38BDF8", fontSize: "0.78rem" }}
+                        >
+                            {showStreamlitGuide ? "Tutup Panduan" : "Perintah Terminal Lokal"}
+                        </Button>
+                    </Box>
                 </Box>
                 {showStreamlitGuide && (
                     <Box sx={{ mt: 1.5, p: 1.5, borderRadius: "4px", backgroundColor: "#090D14", fontFamily: "var(--font-mono)", fontSize: "0.78rem", color: "#E2E8F0" }}>
