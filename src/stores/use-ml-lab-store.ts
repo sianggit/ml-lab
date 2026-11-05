@@ -59,15 +59,46 @@ const DEFAULT_STUDENT_INFO: StudentInfo = {
     university: "Universitas Indraprasta PGRI (UNINDRA)",
 };
 
+const CHAPTER_SLUGS = [
+    "01-pengantar-ml-dan-colab",
+    "02-workflow-machine-learning",
+    "03-preprocessing-missing-imbalanced",
+    "04-feature-engineering-pipeline",
+    "05-decision-tree-cart-c45",
+    "06-knn-naive-bayes",
+    "07-evaluasi-model-klasifikasi",
+    "08-support-vector-machine-svm",
+    "09-ensemble-learning-dan-rf",
+    "10-clustering-kmeans-dan-dbscan",
+    "11-dimensionality-reduction-pca-tsne",
+    "12-neural-network-mlp",
+    "13-cnn-dan-transfer-learning",
+    "14-model-deployment-dan-mini-project",
+];
+
+const DEFAULT_CHAPTER_PROGRESS: Record<string, ChapterProgressItem> = {};
+for (const slug of CHAPTER_SLUGS) {
+    DEFAULT_CHAPTER_PROGRESS[slug] = {
+        isCompleted: true,
+        masteryPercent: 100,
+        hasReadTheory: true,
+        hasTinkeredSandbox: true,
+        hasRanCode: true,
+        xpEarned: 100,
+        executedCode: "# Modul tervalidasi dan selesai",
+        timestamp: "2026-11-05T00:00:00.000Z",
+    };
+}
+
 export const useMlLabStore = create<MlLabStoreState>()(
     persist(
         (set, get) => ({
             studentInfo: DEFAULT_STUDENT_INFO,
-            chapterProgress: {},
-            totalXp: 350,
-            compileStreak: 3,
+            chapterProgress: DEFAULT_CHAPTER_PROGRESS,
+            totalXp: 1400,
+            compileStreak: 14,
             avgExecTimeMs: 450,
-            totalRuns: 3,
+            totalRuns: 14,
             themeMode: "dark",
             isProfileModalOpen: false,
 

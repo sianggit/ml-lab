@@ -8,7 +8,7 @@
     "build": "next build",
     "start": "next start",
     "lint": "eslint .",
-    "test": "node --test tests/custom-dataset.test.mjs tests/pdf-export.test.mjs",
+    "test": "npx tsx --test tests/custom-dataset.test.mjs tests/pdf-export.test.mjs",
     "typecheck": "node --max-old-space-size=4096 ./node_modules/typescript/bin/tsc --noEmit",
     "mui:split:all": "npx jscodeshift -t mui-split-imports.js app src --extensions=tsx,ts,js,jsx --parser=tsx",
     "mui:split": "node mui-split-changed.js",

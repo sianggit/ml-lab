@@ -40,7 +40,7 @@ test("PDF Generator: Generates academic header, student info, and module table",
     assert.ok(html.includes("Bab 01"));
     assert.ok(html.includes("Bab 02"));
     assert.ok(html.includes("Bab 03"));
-    assert.ok(html.includes("Lulus / Selesai"));
+    assert.ok(html.includes("Selesai Dikerjakan"));
 });
 
 test("PDF Generator: Includes visual simulation output for exactly 1 chapter", () => {

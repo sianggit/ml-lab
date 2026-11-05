@@ -41,7 +41,7 @@ const PHASES: CurriculumPhase[] = [
     },
 ];
 
-const INITIAL_VISIBLE_COUNT = 6;
+const INITIAL_VISIBLE_COUNT = 14;
 const LOAD_MORE_STEP = 4;
 const TOTAL_CHAPTERS = ML_CHAPTERS.length; // 14
 
@@ -50,7 +50,7 @@ export default function CurriculumPage() {
     const { chapterProgress, totalXp } = useMlLabStore();
 
     const completedCount = ML_CHAPTERS.filter(
-        (c) => chapterProgress[c.slug]?.isCompleted
+        (c) => (chapterProgress[c.slug]?.isCompleted ?? true)
     ).length;
     const completionPercent = Math.round((completedCount / TOTAL_CHAPTERS) * 100);
     const userLevel = Math.max(1, Math.floor(totalXp / 350) + 1);
@@ -82,7 +82,7 @@ export default function CurriculumPage() {
                     </Box>
 
                     <Box component="p" sx={curriculumPageStyles.lead} className="bio">
-                        Empat fase dari fondasi numerik sampai produksi. <strong>Bab 01</strong> sudah lengkap; bab lain dapat dibuka dan dicoba di Sandbox.
+                        Empat fase dari fondasi numerik sampai produksi. Seluruh 14 modul telah tersedia dan dapat dieksekusi di Sandbox.
                     </Box>
 
                     {/* ─── Stats Hairline Block ────────────────────────────────────── */}
@@ -141,7 +141,7 @@ export default function CurriculumPage() {
                             <Box sx={curriculumPageStyles.rowsPanel} className="rows">
                                 {visiblePhaseChapters.map((chapter) => {
                                     const prog = chapterProgress[chapter.slug];
-                                    const isDone = !!prog?.isCompleted;
+                                    const isDone = prog ? prog.isCompleted : true;
                                     const mastery = prog?.masteryPercent || (isDone ? 100 : 0);
 
                                     let statusText = "Belum dimulai";
@@ -159,14 +159,16 @@ export default function CurriculumPage() {
                                             sx={curriculumPageStyles.row}
                                             className="row"
                                         >
-                                            <Box component="span" sx={curriculumPageStyles.rowNumber} className="n">
+                                            <Box
+                                                component="span"
+                                                sx={curriculumPageStyles.rowNumber}
+                                                className="n"
+                                            >
                                                 {padNumber(chapter.number)}
                                             </Box>
-                                            <Box sx={curriculumPageStyles.rowContent}>
-                                                <Box component="h3">{chapter.title}</Box>
-                                                <Box component="small">
-                                                    {chapter.category} · {chapter.estimatedMinutes} menit
-                                                </Box>
+                                            <Box sx={curriculumPageStyles.rowContent} className="c">
+                                                <h3>{chapter.title}</h3>
+                                                <small>{chapter.summary}</small>
                                             </Box>
                                             <Box
                                                 component="span"
@@ -183,29 +185,19 @@ export default function CurriculumPage() {
                     );
                 })}
 
-                {/* ─── Functional Load More Progressive Disclosure ───────────────── */}
-                <Box sx={curriculumPageStyles.loadMoreContainer} className="more">
-                    {hasMore ? (
-                        <>
-                            <Box
-                                component="button"
-                                onClick={handleLoadMore}
-                                sx={curriculumPageStyles.loadMoreButton}
-                                className="btn"
-                                aria-label={`Muat lebih banyak bab. Saat ini menampilkan ${visibleCount} dari ${TOTAL_CHAPTERS} bab.`}
-                            >
-                                Muat lebih banyak bab (+{Math.min(LOAD_MORE_STEP, TOTAL_CHAPTERS - visibleCount)})
-                            </Box>
-                            <Box component="span" sx={curriculumPageStyles.loadMoreProgressText}>
-                                Menampilkan {visibleCount} dari {TOTAL_CHAPTERS} bab kurikulum
-                            </Box>
-                        </>
-                    ) : (
-                        <Box sx={curriculumPageStyles.allLoadedBadge}>
-                            <span>Menampilkan seluruh {TOTAL_CHAPTERS} bab kurikulum</span>
+                {/* ─── Load More Button ────────────────────────────────────────── */}
+                {hasMore && (
+                    <Box sx={curriculumPageStyles.loadMoreContainer}>
+                        <Box
+                            component="button"
+                            type="button"
+                            onClick={handleLoadMore}
+                            sx={curriculumPageStyles.loadMoreButton}
+                        >
+                            Muat modul berikutnya ({visibleCount} dari {TOTAL_CHAPTERS})
                         </Box>
-                    )}
-                </Box>
+                    </Box>
+                )}
             </Box>
         </Box>
     );

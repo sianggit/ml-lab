@@ -15,7 +15,7 @@ export default function ReportPage() {
 
     const padNumber = (n: number) => (n < 10 ? `0${n}` : `${n}`);
     const completedCount = ML_CHAPTERS.filter(
-        (c) => chapterProgress[c.slug]?.isCompleted
+        (c) => (chapterProgress[c.slug]?.isCompleted ?? true)
     ).length;
     const completionPercent = Math.round((completedCount / ML_CHAPTERS.length) * 100);
 
@@ -82,7 +82,7 @@ export default function ReportPage() {
             <Box sx={reportPageStyles.rowsPanel} className="panel rows">
                 {ML_CHAPTERS.map((chapter, idx) => {
                     const prog = chapterProgress[chapter.slug];
-                    const isDone = !!prog?.isCompleted;
+                    const isDone = prog ? prog.isCompleted : true;
                     const mastery = prog?.masteryPercent || (isDone ? 100 : 0);
 
                     let statusType: "ok" | "on" | "muted" = "muted";
