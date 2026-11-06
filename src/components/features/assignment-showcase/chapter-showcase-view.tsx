@@ -50,35 +50,68 @@ export default function ChapterShowcaseView({ assignment }: ChapterShowcaseViewP
                 {/* Action Buttons: PDF Download + Link to Lab */}
                 <Box sx={{ display: "flex", gap: "10px", flexWrap: "wrap", alignItems: "flex-start" }}>
                     {assignment.demoUrl && (
-                        <Box
-                            component="a"
-                            href={assignment.demoUrl}
-                            target="_blank"
-                            rel="noopener noreferrer"
-                            sx={{
-                                display: "inline-flex",
-                                alignItems: "center",
-                                gap: "6px",
-                                padding: "8px 14px",
-                                borderRadius: "8px",
-                                border: "1px solid rgba(255, 75, 75, 0.45)",
-                                backgroundColor: "rgba(255, 75, 75, 0.12)",
-                                color: "#FF4B4B",
-                                textDecoration: "none",
-                                fontFamily: designTokens.fontMono,
-                                fontSize: "12px",
-                                fontWeight: 600,
-                                transition: "all 0.2s ease",
-                                "&:hover": {
-                                    backgroundColor: "rgba(255, 75, 75, 0.22)",
-                                    borderColor: "#FF4B4B",
-                                    color: "#FF6B6B",
-                                },
-                            }}
-                        >
-                            <IconComponent name="play" size={13} color="#FF4B4B" />
-                            <span>Buka {assignment.demoPlatform || "Live App"} ↗</span>
-                        </Box>
+                        <>
+                            <Box
+                                component="button"
+                                onClick={() => {
+                                    const el = document.getElementById("live-demo-iframe-container");
+                                    if (el) {
+                                        el.scrollIntoView({ behavior: "smooth", block: "start" });
+                                    }
+                                }}
+                                sx={{
+                                    display: "inline-flex",
+                                    alignItems: "center",
+                                    gap: "6px",
+                                    padding: "8px 14px",
+                                    borderRadius: "8px",
+                                    border: "1px solid rgba(52, 211, 153, 0.45)",
+                                    backgroundColor: "rgba(52, 211, 153, 0.12)",
+                                    color: "#34D399",
+                                    cursor: "pointer",
+                                    fontFamily: designTokens.fontMono,
+                                    fontSize: "12px",
+                                    fontWeight: 600,
+                                    transition: "all 0.2s ease",
+                                    "&:hover": {
+                                        backgroundColor: "rgba(52, 211, 153, 0.22)",
+                                        borderColor: "#34D399",
+                                        color: "#6EE7B7",
+                                    },
+                                }}
+                            >
+                                <span>Lihat Demo Interaktif ↓</span>
+                            </Box>
+                            <Box
+                                component="a"
+                                href={assignment.demoUrl}
+                                target="_blank"
+                                rel="noopener noreferrer"
+                                sx={{
+                                    display: "inline-flex",
+                                    alignItems: "center",
+                                    gap: "6px",
+                                    padding: "8px 14px",
+                                    borderRadius: "8px",
+                                    border: "1px solid rgba(255, 75, 75, 0.45)",
+                                    backgroundColor: "rgba(255, 75, 75, 0.12)",
+                                    color: "#FF4B4B",
+                                    textDecoration: "none",
+                                    fontFamily: designTokens.fontMono,
+                                    fontSize: "12px",
+                                    fontWeight: 600,
+                                    transition: "all 0.2s ease",
+                                    "&:hover": {
+                                        backgroundColor: "rgba(255, 75, 75, 0.22)",
+                                        borderColor: "#FF4B4B",
+                                        color: "#FF6B6B",
+                                    },
+                                }}
+                            >
+                                <IconComponent name="play" size={13} color="#FF4B4B" />
+                                <span>Buka {assignment.demoPlatform || "Live App"} ↗</span>
+                            </Box>
+                        </>
                     )}
                     {pdfResource && (
                         <Box
@@ -265,8 +298,10 @@ export default function ChapterShowcaseView({ assignment }: ChapterShowcaseViewP
             {/* ─── Live Cloud Deployment Preview (Streamlit) ─────────── */}
             {assignment.demoUrl && (
                 <Box
+                    id="live-demo-iframe-container"
                     sx={{
                         mt: "32px",
+                        scrollMarginTop: "80px",
                         p: "20px",
                         border: "1px solid rgba(255, 75, 75, 0.3)",
                         borderRadius: "10px",

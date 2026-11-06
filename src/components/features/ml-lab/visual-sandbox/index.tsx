@@ -1349,7 +1349,7 @@ function ModelDeploymentSandbox({ chapter }: { chapter: Chapter }) {
                             size="small"
                             variant="contained"
                             component="a"
-                            href="https://unindra-machine-learning-anggitp.streamlit.app/"
+                            href="https://ml-lab-anggitp.streamlit.app/"
                             target="_blank"
                             rel="noopener noreferrer"
                             sx={{
